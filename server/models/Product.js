@@ -27,7 +27,7 @@ const productSchema = mongoose.Schema({
         default: 0
     },
 
-    continents: {
+    genres: {
         type: Number,
         default: 1
     },
@@ -35,6 +35,15 @@ const productSchema = mongoose.Schema({
     views: {
         type: Number,
         default: 0
+    },
+    filePath: {
+        type: String
+    },
+    duration: {
+        type: String
+    },
+    thumbnail: {
+        type: String
     }
 }, { timestamps: true })
 

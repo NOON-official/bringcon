@@ -2,13 +2,15 @@ import React from 'react'
 import { Button, Descriptions } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../../_actions/user_actions';
+
 function ProductInfo(props) {
     const dispatch = useDispatch();
 
 
     const clickHandler = () => {
         //필요한 정보를 Cart 필드에다가 넣어 준다.
-        dispatch(addToCart(props.detail._id))
+        dispatch(addToCart(props.detail._id));
+        alert("카트에 상품이 추가되었습니다.");
 
     }
 
@@ -20,7 +22,6 @@ function ProductInfo(props) {
                 <Descriptions.Item label="View">{props.detail.views}</Descriptions.Item>
                 <Descriptions.Item label="Description">{props.detail.description}</Descriptions.Item>
             </Descriptions>
-
             <br />
             <br />
             <br />
@@ -29,8 +30,6 @@ function ProductInfo(props) {
                     Add to Cart
                 </Button>
             </div>
-
-
         </div>
     )
 }

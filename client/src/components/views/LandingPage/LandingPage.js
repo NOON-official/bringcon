@@ -7,7 +7,7 @@ import ImageSlider from '../../utils/ImageSlider';
 import Checkbox from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox';
 import SearchFeature from './Sections/SearchFeature';
-import { continents, price } from './Sections/Datas';
+import { genres, price } from './Sections/Datas';
 
 function LandingPage() {
 
@@ -16,7 +16,7 @@ function LandingPage() {
     const [Limit, setLimit] = useState(8)
     const [PostSize, setPostSize] = useState(0)
     const [Filters, setFilters] = useState({
-        continents: [],
+        genres: [],
         price: []
     })
     const [SearchTerm, setSearchTerm] = useState("")
@@ -143,7 +143,7 @@ function LandingPage() {
         <div style={{ width: '75%', margin: '3rem auto' }}>
 
             <div style={{ textAlign: 'center' }}>
-                <h2>Let's Travel Anywhere <Icon type="rocket" /> </h2>
+                <h2> 콘텐츠의 공유를 빠르고 쉽게 <Icon type="bulb" /> </h2>
             </div>
 
             {/* Filter */}
@@ -151,7 +151,7 @@ function LandingPage() {
             <Row gutter={[16, 16]}>
                 <Col lg={12} xs={24}>
                     {/* CheckBox */}
-                    <Checkbox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
+                    <Checkbox list={genres} handleFilters={filters => handleFilters(filters, "genres")} />
                 </Col>
                 <Col lg={12} xs={24}>
                     {/* RadioBox */}

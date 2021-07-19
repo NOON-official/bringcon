@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Typography, Button, Form, Input } from 'antd';
-import FileUpload from '../../utils/FileUpload';
+import Dropzone from 'react-dropzone'
+import { Typography, Button, Form, Input, Icon } from 'antd';
 import Axios from 'axios';
+import { useSelector } from 'react-redux';
 const { TextArea } = Input;
+// const { Title } = Typography;
 
 const Continents = [
     { key: 1, value: "Africa" },
@@ -15,12 +17,16 @@ const Continents = [
 ]
 
 function UploadProductPage(props) {
-
+    const user = useSelector(state => state.user);
     const [Title, setTitle] = useState("")
     const [Description, setDescription] = useState("")
     const [Price, setPrice] = useState(0)
     const [Continent, setContinent] = useState(1)
     const [Images, setImages] = useState([])
+    const [FilePath, setFilePath] = useState("")
+    const [Duration, setDuration] = useState("")
+    const [ThumbnailPath, setThumbnailPath] = useState("")
+
 
     const titleChangeHandler = (event) => {
         setTitle(event.currentTarget.value)
@@ -42,6 +48,42 @@ function UploadProductPage(props) {
         setImages(newImages)
     }
 
+    const dropHandler = (files) => {
+
+        let formData = new FormData();
+        const config = {
+            header: { 'content-type': 'multipart/form-data' }
+        }
+        formData.append("file", files[0])
+
+        Axios.post('/api/product/image', formData, config)
+            .then(response => {
+                if (response.data.success) {
+
+                    let variable = {
+                        filePath: response.data.filePath,
+                        fileName: response.data.fileName
+                    }
+
+                    setFilePath(response.data.filePath)
+
+                    Axios.post('/api/product/thumbnail', variable)
+                    .then(response => {
+                        if(response.data.success) {
+                            setDuration(response.data.fileDuration)
+                            setThumbnailPath(response.data.filePath)
+                            setImages([...Images, response.data.filePath])
+                        } else {
+                            alert('썸네일 생성에 실패했습니다.')
+                        }
+                    })
+
+                } else {
+                    alert('파일을 저장하는데 실패했습니다.')
+                }
+            })
+    }
+
     const submitHandler = (event) => {
         event.preventDefault();
 
@@ -54,12 +96,15 @@ function UploadProductPage(props) {
 
         const body = {
             //로그인 된 사람의 ID 
-            writer: props.user.userData._id,
+            writer: user.userData._id,
             title: Title,
             description: Description,
             price: Price,
             images: Images,
-            continents: Continent
+            continents: Continent,
+            filePath: FilePath,
+            duration: Duration,
+            thumbnail: ThumbnailPath
         }
 
         Axios.post('/api/product', body)
@@ -73,6 +118,13 @@ function UploadProductPage(props) {
             })
     }
 
+    const deleteHandler = (image) => {
+        const currentIndex = Images.indexOf(image);
+        let newImages = [...Images]
+        newImages.splice(currentIndex, 1)
+        setImages(newImages)
+    }
+
 
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
@@ -81,8 +133,37 @@ function UploadProductPage(props) {
             </div>
 
             <Form onSubmit={submitHandler}>
-                {/* DropZone */}
-                <FileUpload refreshFunction={updateImages} />
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {/* DropZone */}
+                    <Dropzone
+                        onDrop={dropHandler} 
+                        multiple={false}
+                        maxSize={100000000}
+                        refreshFunction={updateImages}
+                    >
+                    {({ getRootProps, getInputProps }) => (
+                        <div
+                            style={{
+                                width: 300, height: 240, border: '1px solid lightgray',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center'
+                            }}
+                            {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <Icon type="plus" style={{ fontSize: '3rem' }} />
+                        </div>
+                    )}
+                    </Dropzone>
+
+                    <div style={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}>
+                        {Images.map((image, index) => (
+                            <div onClick={() => deleteHandler(image)} key={index}>
+                                <img style={{ minWidth: '300px', width: '300px', height: '240px' }}
+                                    src={`http://localhost:5000/${image}`}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
                 <br />
                 <br />
@@ -105,12 +186,10 @@ function UploadProductPage(props) {
                 </select>
                 <br />
                 <br />
-                <button type="submit">
+                <Button type="submit">
                     확인
-                </button>
+                </Button>
             </Form>
-
-
         </div>
     )
 }

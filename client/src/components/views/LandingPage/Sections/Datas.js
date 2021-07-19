@@ -1,31 +1,31 @@
-const continents = [
+const genres = [
     {
         "_id": 1,
-        "name": "Africa"
+        "name": "영화 & 애니메이션"
     },
     {
         "_id": 2,
-        "name": "Europe"
+        "name": "예능 프로그램"
     },
     {
         "_id": 3,
-        "name": "Asia"
+        "name": "스포츠"
     },
     {
         "_id": 4,
-        "name": "North America"
+        "name": "동물"
     },
     {
         "_id": 5,
-        "name": "South America"
+        "name": "어린이"
     },
     {
         "_id": 6,
-        "name": "Australia"
+        "name": "뉴스"
     },
     {
         "_id": 7,
-        "name": "Antarctica"
+        "name": "드라마"
     }
 
 ]
@@ -33,33 +33,28 @@ const continents = [
 const price = [
     {
         "_id": 0,
-        "name": "Any",
+        "name": "전체",
         "array": []
     },
     {
         "_id": 1,
-        "name": "$0 to $199",
-        "array": [0, 199]
+        "name": "1만원 미만",
+        "array": [0, 9900]
     },
     {
         "_id": 2,
-        "name": "$200 to $249",
-        "array": [200, 249]
+        "name": "1-2만원대",
+        "array": [10000, 29900]
     },
     {
         "_id": 3,
-        "name": "$250 to $279",
-        "array": [250, 279]
+        "name": "3~4만원대",
+        "array": [30000, 49900]
     },
     {
         "_id": 4,
-        "name": "$280 to $299",
-        "array": [280, 299]
-    },
-    {
-        "_id": 5,
-        "name": "More than $300",
-        "array": [300, 1500000]
+        "name": "5만원 이상",
+        "array": [50000, 1000000]
     }
 ]
 
@@ -67,6 +62,6 @@ const price = [
 
 
 export {
-    continents,
+    genres,
     price
 }

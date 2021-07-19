@@ -33,6 +33,11 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
+        {/* 회사 및 서비스 소개 페이지 만들기 */}
+        <Menu.Item key="about">
+          <a href="#">About</a>
+        </Menu.Item>
+
         <Menu.Item key="history">
           <a href="/history">History</a>
         </Menu.Item>
@@ -50,7 +55,7 @@ function RightMenu(props) {
         </Menu.Item>
 
         <Menu.Item key="logout">
-          <a onClick={logoutHandler}>Logout</a>
+          <a onClick={logoutHandler}>Log out</a>
         </Menu.Item>
       </Menu>
     )

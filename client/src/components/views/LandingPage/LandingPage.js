@@ -8,6 +8,7 @@ import Checkbox from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox';
 import SearchFeature from './Sections/SearchFeature';
 import { genres, price } from './Sections/Datas';
+import MainSlider from '../Slider/Slider';
 
 function LandingPage() {
 
@@ -159,6 +160,8 @@ function LandingPage() {
             <div style={{ textAlign: 'center' }}>
                 <h2> 콘텐츠의 공유를 빠르고 쉽게 <Icon type="bulb" /> </h2>
             </div>
+            
+            <MainSlider/>
 
             {/* Filter */}
 

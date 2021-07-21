@@ -33,7 +33,6 @@ router.post('/image', (req, res) => {
     //비디오를 서버에 저장
     upload(req, res, err => {
         if (err) {
-            console.log(res.req)
             return res.json({ success: false, err })
         }
         return res.json({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename })
@@ -47,7 +46,6 @@ router.post('/thumbnail', (req, res) => {
     //비디오 duration 가져오기
     ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
         // console.dir(metadata) //all metadata
-        console.log(metadata.format.duration);
         fileDuration = metadata.format.duration
     });
 
@@ -55,11 +53,12 @@ router.post('/thumbnail', (req, res) => {
     ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
     .on('filenames', function(filenames) {
         console.log('Will generate ' + filenames.join(', '))
-        console.log(filenames)
+        console.log('filenames: ', filenames)
 
         //배열로 수정
-        filePath = 'uploads/thumbnails/' + filenames[0]
-        console.log(filePath)
+        filePath = filenames.map(x => 'uploads/thumbnails/' + x);
+        // filePath = 'uploads/thumbnails/' + filenames[0]
+        console.log('filePath: ', filePath)
     })
     .on('end', function() { //썸네일 생성 끝난 후
         console.log('Screenshots taken');
@@ -71,9 +70,10 @@ router.post('/thumbnail', (req, res) => {
     })
     .screenshots({ //옵션
         // Will take screenshots at 20%, 40%, 60% and 80% of the video
-        count: 1, //썸네일 1개
+        count: 3, //썸네일 3개
         folder: 'uploads/thumbnails',
         size: '320x240',
+        // size: '1920x1080', //유튜브 동영상 크기
         //'%b': input basename (filename without extension)
         filename: 'thumbnail-%b.png'
     })

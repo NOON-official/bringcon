@@ -73,8 +73,10 @@ function UploadProductPage(props) {
                     .then(response => {
                         if(response.data.success) {
                             setDuration(response.data.fileDuration)
-                            setThumbnailPath(response.data.filePath)
-                            setImages([...Images, response.data.filePath])
+                            setThumbnailPath(response.data.filePath[0])
+                            setImages(Images => [...Images, response.data.filePath[0]])
+                            setImages(Images => [...Images, response.data.filePath[1]])
+                            setImages(Images => [...Images, response.data.filePath[2]])
                         } else {
                             alert('썸네일 생성에 실패했습니다.')
                         }
@@ -88,7 +90,7 @@ function UploadProductPage(props) {
 
     const submitHandler = (event) => {
         event.preventDefault();
-
+    
         if (!Title || !Description || !Price || !Genre || Images.length === 0) {
             return alert(" 모든 값을 넣어주셔야 합니다.")
         }
@@ -120,12 +122,12 @@ function UploadProductPage(props) {
             })
     }
 
-    const deleteHandler = (image) => {
-        const currentIndex = Images.indexOf(image);
-        let newImages = [...Images]
-        newImages.splice(currentIndex, 1)
-        setImages(newImages)
-    }
+    // const deleteHandler = (image) => {
+    //     const currentIndex = Images.indexOf(image);
+    //     let newImages = [...Images]
+    //     newImages.splice(currentIndex, 1)
+    //     setImages(newImages)
+    // }
 
 
     return (
@@ -140,7 +142,7 @@ function UploadProductPage(props) {
                     <Dropzone
                         onDrop={dropHandler} 
                         multiple={false}
-                        maxSize={100000000}
+                        // maxSize={100000000000000000}
                         refreshFunction={updateImages}
                     >
                     {({ getRootProps, getInputProps }) => (
@@ -156,7 +158,7 @@ function UploadProductPage(props) {
                     )}
                     </Dropzone>
 
-                    <div style={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}>
+                    {/* <div style={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}>
                         {Images.map((image, index) => (
                             <div onClick={() => deleteHandler(image)} key={index}>
                                 <img style={{ minWidth: '300px', width: '300px', height: '240px' }}
@@ -164,7 +166,15 @@ function UploadProductPage(props) {
                                 />
                             </div>
                         ))}
-                    </div>
+                    </div> */}
+
+                    {/* Thumbnail */}
+                    {ThumbnailPath && //ThumbnailPath가 있을 때만 렌더링
+                        <div>
+                            <img src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
+                        </div>
+                    }
+
                 </div>
 
                 <br />

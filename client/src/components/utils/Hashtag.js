@@ -8,7 +8,7 @@ const TagsInput = props => {
         setTags(tags.filter((_, index) => index !== indexToRemove))
     }
     const addTags = event => {
-        if(event.key === "Enter" && event.target.value !== ""){
+        if(event.keyCode === 32 && event.target.value !== ""){
             setTags([...tags, event.target.value]);
             props.selected([...tags, event.target.value]);
             event.target.value = "";
@@ -28,8 +28,8 @@ const TagsInput = props => {
                 </ul>
                 <input
                 type="text"
-                placeholder="enter 키를 눌러 해시태그를 입력하세요"
-                onKeyUp={e => (e.key === "Enter" ? addTags(e): null)}/>
+                placeholder="스페이스바를 눌러 해시태그를 입력하세요"
+                onKeyUp={e => (e.keyCode === 32 ? addTags(e): null)}/>
             </div>
         </div>
     );

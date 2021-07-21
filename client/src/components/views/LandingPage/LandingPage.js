@@ -8,6 +8,7 @@ import Checkbox from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox';
 import SearchFeature from './Sections/SearchFeature';
 import { genres, price } from './Sections/Datas';
+import MainSlider from '../Slider/Slider';
 
 function LandingPage() {
 
@@ -66,11 +67,25 @@ function LandingPage() {
     }
 
 
-    const renderCards = Products.map((product, index) => {
+    function handleMouseover(e) {
+        e.currentTarget.play()
+    }
+    
+    function handleMouseout(e) {
+        e.currentTarget.pause()
+        e.currentTarget.currentTime = 0;
+    }
 
+    const renderCards = Products.map((product, index) => {
         return <Col lg={6} md={8} xs={24} key={index}>
             <Card
-                cover={<a href={`/product/${product._id}`} ><ImageSlider images={product.images} /></a>}
+                // cover={<a href={`/product/${product._id}`} ><ImageSlider images={product.images} /></a>}
+                cover={<a href={`/product/${product._id}`} >
+                    <video id="videoplayer" style={{ width : '100%' , height:'200px'}} 
+                    src={`http://localhost:5000/${product.filePath}`} 
+                    onMouseOver={handleMouseover} 
+                    onMouseOut={handleMouseout} muted/>
+                    </a>}
             >
                 <Meta
                     title={product.title}
@@ -145,6 +160,8 @@ function LandingPage() {
             <div style={{ textAlign: 'center' }}>
                 <h2> 콘텐츠의 공유를 빠르고 쉽게 <Icon type="bulb" /> </h2>
             </div>
+            
+            <MainSlider/>
 
             {/* Filter */}
 

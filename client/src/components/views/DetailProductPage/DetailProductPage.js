@@ -5,7 +5,6 @@ import { Row, Col } from "antd";
 
 function DetailProductPage(props) {
   const productId = props.match.params.productId;
-
   const [Product, setProduct] = useState({});
 
   useEffect(() => {
@@ -29,9 +28,10 @@ function DetailProductPage(props) {
         <Col lg={12} sm={24}>
           {/* ProductVideo */}
           <video
-            style={{ width: "100% " }}
+            style={{ width: "650px" }}
             src={`http://localhost:5000/${Product.filePath}`}
             controls
+            controlsList="nodownload"
           />
         </Col>
         <Col lg={12} sm={24}>

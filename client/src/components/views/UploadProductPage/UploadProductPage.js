@@ -3,8 +3,7 @@ import Dropzone from "react-dropzone";
 import { Typography, Button, Form, Input, Icon } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
-import HashTag from "../../utils/Hashtag";
-
+import "../../utils/Hashtag.css";
 const { TextArea } = Input;
 // const { Title } = Typography;
 
@@ -79,8 +78,10 @@ function UploadProductPage(props) {
         Axios.post("/api/product/thumbnail", variable).then((response) => {
           if (response.data.success) {
             setDuration(response.data.fileDuration);
-            setThumbnailPath(response.data.filePath);
-            setImages([...Images, response.data.filePath]);
+            setThumbnailPath(response.data.filePath[0]);
+            setImages((Images) => [...Images, response.data.filePath[0]]);
+            setImages((Images) => [...Images, response.data.filePath[1]]);
+            setImages((Images) => [...Images, response.data.filePath[2]]);
           } else {
             alert("썸네일 생성에 실패했습니다.");
           }
@@ -124,12 +125,12 @@ function UploadProductPage(props) {
     });
   };
 
-  const deleteHandler = (image) => {
-    const currentIndex = Images.indexOf(image);
-    let newImages = [...Images];
-    newImages.splice(currentIndex, 1);
-    setImages(newImages);
-  };
+  // const deleteHandler = (image) => {
+  //   const currentIndex = Images.indexOf(image);
+  //   let newImages = [...Images];
+  //   newImages.splice(currentIndex, 1);
+  //   setImages(newImages);
+  // };
 
   return (
     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
@@ -143,7 +144,7 @@ function UploadProductPage(props) {
           <Dropzone
             onDrop={dropHandler}
             multiple={false}
-            maxSize={100000000}
+            // maxSize={100000000}
             refreshFunction={updateImages}
           >
             {({ getRootProps, getInputProps }) => (
@@ -164,7 +165,7 @@ function UploadProductPage(props) {
             )}
           </Dropzone>
 
-          <div
+          {/* <div
             style={{
               display: "flex",
               width: "350px",
@@ -180,7 +181,15 @@ function UploadProductPage(props) {
                 />
               </div>
             ))}
-          </div>
+          </div> */}
+          {ThumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
+            <div>
+              <img
+                src={`http://localhost:5000/${ThumbnailPath}`}
+                alt="thumbnail"
+              />
+            </div>
+          )}
         </div>
         <br />
         <br />

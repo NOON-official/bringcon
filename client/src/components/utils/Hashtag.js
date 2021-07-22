@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './Hashtag.css';
 
 const TagsInput = props => {

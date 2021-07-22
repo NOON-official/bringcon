@@ -25,7 +25,7 @@ function CartPage(props) {
                     .then(response => { calculateTotal(response.payload) })
             }
         }
-    }, [props.user.userData])
+    }, [props.user.userData, dispatch])
 
 
     let calculateTotal = (cartDetail) => {

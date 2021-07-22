@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaCode } from "react-icons/fa";
 import axios from "axios";
-import { Icon, Col, Card, Row, Carousel } from 'antd';
+import { Avatar, Icon, Col, Card, Row, Carousel } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider';
 import Checkbox from './Sections/CheckBox';
@@ -77,21 +77,29 @@ function LandingPage() {
     }
 
     const renderCards = Products.map((product, index) => {
-        return <Col lg={6} md={8} xs={24} key={index}>
-            <Card
-                // cover={<a href={`/product/${product._id}`} ><ImageSlider images={product.images} /></a>}
-                cover={<a href={`/product/${product._id}`} >
-                    <video id="videoplayer" style={{ width : '100%' , height:'200px'}} 
+        var minutes = Math.floor(product.duration / 60);
+        var seconds = Math.floor(product.duration - minutes * 60);
+
+        return <Col lg={6} md={12} xs={24}>
+            <div style={{ overflow:'hidden', backgroundColor: 'black', width:'100%', height:'0px', paddingTop:'56.25%', position:'relative'}}>
+                <a href={`/product/${product._id}`} >
+                <video style={{width:'100%', height:'100%', position:'absolute', top:'0', left:'0'}} 
                     src={`http://localhost:5000/${product.filePath}`} 
                     onMouseOver={handleMouseover} 
                     onMouseOut={handleMouseout} muted/>
-                    </a>}
-            >
-                <Meta
-                    title={product.title}
-                    description={`$${product.price}`}
-                />
-            </Card>
+                {/* <div className="duration">
+                    <span>{minutes} : {seconds}</span>
+                </div> */}
+                </a>
+            </div><br />
+            <Meta
+                avatar={
+                    <Avatar src={product.writer.image} />
+                }
+                title={product.title}
+            />
+            <span>{product.writer.name}</span>
+            <span style={{marginRight: '10px',fontWeight: '500', float:'right', display:'inline-block', textAlign:'right'}}>{`${product.price.toLocaleString('ko-KR')} ₩`}</span><br />
         </Col>
     })
 

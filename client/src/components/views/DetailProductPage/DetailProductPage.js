@@ -13,7 +13,7 @@ function DetailProductPage(props) {
                 setProduct(response.data[0])
             })
             .catch(err => alert(err))
-    }, [])
+    }, [Product, productId])
 
     return (
         <div style={{ width: '100%', padding: '3rem 4rem' }}>

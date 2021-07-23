@@ -27,12 +27,10 @@ const productSchema = mongoose.Schema(
       maxlength: 100,
       default: 0,
     },
-
     genres: {
       type: Number,
       default: 1,
     },
-
     views: {
       type: Number,
       default: 0,
@@ -54,6 +52,7 @@ const productSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+//검색할 때 title과 description에서 키워드가 더 잘 걸렸으면 좋겠음
 productSchema.index(
   {
     title: "text",
@@ -61,8 +60,8 @@ productSchema.index(
   },
   {
     weights: {
-      title: 5,
-      description: 1,
+      title: 5, //title 중요도 훨씬 큼! (5배)
+      description: 1, //중요도 비교적 낮음
     },
   }
 );

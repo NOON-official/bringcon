@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
 const ffmpeg = require('fluent-ffmpeg');
 const { Product } = require("../models/Product");
 
@@ -8,6 +10,22 @@ const { Product } = require("../models/Product");
 //             Product
 //=================================
 
+// const awsLoadPath = path.join(__dirname, "/../config/s3.json");
+// aws.config.loadFromPath(awsLoadPath);
+
+// let s3 = new aws.S3();
+
+// let upload = multer({
+//     storage: multerS3({
+//       s3: s3,
+//       bucket: "bringcon-bucket",
+//       key: function (req, file, cb) {
+//         cb(null, `${Date.now()}_${file.originalname}`);
+//       },
+//       contentType: multerS3.AUTO_CONTENT_TYPE,
+//       acl: "public-read-write",
+//     }),
+//   });
 
 // STORAGE MULTER CONFIG
 let storage = multer.diskStorage({
@@ -94,7 +112,7 @@ router.post('/', (req, res) => {
 })
 
 
-
+//데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
 router.post('/products', (req, res) => {
 
 
@@ -103,7 +121,7 @@ router.post('/products', (req, res) => {
     // product collection에 들어 있는 모든 상품 정보를 가져오기 
     let limit = req.body.limit ? parseInt(req.body.limit) : 20;
     let skip = req.body.skip ? parseInt(req.body.skip) : 0;
-    let term = req.body.searchTerm
+    let term = req.body.searchTerm //서치바에서 검색한 단어 ex) 'mexico'
 
 
     let findArgs = {};
@@ -128,8 +146,29 @@ router.post('/products', (req, res) => {
     }
 
 
-    if (term) {
-        Product.find(findArgs)
+    if (term) { //검색어가 있으면
+        if(term.startsWith('#')){ //해쉬태그 검색하는 경우
+            term = term.substring(1); //'#' 제거
+    
+            Product.find(findArgs)
+            .find({ tags: term })
+            .populate("writer")
+            .sort([[sortBy, order]])
+            .skip(skip)
+            .limit(limit)
+            .exec((err, productInfo) => {
+                if (err) return res.status(400).json({ success: false, err })
+                return res.status(200).json({
+                    success: true, productInfo,
+                    postSize: productInfo.length
+                })
+            })
+
+        } else { //문자열 검색
+            Product.find(findArgs)
+            
+            //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
+            //Product 컬렉션 안에 있는 데이터 중 term과 일치하는 자료 가져옴
             .find({ $text: { $search: term } })
             .populate("writer")
             .sort([[sortBy, order]])
@@ -142,7 +181,9 @@ router.post('/products', (req, res) => {
                     postSize: productInfo.length
                 })
             })
-    } else {
+        }
+        
+    } else { //검색어가 없으면, 원래대로 프로세스 수행
         Product.find(findArgs)
             .populate("writer")
             .sort([[sortBy, order]])

@@ -22,6 +22,7 @@ function LandingPage() {
     })
     const [SearchTerm, setSearchTerm] = useState("")
 
+    //처음 실행시 getProducts 작동!
     useEffect(() => {
 
         let body = {
@@ -33,6 +34,8 @@ function LandingPage() {
 
     }, [])
 
+
+    //새롭게 아이템들을 가져와줌
     const getProducts = (body) => {
         axios.post('/api/product/products', body)
             .then(response => {
@@ -51,7 +54,7 @@ function LandingPage() {
 
 
 
-
+    // 더보기 눌렀을 때 getProducts 작동!
     const loadMoreHanlder = () => {
 
         let skip = Skip + Limit
@@ -77,8 +80,8 @@ function LandingPage() {
     }
 
     const renderCards = Products.map((product, index) => {
-        var minutes = Math.floor(product.duration / 60);
-        var seconds = Math.floor(product.duration - minutes * 60);
+        // var minutes = Math.floor(product.duration / 60);
+        // var seconds = Math.floor(product.duration - minutes * 60);
 
         return <Col lg={6} md={12} xs={24}>
             <div style={{ overflow:'hidden', backgroundColor: 'black', width:'100%', height:'0px', paddingTop:'56.25%', position:'relative'}}>
@@ -103,6 +106,7 @@ function LandingPage() {
         </Col>
     })
 
+    //장르 변화 줄때도 getProducts 작동!
     const showFilteredResults = (filters) => {
 
         let body = {
@@ -145,18 +149,22 @@ function LandingPage() {
         setFilters(newFilters)
     }
 
+    //search할 때 getProducts 작동!
     const updateSearchTerm = (newSearchTerm) => {
 
         let body = {
-            skip: 0,
-            limit: Limit,
-            filters: Filters,
+            skip: 0, //DB에서 처음부터 긁어와줘야 됨
+            limit: Limit, //8
+            filters: Filters, //현재 genres와 price에 적용된 필터 그대로 적용 + 검색어
             searchTerm: newSearchTerm
         }
 
         setSkip(0)
+
+        //자식 컴포넌트인 SearchFeature에서 전달해준 값으로 업데이트됨
         setSearchTerm(newSearchTerm)
-        getProducts(body)
+
+        getProducts(body) //백엔드에 보내서 처리!
 
     }
 

@@ -34,7 +34,7 @@ function UploadProductPage(props) {
   };
   const addTags = (event) => {
     if (event.keyCode === 32 && event.target.value !== "") {
-      setTags([...Tags, event.target.value]);
+      setTags([...Tags, event.target.value.trim()]); //공백 제거
       event.target.value = "";
     }
   };

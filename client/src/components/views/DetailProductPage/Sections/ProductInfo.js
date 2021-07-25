@@ -23,7 +23,17 @@ function ProductInfo(props) {
         <Descriptions.Item label="Description">
           {props.detail.description}
         </Descriptions.Item>
-        <Descriptions.Item label="tags">{props.detail.tags}</Descriptions.Item>
+        <Descriptions.Item label="tags">
+          {props.detail.tags &&
+            props.detail.tags.map((tag) => {
+              return (
+                <a href={`/hashtag/${tag}`}>
+                  {" "}
+                  <li>{tag}</li>{" "}
+                </a>
+              );
+            })}
+        </Descriptions.Item>
       </Descriptions>
       <br />
       <br />

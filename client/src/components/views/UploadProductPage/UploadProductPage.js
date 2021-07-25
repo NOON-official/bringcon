@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Progress from "../Progress/Progress";
 import Dropzone from "react-dropzone";
 import { Typography, Button, Form, Input, Icon } from "antd";
 import Axios from "axios";
@@ -28,6 +29,7 @@ function UploadProductPage(props) {
   const [Duration, setDuration] = useState("");
   const [ThumbnailPath, setThumbnailPath] = useState("");
   const [Tags, setTags] = useState([]);
+  const [progress, setProgress] = useState(0);
 
   const removeTags = (indexToRemove) => {
     setTags(Tags.filter((_, index) => index !== indexToRemove));
@@ -58,12 +60,22 @@ function UploadProductPage(props) {
   const updateImages = (newImages) => {
     setImages(newImages);
   };
-
+  
   const dropHandler = (files) => {
+    setProgress(0);
     let formData = new FormData();
     const config = {
       header: { "content-type": "multipart/form-data" },
+      //프로그레스 바 상태 config에 추가
+      onUploadProgress: progressEvent => {
+        setProgress(
+          parseInt (
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+      }
     };
+    
     formData.append("file", files[0]);
 
     Axios.post("/api/product/video", formData, config).then((response) => {
@@ -81,10 +93,12 @@ function UploadProductPage(props) {
             setThumbnailPath(response.data.filePath);
             setImages((Images) => [...Images, response.data.filePath]);
           } else {
+            setProgress(0);
             alert("썸네일 생성에 실패했습니다.");
           }
         });
       } else {
+        setProgress(0);
         alert("파일을 저장하는데 실패했습니다.");
       }
     });
@@ -189,6 +203,7 @@ function UploadProductPage(props) {
             </div>
           )}
         </div>
+        <Progress percentage={progress}/>
         <br />
         <br />
         <label>이름</label>

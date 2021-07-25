@@ -78,8 +78,8 @@ function UploadProductPage(props) {
     
     formData.append("file", files[0]);
 
-    Axios.post("/api/product/image", formData, config).then((response) => {
-      if (response.data.success) {
+    Axios.post("/api/product/video", formData, config).then((response) => {
+       if (response.data.success) {
         let variable = {
           filePath: response.data.filePath,
           fileName: response.data.fileName,
@@ -90,10 +90,8 @@ function UploadProductPage(props) {
         Axios.post("/api/product/thumbnail", variable).then((response) => {
           if (response.data.success) {
             setDuration(response.data.fileDuration);
-            setThumbnailPath(response.data.filePath[0]);
-            setImages((Images) => [...Images, response.data.filePath[0]]);
-            setImages((Images) => [...Images, response.data.filePath[1]]);
-            setImages((Images) => [...Images, response.data.filePath[2]]);
+            setThumbnailPath(response.data.filePath);
+            setImages((Images) => [...Images, response.data.filePath]);
           } else {
             setProgress(0);
             alert("썸네일 생성에 실패했습니다.");
@@ -114,7 +112,7 @@ function UploadProductPage(props) {
     }
 
     //서버에 채운 값들을 request로 보낸다.
-
+  
     const body = {
       //로그인 된 사람의 ID
       writer: user.userData._id,
@@ -164,8 +162,8 @@ function UploadProductPage(props) {
             {({ getRootProps, getInputProps }) => (
               <div
                 style={{
-                  width: 300,
-                  height: 240,
+                  width: 336,
+                  height: 189,
                   border: "1px solid lightgray",
                   display: "flex",
                   alignItems: "center",
@@ -236,7 +234,7 @@ function UploadProductPage(props) {
           <div className="tags-input">
             <ul>
               {Tags.map((tag, index) => (
-                <li key={index} class="tag">
+                <li key={index} className="tag">
                   <span>{tag}</span>
                   <span
                     className="tag-close-icon"

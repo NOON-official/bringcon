@@ -95,7 +95,7 @@ function HashTagPage(props) {
                 top: "0",
                 left: "0",
               }}
-              src={`http://localhost:5000/${product.filePath}`}
+              src={`${product.filePath}`}
               onMouseOver={handleMouseover}
               onMouseOut={handleMouseout}
               muted

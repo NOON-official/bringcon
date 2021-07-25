@@ -29,7 +29,7 @@ function DetailProductPage(props) {
           {/* ProductVideo */}
           <video
             style={{ width: "650px" }}
-            src={`http://localhost:5000/${Product.filePath}`}
+            src={`${Product.filePath}`}
             controls
             controlsList="nodownload"
           />

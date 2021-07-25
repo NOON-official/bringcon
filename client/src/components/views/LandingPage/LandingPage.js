@@ -87,7 +87,7 @@ function LandingPage() {
             <div style={{ overflow:'hidden', backgroundColor: 'black', width:'100%', height:'0px', paddingTop:'56.25%', position:'relative'}}>
                 <a href={`/product/${product._id}`} >
                 <video style={{width:'100%', height:'100%', position:'absolute', top:'0', left:'0'}} 
-                    src={`http://localhost:5000/${product.filePath}`} 
+                    src={`${product.filePath}`} 
                     onMouseOver={handleMouseover} 
                     onMouseOut={handleMouseout} muted/>
                 {/* <div className="duration">

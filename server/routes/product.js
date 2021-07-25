@@ -5,65 +5,67 @@ const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
 const ffmpeg = require('fluent-ffmpeg');
 const { Product } = require("../models/Product");
+const path = require('path')
+const fs = require('fs')
 
 //=================================
 //             Product
 //=================================
 
-// const awsLoadPath = path.join(__dirname, "/../config/s3.json");
-// aws.config.loadFromPath(awsLoadPath);
+const awsLoadPath = path.join(__dirname, "/../config/s3.json");
+aws.config.loadFromPath(awsLoadPath);
 
-// let s3 = new aws.S3();
+let s3 = new aws.S3();
 
-// let upload = multer({
-//     storage: multerS3({
-//       s3: s3,
-//       bucket: "bringcon-bucket",
-//       key: function (req, file, cb) {
-//         cb(null, `${Date.now()}_${file.originalname}`);
-//       },
-//       contentType: multerS3.AUTO_CONTENT_TYPE,
-//       acl: "public-read-write",
-//     }),
-//   });
+let uploadStorage = multer({
+    storage: multerS3({
+      s3: s3,
 
-// STORAGE MULTER CONFIG
-let storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}_${file.originalname}`)
-    },
-    fileFilter: (req, file, cb) => {
-        const ext = path.extname(file.originalname)
-        if(ext !== '.mp4') {
-            return cb(res.status(400).end('only mp4 is allowd'), false);
-        }
-        cb(null, true)
-    }
-});
+      //destination
+      bucket: "bringcon-bucket/uploads",
 
-var upload = multer({ storage: storage }).single("file")
+      //filename
+      key: function (req, file, cb) {
+        cb(null, `${Date.now()}_${file.originalname}`);
+      },
 
-router.post('/image', (req, res) => {
-    //라우터 변경 필요
+      //The mimetype used to upload the file
+      contentType: multerS3.AUTO_CONTENT_TYPE,
+      
+      //access control for the file
+      acl: "public-read-write",
+    }),
+  });
+
+    //   fileFilter: (req, file, cb) => {
+    //         //파일 확장자 추출
+    //         const ext = path.extname(file.originalname)
+    //         if(ext !== '.mp4') {
+    //             return cb(res.status(400).end('only mp4 is allowd'), false);
+    //         }
+    //         cb(null, true)
+    //     }
+
+
+var upload = uploadStorage.single('file')
+
+router.post('/video', (req, res) => {
     //비디오를 서버에 저장
     upload(req, res, err => {
         if (err) {
             return res.json({ success: false, err })
         }
-        return res.json({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename })
+        return res.json({ success: true, filePath: res.req.file.location, fileName: res.req.file.key })
     })
 })
 
-router.post('/thumbnail', (req, res) => {
+router.post('/thumbnail', upload, (req, res) => {
     let filePath = ""
     let fileDuration = ""
-    
+    let fileName = ""
+
     //비디오 duration 가져오기
     ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
-        // console.dir(metadata) //all metadata
         fileDuration = metadata.format.duration
     });
 
@@ -71,15 +73,14 @@ router.post('/thumbnail', (req, res) => {
     ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
     .on('filenames', function(filenames) {
         console.log('Will generate ' + filenames.join(', '))
-        console.log('filenames: ', filenames)
-
-        //배열로 수정
-        filePath = filenames.map(x => 'uploads/thumbnails/' + x);
-        // filePath = 'uploads/thumbnails/' + filenames[0]
-        console.log('filePath: ', filePath)
+        
+        fileName = filenames[0];
+        filePath = `thumbnails/${fileName}`
     })
     .on('end', function() { //썸네일 생성 끝난 후
         console.log('Screenshots taken');
+        uploadFile(filePath, fileName) // S3에 업로드
+
         return res.json({ success: true, filePath: filePath, fileDuration: fileDuration });
     })
     .on('error', function(err) { //에러 발생 시
@@ -88,14 +89,43 @@ router.post('/thumbnail', (req, res) => {
     })
     .screenshots({ //옵션
         // Will take screenshots at 20%, 40%, 60% and 80% of the video
-        count: 3, //썸네일 3개
-        folder: 'uploads/thumbnails',
-        size: '320x240',
-        // size: '1920x1080', //유튜브 동영상 크기
+        count: 1, //썸네일 1개
+        folder: 'thumbnails',
+        size: '336x189', // 16:9 비율
         //'%b': input basename (filename without extension)
         filename: 'thumbnail-%b.png'
     })
 })
+
+function uploadFile(source, target) {
+    fs.readFile(source, 'base64', function (err, data) {
+        if (!err) {
+            var params = {
+                Bucket      : "bringcon-bucket/uploads/thumbnails",
+                Key         : target,
+                Body        : data,
+                ContentType : 'multerS3.AUTO_CONTENT_TYPE'
+            };
+
+            s3.putObject(params, function(err, data) {
+                if (!err) {
+                    console.log('[s3] file uploaded:');
+                    
+                    //로컬 파일 삭제하는 부분
+                    // fs.unlink(source, (err) => {
+                    //     if(err) console.log(err)
+                    //     else console.log('success')
+                    // });
+                }
+                else {
+                    console.log(err);
+                }
+            });
+        } else{
+            console.log(err);
+        }
+    })
+}
 
 
 //현재 submit안하고 dropzone에 넣기만해도 로컬에 저장됨, 라우트 수정 필요

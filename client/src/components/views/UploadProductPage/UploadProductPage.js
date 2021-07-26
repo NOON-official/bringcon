@@ -6,7 +6,6 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import "../../utils/Hashtag.css";
 const { TextArea } = Input;
-// const { Title } = Typography;
 
 const Genres = [
   { key: 1, value: "영화 & 애니메이션" },
@@ -61,6 +60,21 @@ function UploadProductPage(props) {
   const updateImages = (newImages) => {
     setImages(newImages);
   };
+  
+  const resetHandler = (event) => {
+    event.preventDefault();
+    setImages([]);
+    setFilePath("");
+    setDuration("");
+    setThumbnailPath("");
+    setTitle("");
+    setDescription("");
+    setPrice(0);
+    setGenre(1);
+    setTags([]);
+    setProgress(0);
+    alert("초기화되었습니다.");
+  }
   
   const dropHandler = (files) => {
     setProgress(0);
@@ -255,6 +269,7 @@ function UploadProductPage(props) {
             />
           </div>
         </div>
+        <button onClick = {resetHandler}>초기화</button>
         <button type="submit">확인</button>
       </Form>
     </div>

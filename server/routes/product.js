@@ -62,6 +62,7 @@ router.post("/video", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 router.post("/thumbnail", upload, (req, res) => {
   let filePath = "";
   let fileDuration = "";
@@ -78,6 +79,20 @@ router.post("/thumbnail", upload, (req, res) => {
       console.log("Will generate " + filenames.join(", "));
       fileName = filenames[0];
       filePath = `thumbnails/${fileName}`;
+=======
+    // 썸네일 생성
+    ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
+    .on('filenames', function(filenames) {
+        console.log('Will generate ' + filenames.join(', '))
+        fileName = filenames[0];
+        filePath = `thumbnails/${fileName}`
+    })
+    .on('end', function() { //썸네일 생성 끝난 후
+        console.log('Screenshots taken');
+        uploadFile(filePath, fileName) // S3에 업로드
+        let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(fileName)}`;
+        return res.json({ success: true, filePath: filePath, s3FilePath: s3FilePath, fileDuration: fileDuration });
+>>>>>>> d4cc3bd586b4e94f8c541ebdf7754b6d656f83d9
     })
     .on("end", function () {
       //썸네일 생성 끝난 후

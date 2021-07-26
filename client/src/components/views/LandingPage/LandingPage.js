@@ -83,7 +83,7 @@ function LandingPage() {
         // var minutes = Math.floor(product.duration / 60);
         // var seconds = Math.floor(product.duration - minutes * 60);
 
-        return <Col lg={6} md={12} xs={24}>
+        return <Col lg={6} md={12} xs={24} key={index}>
             <div style={{ overflow:'hidden', backgroundColor: 'black', width:'100%', height:'0px', paddingTop:'56.25%', position:'relative'}}>
                 <a href={`/product/${product._id}`} >
                 <video style={{width:'100%', height:'100%', position:'absolute', top:'0', left:'0'}} 

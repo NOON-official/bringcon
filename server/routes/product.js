@@ -73,15 +73,14 @@ router.post('/thumbnail', upload, (req, res) => {
     ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
     .on('filenames', function(filenames) {
         console.log('Will generate ' + filenames.join(', '))
-        
         fileName = filenames[0];
         filePath = `thumbnails/${fileName}`
     })
     .on('end', function() { //썸네일 생성 끝난 후
         console.log('Screenshots taken');
         uploadFile(filePath, fileName) // S3에 업로드
-
-        return res.json({ success: true, filePath: filePath, fileDuration: fileDuration });
+        const s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${fileName}`;
+        return res.json({ success: true, filePath: filePath, s3FilePath: s3FilePath, fileDuration: fileDuration });
     })
     .screenshots({ //옵션
         // Will take screenshots at 20%, 40%, 60% and 80% of the video
@@ -94,13 +93,14 @@ router.post('/thumbnail', upload, (req, res) => {
 })
 
 function uploadFile(source, target) {
-    fs.readFile(source, 'base64', function (err, data) {
+    fs.readFile(source, function (err, data) {//'base64',
         if (!err) {
             var params = {
                 Bucket      : "bringcon-bucket/uploads/thumbnails",
                 Key         : target,
                 Body        : data,
-                ContentType : 'multerS3.AUTO_CONTENT_TYPE'
+                ContentType : 'image/png',
+                ACL: "public-read",
             };
 
             s3.putObject(params, function(err, data) {

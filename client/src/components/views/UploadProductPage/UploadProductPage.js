@@ -28,6 +28,7 @@ function UploadProductPage(props) {
   const [FilePath, setFilePath] = useState("");
   const [Duration, setDuration] = useState("");
   const [ThumbnailPath, setThumbnailPath] = useState("");
+  const [S3thumbnailPath, setS3thumbnailPath] = useState("")
   const [Tags, setTags] = useState([]);
   const [progress, setProgress] = useState(0);
 
@@ -91,6 +92,7 @@ function UploadProductPage(props) {
           if (response.data.success) {
             setDuration(response.data.fileDuration);
             setThumbnailPath(response.data.filePath);
+            setS3thumbnailPath(response.data.s3FilePath)
             setImages((Images) => [...Images, response.data.filePath]);
           } else {
             setProgress(0);
@@ -124,6 +126,7 @@ function UploadProductPage(props) {
       filePath: FilePath,
       duration: Duration,
       thumbnail: ThumbnailPath,
+      s3thumbnail: S3thumbnailPath,
       tags: Tags,
     };
 

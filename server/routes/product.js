@@ -79,7 +79,7 @@ router.post('/thumbnail', upload, (req, res) => {
     .on('end', function() { //썸네일 생성 끝난 후
         console.log('Screenshots taken');
         uploadFile(filePath, fileName) // S3에 업로드
-        const s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${fileName}`;
+        let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(fileName)}`;
         return res.json({ success: true, filePath: filePath, s3FilePath: s3FilePath, fileDuration: fileDuration });
     })
     .screenshots({ //옵션

@@ -44,6 +44,9 @@ const productSchema = mongoose.Schema(
     thumbnail: {
       type: String,
     },
+    s3thumbnail: {
+      type: String,
+    },
     tags: {
       type: Array,
       default: [],

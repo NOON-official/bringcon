@@ -48,9 +48,9 @@ function App() {
           <Route exact path="/history" component={Auth(HistoryPage, true)} />
           <Route
             exact
-            path="/write"
+            path="/board"
             component={Auth(BodyPage, true)}/>
-            <Route path="/boardWrite" component={Auth(BoardWriteForm, true)}></Route>
+            <Route path="/boardwrite" component={BoardWriteForm}></Route>
         </Switch>
         <CommunicationChat/>
       </div>

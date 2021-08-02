@@ -40,6 +40,8 @@ app.use('/api/product', require('./routes/product'));
 //https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
 app.use('/thumbnails', express.static('thumbnails'));
 
+app.use('/api/board', require('./routes/board'));
+
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
 

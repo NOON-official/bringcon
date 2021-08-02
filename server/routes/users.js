@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { User } = require("../models/User");
 const { Product } = require("../models/Product");
-const { Payment } = require("../models/Payment");
+const { Order } = require("../models/Order");
 
 const { auth } = require("../middleware/auth");
 const async = require('async');
@@ -156,9 +156,28 @@ router.get('/removeFromCart', auth, (req, res) => {
     )
 })
 
+router.post("/order", (req, res) => {
+    const order = new Order(req.body);
+
+    order.save((err, doc) => {
+        if (err) return res.json({ success: false, err });
+       
+        return res.status(200).json({
+            success: true,
+            merchantId: order._id,
+            orderName: order.orderName,
+            pg: order.pg,
+            payMethod: order.payMethod,
+            amount: order.amount,
+            buyerTel: order.buyerTel,
+            buyerName: order.buyerName,
+            buyerEmail: order.buyerEmail
+        });
+    });
+});
 
 
-router.post('/successBuy', auth, (req, res) => {
+router.post('/successBuy', auth, (req, res) => { //결제 성공후
 
 
     //1. User Collection 안에  History 필드 안에  간단한 결제 정보 넣어주기
@@ -172,72 +191,65 @@ router.post('/successBuy', auth, (req, res) => {
             id: item._id,
             price: item.price,
             quantity: item.quantity,
-            paymentId: req.body.paymentData.paymentID
+            impUid: req.body.paymentData.imp_uid,
+            merchantUid: req.body.paymentData.merchant_uid
         })
     })
 
-    //2. Payment Collection 안에  자세한 결제 정보들 넣어주기 
-    transactionData.user = {
-        id: req.user._id,
-        name: req.user.name,
-        email: req.user.email
-    }
-
-    transactionData.data = req.body.paymentData
     transactionData.product = history
 
     //history 정보 저장 
     User.findOneAndUpdate(
         { _id: req.user._id },
-        { $push: { history: history }, $set: { cart: [] } },
-        { new: true },
+        { $push: { history: history }, $set: { cart: [] } }, //카트 비워줌
+        { new: true }, //업데이트 후 새로운 document 가져올 수 있도록
         (err, user) => {
             if (err) return res.json({ success: false, err })
 
 
             //payment에다가  transactionData정보 저장 
-            const payment = new Payment(transactionData)
-            payment.save((err, doc) => {
-                if (err) return res.json({ success: false, err })
+            Order.findOneAndUpdate(
+                { _id: req.body.paymentData.merchant_uid },
+                { $push: { product: transactionData.product } },
+                { new: true },
+                (err, doc) => {
+                    if (err) return res.json({ success: false, err })
+                    
+                    //3. Product Collection 안에 있는 sold 필드 정보 업데이트 시켜주기 
+                    //상품 당 몇개의 quantity를 샀는지 
 
-
-                //3. Product Collection 안에 있는 sold 필드 정보 업데이트 시켜주기 
-
-
-                //상품 당 몇개의 quantity를 샀는지 
-
-                let products = [];
-                doc.product.forEach(item => {
-                    products.push({ id: item.id, quantity: item.quantity })
-                })
-
-
-                async.eachSeries(products, (item, callback) => {
-
-                    Product.update(
-                        { _id: item.id },
-                        {
-                            $inc: {
-                                "sold": item.quantity
-                            }
-                        },
-                        { new: false },
-                        callback
-                    )
-                }, (err) => {
-                    if (err) return res.status(400).json({ success: false, err })
-                    res.status(200).json({
-                        success: true,
-                        cart: user.cart,
-                        cartDetail: []
+                    let products = [];
+                    doc.product.forEach(item => {
+                        products.push({ id: item.id, quantity: item.quantity })
                     })
+
+                    //async를 이용해 for문 없이 깔끔한 코드 가능!
+                    async.eachSeries(products, (item, callback) => {
+
+                        Product.updateOne(
+                            { _id: item.id },
+                            {
+                                $inc: {
+                                    "sold": item.quantity
+                                }
+                            },
+                            { new: false }, //다시 사용할 일 없음
+                            callback
+                        )
+                    }, (err) => {
+                            if (err) return res.status(400).json({ success: false, err })
+                            res.status(200).json({
+                                success: true,
+                                cart: user.cart,
+                                cartDetail: []
+                            })
+                        }
+                    )
                 }
-                )
-            })
+            )
         }
     )
 })
-
 
 
 module.exports = router;

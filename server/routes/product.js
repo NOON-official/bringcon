@@ -7,6 +7,7 @@ const ffmpeg = require("fluent-ffmpeg");
 const { Product } = require("../models/Product");
 const path = require('path')
 const fs = require('fs')
+const config = require('../config/s3.json')
 
 //=================================
 //             Product
@@ -134,6 +135,44 @@ router.post("/", (req, res) => {
     return res.status(200).json({ success: true });
   });
 });
+
+
+//비디오 다운로드
+router.post('/download', async (req, res) => {
+  //1. 몽고디비에서 상품 찾기
+  const doc = await Product.findById(req.body.product_id).exec();
+  
+  //2. 상품의  filePath 가져오기
+  const filePath = doc.filePath
+
+  //2-2. key(fileName) 추출하기
+  const key = 'uploads/' + filePath.split('uploads/')[1]
+  
+  //3. 다운로드
+  const downloadFile = async (key) => {
+    aws.config.update({ 
+      accessKeyId: config.accessKeyId,
+      secretAccessKey: config.secretAccessKey,
+      region: config.region,
+      signatureVersion: 'v4'
+  });
+
+  const s3 = new aws.S3()
+    const params = {
+      Bucket: "bringcon-bucket",
+      ResponseContentDisposition: 'attachment;',
+      Expires: 60,
+      Key: key
+    }
+
+    let url = s3.getSignedUrl('getObject', params);
+
+    res.send({success:true, url: url})
+  }
+  
+  await downloadFile(key)
+})
+
 
 //데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
 router.post("/products", (req, res) => {

@@ -12,6 +12,9 @@ import DetailProductPage from "./views/DetailProductPage/DetailProductPage";
 import HashTagPage from "./views/LandingPage/HashTagPage";
 import CartPage from "./views/CartPage/CartPage";
 import HistoryPage from "./views/HistoryPage/HistoryPage";
+import CommunicationChat from "./views/Chatbot/Chat";
+import BodyPage from './views/Board/BodyPage';
+import BoardWriteForm from './views/Board/BoardWriteForm';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -43,7 +46,13 @@ function App() {
           />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/history" component={Auth(HistoryPage, true)} />
+          <Route
+            exact
+            path="/write"
+            component={Auth(BodyPage, true)}/>
+            <Route path="/boardWrite" component={Auth(BoardWriteForm, true)}></Route>
         </Switch>
+        <CommunicationChat/>
       </div>
       <Footer />
     </Suspense>

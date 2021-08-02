@@ -273,6 +273,13 @@ router.get("/products_by_id", (req, res) => {
       return item;
     });
   }
+    
+  Product.find({ _id: { $in: productIds } })
+    .update({ $inc: { views: 1 } })
+    .exec((err, product) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200);
+    });
 
   //productId를 이용해서 DB에서  productId와 같은 상품의 정보를 가져온다.
 

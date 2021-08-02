@@ -162,7 +162,7 @@ function CartPage(props) {
                 </div>
             }
         </div>
-    )
+      ) 
 }
 
-export default CartPage
+export default CartPage;

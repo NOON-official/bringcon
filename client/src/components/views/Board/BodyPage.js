@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import BoardForm from './BoardForm';
-import BoardWriteForm from './BoardWriteForm';
 import BoardDetail from './BoardDetail';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import $ from 'jquery';
 import {} from 'jquery.cookie';
 
@@ -11,6 +10,7 @@ class BodyPage extends Component {
         return (
             <div>
                 <BoardForm/>
+                <Route path="/board/detail" component={BoardDetail}></Route>
             </div>
             
         );

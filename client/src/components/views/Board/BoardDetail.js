@@ -25,7 +25,7 @@ class BoardDetail extends Component {
         };
         if (window.confirm("정말 삭제하시겠습니까?")) {
             axios
-                .post("http://localhost:8080/board/delete", send_param)
+                .post("/api/board/delete", send_param)
                 //정상!
                 .then(returnData => {
                     alert("삭제되었습니다.");
@@ -48,7 +48,7 @@ class BoardDetail extends Component {
             marginBottom: 5
         };
         axios
-            .post("http://localhost:8080/board/detail", send_param)
+            .post("/api/board/detail", send_param)
             //정상!
             .then(returnData => {
                 if (returnData.data.board[0]) {

@@ -1,108 +1,82 @@
-import React, {Component} from 'react';
-import {CKEditor} from 'ckeditor4-react';
+import React, {useState} from 'react';
+import { CKEditor } from 'ckeditor4-react';
 import axios from 'axios';
-import $ from 'jquery';
-import {} from 'jquery.cookie';
-import { Button, Form} from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import { useSelector } from "react-redux";
+
 axios.defaults.withCredentials = true;
 const headers = {withCredentials: true};
 
-class BoardWriteForm extends Component {
-    state = {
-        data: ""
+function BoardWriteForm(props) {
+    // const user = useSelector((state) => state.user);
+    const [Title, setTitle] = useState("");
+    const [Content, setContent] = useState("");
+
+    const titleChangeHandler = (event) => {
+        setTitle(event.currentTarget.value);
     };
 
-    componentDidMount() {
-        if (this.props.location.query !== undefined) {
-            this.boardTitle.value = this.props.location.query.title;
-        }
-    }
-
-    componentWillMount(){
-        if (this.props.location.query !== undefined) {
-            this.setState({
-                data: this.props.location.query.content
-            })
-        }
-    }
-
-    writeBoard = () => {
-        let url;
-        let send_param;
-
-        const boardTitle = this.boardTitle.value;
-        const boardContent = this.state.data;
-
-        if (boardTitle === undefined || boardTitle === "") {
-            alert("제목을 입력해주세요");
-            boardTitle.focus();
-            return;
-        } else if (boardContent === undefined || boardContent === "") {
-            alert("글 내용을 입력해주세요");
-            boardContent.focus();
-        }
-
-        if (this.props.location.query !== undefined) {
-            url = "http://localhost:8080/board/update";
-            send_param = {
-                headers,
-                "_id": $.cookie("login_id"),
-                "title": boardTitle,
-                "content": boardContent
-            };
-        }
-
-        axios
-            .post(url, send_param)
-            //정상!
-            .then(returnData => {
-                if (returnData.data.message) {
-                    alert(returnData.data.message);
-                    window.location.href="/";
-                } else {
-                    alert("글쓰기에 실패했습니다.")
-                }
-            })
-            //에러
-            .catch(err => {
-                console.log(err);
-            });
+    const contentChangeHandler = (event) => {
+        const data = event.editor.getData();
+        setContent(data)
     };
 
-    onEditorChange = (event) => {
-        this.setState({
-            data: event.editor.getData
+    const writeBoardHandler = (event) => {
+        event.preventDefault();
+
+        if (!Title || Title.length === 0) {
+            alert("제목을 입력해주세요")
+        } else if (!Content || Content.length === 0) {
+            alert("내용을 입력해주세요")
+        }
+
+        const body = {
+            headers,
+            // writer: user.userData._id,
+            title: Title,
+            content: Content
+        };
+
+        axios.post("/api/board", body).then((response) => {
+            if (response.data.success) {
+                alert("게시글 업로드에 성공했습니다.");
+                props.history.push("/");
+            } else {
+                console.log('hello');
+                alert("글쓰기에 실패했습니다.")
+            }
         });
     };
-    render() {
-        const divStyle = {
-            margin: 50
-        };
-        const titleStyle = {
-            marginBottom: 5
-        };
-        const buttonStyle = {
-            marginTop: 5
-        };
 
-        return (
-            <div style={divStyle} className="App">
-                <h2>글 쓰기</h2>
-                <Form.Control
-                    type="text"
-                    style={titleStyle}
-                    placeholder="글 제목"
-                    ref={ref => (this.boardTitle = ref)}/>
-                <CKEditor
-                    data={this.state.data}
-                    onChange={this.onEditorChange}>
-                </CKEditor>
-                <Button style={buttonStyle} onClick={this.writeBoard} block>
-                    저장하기
-                </Button>
-            </div>
-        );
-    }
+    const divStyle = {
+        margin: 50
+    };
+    const titleStyle = {
+        marginBottom: 5
+    };
+    const buttonStyle = {
+        marginTop: 5
+    };
+
+    return (
+        <div style={divStyle} className="App">
+            <h2>글 쓰기</h2>
+            <Form onSubmit={writeBoardHandler}>
+            <Form.Control
+                type="text"
+                style={titleStyle}
+                placeholder="글 제목"
+                onChange={titleChangeHandler} value={Title}/>
+            <CKEditor
+                data={Content}
+                onChange={contentChangeHandler}>
+            </CKEditor>
+            <Button style={buttonStyle} type="submit" block>
+                저장하기
+            </Button>
+            </Form>
+        </div>
+    );    
 }
 
 export default BoardWriteForm;

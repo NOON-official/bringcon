@@ -44,7 +44,7 @@ class BoardForm extends Component {
             _id: $.cookie("login_id")
         };
         axios
-            .post("http://localhost:8080/board/getBoardList", send_param)
+            .post("/api/board/getBoardList", send_param)
             .then(returnData => {
                 let boardList;
                 if (returnData.data.list.length > 0) {
@@ -86,6 +86,7 @@ class BoardForm extends Component {
                             <tr>
                                 <th>날짜</th>
                                 <th>글 제목</th>
+                                <th>글쓴이</th>
                             </tr>
                         </thead>
                         <tbody>{this.state.boardList}</tbody>

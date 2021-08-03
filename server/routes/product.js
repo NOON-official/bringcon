@@ -9,6 +9,7 @@ const path = require('path')
 const fs = require('fs')
 const config = require('../config/s3.json')
 
+
 //=================================
 //             Product
 //=================================
@@ -19,111 +20,122 @@ aws.config.loadFromPath(awsLoadPath);
 let s3 = new aws.S3();
 
 let uploadStorage = multer({
-    storage: multerS3({
-      s3: s3,
+  storage: multerS3({
+    s3: s3,
 
-      //destination
-      bucket: "bringcon-bucket/uploads",
+    //destination
+    bucket: "bringcon-bucket/uploads",
 
-      //filename
-      key: function (req, file, cb) {
-        cb(null, `${Date.now()}_${file.originalname}`);
-      },
+    //filename
+    key: function (req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`);
+    },
 
-      //The mimetype used to upload the file
-      contentType: multerS3.AUTO_CONTENT_TYPE,
-      
-      //access control for the file
-      acl: "public-read-write",
-    }),
+    //The mimetype used to upload the file
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+
+    //access control for the file
+    acl: "public-read-write",
+  }),
+});
+
+//   fileFilter: (req, file, cb) => {
+//         //파일 확장자 추출
+//         const ext = path.extname(file.originalname)
+//         if(ext !== '.mp4') {
+//             return cb(res.status(400).end('only mp4 is allowd'), false);
+//         }
+//         cb(null, true)
+//     }
+
+var upload = uploadStorage.single("file");
+
+router.post("/video", (req, res) => {
+  //비디오를 서버에 저장
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    return res.json({
+      success: true,
+      filePath: res.req.file.location,
+      fileName: res.req.file.key,
+    });
+  });
+});
+
+router.post("/thumbnail", upload, (req, res) => {
+  let filePath = "";
+  let fileDuration = "";
+  let fileName = "";
+
+  //비디오 duration 가져오기
+  ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
+    fileDuration = metadata.format.duration;
   });
 
-    //   fileFilter: (req, file, cb) => {
-    //         //파일 확장자 추출
-    //         const ext = path.extname(file.originalname)
-    //         if(ext !== '.mp4') {
-    //             return cb(res.status(400).end('only mp4 is allowd'), false);
-    //         }
-    //         cb(null, true)
-    //     }
-
-
-var upload = uploadStorage.single('file')
-
-router.post('/video', (req, res) => {
-    //비디오를 서버에 저장
-    upload(req, res, err => {
-        if (err) {
-            return res.json({ success: false, err })
-        }
-        return res.json({ success: true, filePath: res.req.file.location, fileName: res.req.file.key })
+  // 썸네일 생성
+  ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
+    .on("filenames", function (filenames) {
+      console.log("Will generate " + filenames.join(", "));
+      fileName = filenames[0];
+      filePath = `thumbnails/${fileName}`;
     })
-})
-
-router.post('/thumbnail', upload, (req, res) => {
-    let filePath = ""
-    let fileDuration = ""
-    let fileName = ""
-
-    //비디오 duration 가져오기
-    ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
-        fileDuration = metadata.format.duration
+    .on("end", function () {
+      //썸네일 생성 끝난 후
+      console.log("Screenshots taken");
+      uploadFile(filePath, fileName); // S3에 업로드
+      let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(
+        fileName
+      )}`;
+      return res.json({
+        success: true,
+        filePath: filePath,
+        s3FilePath: s3FilePath,
+        fileDuration: fileDuration,
+      });
+    })
+    .screenshots({
+      //옵션
+      // Will take screenshots at 20%, 40%, 60% and 80% of the video
+      count: 1, //썸네일 1개
+      folder: "thumbnails",
+      size: "336x189", // 16:9 비율
+      //'%b': input basename (filename without extension)
+      filename: "thumbnail-%b.png",
     });
-
-    // 썸네일 생성
-    ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
-    .on('filenames', function(filenames) {
-        console.log('Will generate ' + filenames.join(', '))
-        fileName = filenames[0];
-        filePath = `thumbnails/${fileName}`
-    })
-    .on('end', function() { //썸네일 생성 끝난 후
-        console.log('Screenshots taken');
-        uploadFile(filePath, fileName) // S3에 업로드
-        let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(fileName)}`;
-        return res.json({ success: true, filePath: filePath, s3FilePath: s3FilePath, fileDuration: fileDuration });
-    })
-    .screenshots({ //옵션
-        // Will take screenshots at 20%, 40%, 60% and 80% of the video
-        count: 1, //썸네일 1개
-        folder: 'thumbnails',
-        size: '336x189', // 16:9 비율
-        //'%b': input basename (filename without extension)
-        filename: 'thumbnail-%b.png'
-    })
-})
+});
 
 function uploadFile(source, target) {
-    fs.readFile(source, function (err, data) {//'base64',
+  fs.readFile(source, function (err, data) {
+    //'base64',
+    if (!err) {
+      var params = {
+        Bucket: "bringcon-bucket/uploads/thumbnails",
+        Key: target,
+        Body: data,
+        ContentType: "image/png",
+        ACL: "public-read",
+      };
+
+      s3.putObject(params, function (err, data) {
         if (!err) {
-            var params = {
-                Bucket      : "bringcon-bucket/uploads/thumbnails",
-                Key         : target,
-                Body        : data,
-                ContentType : 'image/png',
-                ACL: "public-read",
-            };
+          console.log("[s3] file uploaded:");
 
-            s3.putObject(params, function(err, data) {
-                if (!err) {
-                    console.log('[s3] file uploaded:');
-                    
-                    //로컬 파일 삭제하는 부분
-                    // fs.unlink(source, (err) => {
-                    //     if(err) console.log(err)
-                    //     else console.log('success')
-                    // });
-                }
-                else {
-                    console.log(err);
-                }
-            });
-        } else{
-            console.log(err);
+          //로컬 파일 삭제하는 부분
+          // fs.unlink(source, (err) => {
+          //     if(err) console.log(err)
+          //     else console.log('success')
+          // });
+        } else {
+          console.log(err);
         }
-    })
+      });
+    } else {
+      console.log(err);
+    }
+  });
 }
-
 
 //현재 submit안하고 dropzone에 넣기만해도 로컬에 저장됨, 라우트 수정 필요
 router.post("/", (req, res) => {
@@ -273,7 +285,7 @@ router.get("/products_by_id", (req, res) => {
       return item;
     });
   }
-    
+
   Product.find({ _id: { $in: productIds } })
     .update({ $inc: { views: 1 } })
     .exec((err, product) => {

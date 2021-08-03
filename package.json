@@ -11,7 +11,9 @@
     "start": "node server/index.js",
     "backend": "nodemon server/index.js",
     "frontend": "npm run start --prefix client",
-    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\"",
+    "frontend-prod": "export PORT=80 && npm run start --prefix client",
+    "prod": "concurrently \"npm run backend\" \"export PORT=80 && npm run start --prefix client\""
   },
   "author": "John ahn",
   "license": "ISC",

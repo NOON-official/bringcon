@@ -8,6 +8,8 @@
     "ckeditor4-react": "^2.0.0",
     "core-js": "^3.6.4",
     "formik": "^1.5.8",
+
+    "jquery.cookie": "^1.4.1",
     "jquery": "^3.6.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",

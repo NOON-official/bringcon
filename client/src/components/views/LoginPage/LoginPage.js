@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import LoginGoogle from "./LoginGoogle";
+import LoginGoogle from "./sections/LoginGoogle";
 
 function LoginPage() {
   return (

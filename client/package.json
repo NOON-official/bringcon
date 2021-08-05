@@ -8,9 +8,8 @@
     "ckeditor4-react": "^2.0.0",
     "core-js": "^3.6.4",
     "formik": "^1.5.8",
-
-    "jquery.cookie": "^1.4.1",
     "jquery": "^3.6.0",
+    "jquery.cookie": "^1.4.1",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.6",
@@ -18,6 +17,7 @@
     "react-carousel-slider": "^2.0.13",
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.2.2",
+    "react-google-login": "^5.2.2",
     "react-icons": "^3.7.0",
     "react-image-gallery": "^1.0.7",
     "react-paypal-express-checkout": "^1.0.5",

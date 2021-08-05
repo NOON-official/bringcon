@@ -15,6 +15,7 @@ import HistoryPage from "./views/HistoryPage/HistoryPage";
 import CommunicationChat from "./views/Chatbot/Chat";
 import BodyPage from "./views/Board/BodyPage";
 import BoardWriteForm from "./views/Board/BoardWriteForm";
+import BoardDetail from "./views/Board/BoardDetail";
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -45,13 +46,23 @@ function App() {
             component={Auth(HashTagPage, null)}
           />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
-          <Route exact path="/history" component={Auth(HistoryPage, true)} />
+          <Route
+            exact
+            path="/user/history"
+            component={Auth(HistoryPage, true)}
+          />
+          <Route
+            exact
+            path="/user/account"
+            component={Auth(AddAccount, true)}
+          />
           <Route exact path="/board" component={Auth(BodyPage, null)} />
           <Route
             exact
-            path="/boardwrite"
+            path="/board/write"
             component={Auth(BoardWriteForm, true)}
           ></Route>
+          <Route path="/board/detail" component={BoardDetail}></Route>
         </Switch>
         <CommunicationChat />
       </div>

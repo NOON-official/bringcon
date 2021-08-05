@@ -2,22 +2,14 @@ import React, { Component } from "react";
 import { Table } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import $ from "jquery";
 import {} from "jquery.cookie";
-
-axios.defaults.withCredentials = true;
-const headers = { withCredentials: true };
 
 class BoardRow extends Component {
   render() {
     return (
       <tr>
         <td>
-          <NavLink
-            to={{ pathname: "/board/detail", query: { _id: this.props._id } }}
-          >
             {this.props.createdAt.substring(0, 10)}
-          </NavLink>
         </td>
         <td>
           <NavLink
@@ -26,15 +18,19 @@ class BoardRow extends Component {
             {this.props.title}
           </NavLink>
         </td>
+        <td>
+          {this.props.name}
+        </td>
       </tr>
     );
   }
 }
 
-class BoardForm extends Component {
-  state = {
-    boardList: [],
-  };
+class BoardForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {boardLists: []};
+  }
 
   componentDidMount() {
     this.getBoardList();
@@ -42,8 +38,10 @@ class BoardForm extends Component {
 
   getBoardList = () => {
     const send_param = {
-      headers,
+      //한명의 유저의 게시글만 보고 싶은 경우 id 넘겨줘야함
+      // _id: "60f4f466763852667826c7da"
     };
+
     axios
       .post("/api/board/getBoardList", send_param)
       .then((returnData) => {
@@ -54,18 +52,22 @@ class BoardForm extends Component {
             <BoardRow
               key={Date.now() + Math.random() * 500}
               _id={item._id}
-              createdAt={item._createdAt}
-              title={item._title}
+              name={item.name}
+              createdAt={item.createdAt}
+              title={item.title}
             ></BoardRow>
           ));
+          this.setState({
+            boardLists: boardList,
+          });
         } else {
           boardList = (
             <tr>
-              <td colSpan="2">작성한 게시글이 존재하지 않습니다.</td>
+              <td colSpan="3">작성한 게시글이 존재하지 않습니다.</td>
             </tr>
           );
           this.setState({
-            boardList: boardList,
+            boardLists: boardList,
           });
         }
       })
@@ -77,10 +79,11 @@ class BoardForm extends Component {
   render() {
     const divStyle = {
       margin: 50,
+
     };
 
     return (
-      <div>
+      <div style={{width:'60%', margin:'auto'}}>
         <div style={divStyle}>
           <Table>
             <thead>
@@ -90,7 +93,7 @@ class BoardForm extends Component {
                 <th>글쓴이</th>
               </tr>
             </thead>
-            <tbody>{this.state.boardList}</tbody>
+            <tbody>{this.state.boardLists}</tbody>
           </Table>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from "axios";
+import VerticalMenu from '../VerticalMenu/VerticalMenu';
 
 function HistoryPage(props) {
     const handleClick = (item) => {
@@ -18,6 +19,7 @@ function HistoryPage(props) {
 
     return (
         <div style={{ width: '80%', margin: '3rem auto' }}>
+            <VerticalMenu/>
             <div style={{ textAlign: 'center' }}>
                 <h1>History</h1>
             </div>
@@ -58,3 +60,4 @@ function HistoryPage(props) {
 }
 
 export default HistoryPage
+

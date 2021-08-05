@@ -14,9 +14,13 @@ function LeftMenu(props) {
         <Menu.Item key="setting:1">Option 1</Menu.Item>
         <Menu.Item key="setting:2">Option 2</Menu.Item>
       </MenuItemGroup>
-      <MenuItemGroup title="Item 2">
-        <Menu.Item key="setting:3">Option 3</Menu.Item>
-        <Menu.Item key="setting:4">Option 4</Menu.Item>
+      <MenuItemGroup title="Board">
+      <Menu.Item key="setting:3">
+          <a href="/board">공지사항</a>
+        </Menu.Item>
+        <Menu.Item key="setting:4">
+          <a href="/board/write">글쓰기</a>
+        </Menu.Item>
       </MenuItemGroup>
     </SubMenu>
   </Menu>

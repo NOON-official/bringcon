@@ -16,7 +16,8 @@ import CommunicationChat from "./views/Chatbot/Chat";
 import BodyPage from "./views/Board/BodyPage";
 import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
-
+import AddAccount from "./views/MyPage/AddAccount";
+import MyPage from "./views/MyPage/MyPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -56,6 +57,7 @@ function App() {
             path="/user/account"
             component={Auth(AddAccount, true)}
           />
+          <Route exact path="/user/mypage" component={Auth(MyPage, true)} />
           <Route exact path="/board" component={Auth(BodyPage, null)} />
           <Route
             exact

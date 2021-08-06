@@ -12,7 +12,16 @@
 5. root directory에 `thumbnails` 폴더를 생성해주세요.
 6. `npm install` 을 root directory에서 입력해주세요. (백엔드 종속성 다운받기)
 7. `npm install` 을 `client` directory에서 입력해주세요. (프론트엔드 종속성 다운받기)
+8. `react-scroll-horizontal` 폴더 안 index.js, index.es.js 파일의 일부를 다음과 같이 수정해주세요.
 
+    var scrollingElementStyles = {
+      transform: 'translate3d(' + z + 'px, 0,0)',
+      display: 'grid',
+      height: '100%',
+      position: 'absolute',
+      willChange: 'transform',
+      gridTemplateRows: 'auto auto',
+      gridAutoFlow: 'column'
+    };
 
-<br />
  2021.07.05에 제작을 시작하여 아직 제작중에 있습니다.

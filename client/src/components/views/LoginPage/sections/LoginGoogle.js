@@ -20,20 +20,19 @@ function LoginGoogle(props) {
 
     let dataToSubmit = {
       email: profile.getEmail(),
-      password: "password",
-      lastname: " ",
       image: profile.getImageUrl(),
       name: profile.getName(),
     };
 
     dispatch(registerUser(dataToSubmit)).then((response) => {
       if (response.payload.success) {
-        alert("안뇽, 나는 쩌비야~~ ><");
+        alert("안뇽, 나는 쩌비야~~ ><(회원가입 인사말)");
       }
       dispatch(loginUser(dataToSubmit))
         .then((response) => {
           console.log(response);
           if (response.payload.loginSuccess) {
+            alert("로그인 성공");
             props.history.push("/");
           }
         })
@@ -46,14 +45,14 @@ function LoginGoogle(props) {
   };
 
   const onFailure = (res) => {
-    console.log("[Login failed] res ", res);
+    alert("아이디와 비번이 정확하지 않습니다.");
   };
 
   return (
     <div>
       <GoogleLogin
         clientId={clientId}
-        buttonText="Login"
+        buttonText="Login with Google"
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={"single_host_origin"}

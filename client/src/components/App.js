@@ -6,7 +6,6 @@ import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
-// import Footer from "./views/Footer/Footer";
 import UploadProductPage from "./views/UploadProductPage/UploadProductPage.js";
 import DetailProductPage from "./views/DetailProductPage/DetailProductPage";
 import HashTagPage from "./views/LandingPage/HashTagPage";
@@ -16,7 +15,9 @@ import CommunicationChat from "./views/Chatbot/Chat";
 import BodyPage from "./views/Board/BodyPage";
 import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
-
+import AddAccount from "./views/MyPage/AddAccount";
+import MyPage from "./views/MyPage/MyPage";
+import './App.css';
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -46,7 +47,17 @@ function App() {
             component={Auth(HashTagPage, null)}
           />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
-          <Route exact path="/history" component={Auth(HistoryPage, true)} />
+          <Route
+            exact
+            path="/user/history"
+            component={Auth(HistoryPage, true)}
+          />
+          <Route
+            exact
+            path="/user/account"
+            component={Auth(AddAccount, true)}
+          />
+          <Route exact path="/user/mypage" component={Auth(MyPage, true)} />
           <Route exact path="/board" component={Auth(BodyPage, null)} />
           <Route
             exact

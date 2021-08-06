@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { FaCode } from "react-icons/fa";
 import axios from "axios";
-import { Avatar, Icon, Col, Card, Row, Carousel } from 'antd';
+import { Avatar, Icon, Col, Row} from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import ImageSlider from '../../utils/ImageSlider';
+import HorizontalScroll from 'react-scroll-horizontal'
 import Checkbox from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox';
 import SearchFeature from './Sections/SearchFeature';
 import { genres, price } from './Sections/Datas';
-import MainSlider from '../Slider/Slider';
+// import MainSlider from '../Slider/Slider';
+import Swal from 'sweetalert2';
 
 function LandingPage() {
 
@@ -47,7 +47,11 @@ function LandingPage() {
                     }
                     setPostSize(response.data.postSize)
                 } else {
-                    alert(" 상품들을 가져오는데 실패 했습니다.")
+                    Swal.fire({
+                        title:"Error!",
+                        text: "상품 업로드에 실패했습니다.",
+                        icon: 'error'
+                      });
                 }
             })
     }
@@ -62,11 +66,13 @@ function LandingPage() {
             skip: skip,
             limit: Limit,
             loadMore: true,
-            filters: Filters
+            filters: Filters,
+            
         }
 
         getProducts(body)
         setSkip(skip)
+        
     }
 
 
@@ -83,8 +89,9 @@ function LandingPage() {
         // var minutes = Math.floor(product.duration / 60);
         // var seconds = Math.floor(product.duration - minutes * 60);
 
-        return <Col lg={6} md={12} xs={24} key={index}>
-            <div style={{ overflow:'hidden', backgroundColor: 'black', width:'100%', height:'0px', paddingTop:'56.25%', position:'relative'}}>
+        return <div>
+        {/* <Col lg={6} md={12} xs={24} key={index} style={{overflowX:"auto"}}> */}
+            <div style={{ margin: '10px', overflow:'hidden', backgroundColor: 'black', width:'300px', height:'0px', paddingTop:'56.25%', position:'relative'}}>
                 <a href={`/product/${product._id}`} >
                 <video style={{width:'100%', height:'100%', position:'absolute', top:'0', left:'0'}} 
                     src={`${product.filePath}`} 
@@ -103,8 +110,11 @@ function LandingPage() {
             />
             <span>{product.writer.name}</span>
             <span style={{marginRight: '10px',fontWeight: '500', float:'right', display:'inline-block', textAlign:'right'}}>{`${product.price.toLocaleString('ko-KR')} ₩`}</span><br />
-        </Col>
+        {/* </Col> */}
+        </div>
+    
     })
+    
 
     //장르 변화 줄때도 getProducts 작동!
     const showFilteredResults = (filters) => {
@@ -171,17 +181,15 @@ function LandingPage() {
 
 
     return (
-        <div style={{ width: '75%', margin: '3rem auto' }}>
-
-            <div style={{ textAlign: 'center' }}>
+        <div style={{ width: '100%', margin: '3rem auto' }}>
+            <div style={{width: '75%', display: 'inline-block'}}>
+            <div style={{ textAlign: 'center'}}>
                 <h2> 콘텐츠의 공유를 빠르고 쉽게 <Icon type="bulb" /> </h2>
+                {/* <MainSlider style={{display: 'inline-block'}}/> */}
             </div>
-            
-            <MainSlider/>
 
             {/* Filter */}
-
-            <Row gutter={[16, 16]}>
+            <Row gutter={[16, 16]} style={{width:'75%'}}>
                 <Col lg={12} xs={24}>
                     {/* CheckBox */}
                     <Checkbox list={genres} handleFilters={filters => handleFilters(filters, "genres")} />
@@ -192,33 +200,28 @@ function LandingPage() {
                 </Col>
             </Row>
 
-
-
-
-
             {/* Search */}
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '1rem auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem auto', width:'75%'}}>
                 <SearchFeature
                     refreshFunction={updateSearchTerm}
                 />
             </div>
-
+        </div>
+        <div style={{width: '75%'}}>
             {/* Cards */}
-
-
-            <Row gutter={[16, 16]} >
+            <HorizontalScroll>
                 {renderCards}
-            </Row>
+            </HorizontalScroll>
 
             <br />
-
-            {PostSize >= Limit &&
+            
+            {/* {PostSize >= Limit &&
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <button onClick={loadMoreHanlder}>더보기</button>
-                </div>
-            }
-
+                    {/* <button onClick={loadMoreHanlder}>더보기</button> */}
+                {/* </div> */}
+            {/* } */}
+        </div>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Avatar, Icon, Col, Card, Row, Carousel } from "antd";
+import { Avatar, Icon, Col, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
 import Checkbox from "./Sections/CheckBox";
 import Radiobox from "./Sections/RadioBox";

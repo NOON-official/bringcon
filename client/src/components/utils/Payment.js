@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import jQuery from 'jquery';
 import axios from "axios";
-import { set } from 'mongoose';
   
 function Payment(props) {
   const [MerchantId, setMerchantId] = useState('')

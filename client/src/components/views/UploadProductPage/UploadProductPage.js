@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Progress from "../Progress/Progress";
 import Dropzone from "react-dropzone";
-import { Typography, Button, Form, Input, Icon } from "antd";
+import { Form, Input, Icon } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import "../../utils/Hashtag.css";

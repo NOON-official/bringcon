@@ -182,7 +182,7 @@ function LandingPage() {
 
     return (
         <div style={{ width: '100%', margin: '3rem auto' }}>
-            <div style={{width: '75%', display: 'inline-block'}}>
+            <div style={{width: '75%', justifyContent: 'center'}}>
             <div style={{ textAlign: 'center'}}>
                 <h2> 콘텐츠의 공유를 빠르고 쉽게 <Icon type="bulb" /> </h2>
                 {/* <MainSlider style={{display: 'inline-block'}}/> */}

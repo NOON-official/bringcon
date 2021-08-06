@@ -1,0 +1,49 @@
+#scroll-horizontal .scroll-horizontal > div {
+  display: grid !important;
+  grid-template-rows : auto auto;
+  grid-auto-flow: column;
+}
+
+#card-video {
+  width: 294px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  overflow: hidden;
+  background-color: black;
+  margin-left: 42px;
+  margin-right: 42px;
+  position: relative;
+  padding-top: 165px;
+}
+
+#card-video video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#card-avatar {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 21px;
+  padding-bottom: 21px;
+  margin-left: 42px;
+  margin-right: 42px;
+  background-color: #fff6e3;
+}
+
+#card-avatar .Avatar {
+  width: 42px;
+  height: 42px;
+}
+
+#card-price {
+  margin-right: 10px;
+  font-weight: 500;
+  float: right;
+  text-align: right;
+}

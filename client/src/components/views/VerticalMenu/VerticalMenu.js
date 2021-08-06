@@ -7,7 +7,7 @@ export const VerticalMenu = () => {
 
     $(".component a").each(
         function(index){
-            if(window.location.href == this.href){
+            if(window.location.href === this.href){
                 $(this).addClass("current");
             }
         }

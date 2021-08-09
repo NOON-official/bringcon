@@ -18,6 +18,7 @@ import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
 import AddAccount from "./views/MyPage/AddAccount";
 import MyPage from "./views/MyPage/MyPage";
+import UserVideos from "./views/LandingPage/UserVideos";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -46,6 +47,12 @@ function App() {
             path="/hashtag/:tag"
             component={Auth(HashTagPage, null)}
           />
+          <Route
+            exact
+            path="/videos/:userId"
+            component={Auth(UserVideos, null)}
+          />
+
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route
             exact

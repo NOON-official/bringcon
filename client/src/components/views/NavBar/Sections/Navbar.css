@@ -1,11 +1,19 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 @import '~antd/dist/antd.css';
 
+.ant-menu-item{
+  border-bottom: 0 !important;
+}
+
 .menu {
+  color: #ffcb39;
   padding: 0 20px;
-  border-bottom: solid 1px #e8e8e8;
+  /* border-bottom: solid 1px #e8e8e8; */
   overflow: auto;
   box-shadow: 0 0 30px #f3f1f1;
-  background-color: white;
+  background-color: #1C1C1C;
+  overflow: hidden;
+  font-family: "Pretendard";
 }
 
 .menu__logo {
@@ -17,19 +25,30 @@
   display: inline-block;
   font-size: 20px;
   padding: 19px 20px;
+  text-decoration: none;
 }
 
 .menu__container .ant-menu-item {
+  
   padding: 0px 5px;
+  background-color: #1C1C1C;
 }
 
 .menu__container .ant-menu-submenu-title {
+  
   padding: 10px 20px;
+  background-color: #1C1C1C;
+}
+
+.menu__container .ant-menu-submenu-title span{
+  color: #ffcb39;
+  font-family: 'Pretendard';
 }
 
 .menu__container .ant-menu-item a,
 .menu__container .ant-menu-submenu-title a {
   padding: 10px 15px;
+  text-decoration: none;
 }
 
 .menu__container .ant-menu-horizontal {
@@ -50,7 +69,7 @@
   padding: 6px;
   margin-top: 8px;
   display: none !important; /* use of important to overwrite ant-btn */
-  background: #3e91f7;
+  background: #ffcb39;
 }
 
 .menu_drawer .ant-drawer-body {
@@ -84,4 +103,8 @@
   .menu__logo a {
     padding: 10px 20px;
   }
+}
+
+.current{
+  font-weight: bold;
 }

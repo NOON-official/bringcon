@@ -13,6 +13,4 @@
 6. `npm install` 을 root directory에서 입력해주세요. (백엔드 종속성 다운받기)
 7. `npm install` 을 `client` directory에서 입력해주세요. (프론트엔드 종속성 다운받기)
 
-
-<br />
  2021.07.05에 제작을 시작하여 아직 제작중에 있습니다.

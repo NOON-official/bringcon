@@ -5,13 +5,6 @@ import { useSelector } from "react-redux";
 const { TextArea } = Input;
 
 function MyPage(props) {
-  const [Phone, setPhone] = useState("");
-  const [Account, setAccount] = useState("numbers");
-
-  const AccountChangeHandler = (event) => {
-    setAccount(event.currentTarget.value);
-  };
-
   return (
     <div>
       <h1>my page!</h1>

@@ -80,7 +80,7 @@ function UploadProductPage(props) {
     setProgress(0);
     let formData = new FormData();
     const config = {
-      header: { "content-type": "multipart/form-data" },
+      header: { "content-type": "multipart/form-data"},
       //프로그레스 바 상태 config에 추가
       onUploadProgress: progressEvent => {
         setProgress(
@@ -93,8 +93,11 @@ function UploadProductPage(props) {
     
     formData.append("file", files[0]);
 
+    console.log('a')
     Axios.post("/api/product/video", formData, config).then((response) => {
-       if (response.data.success) {
+      console.log('b') 
+      if (response.data.success) {
+        console.log('c')
         let variable = {
           filePath: response.data.filePath,
           fileName: response.data.fileName,

@@ -50,19 +50,77 @@ let uploadStorage = multer({
 
 var upload = uploadStorage.single("file");
 
+
+//로컬에 비디오 업로드
+// STORAGE MULTER CONFIG
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+      cb(null, `${Date.now()}_${file.originalname}`);
+  },
+  fileFilter: (req, file, cb) => {
+      const ext = path.extname(file.originalname)
+      if(ext !== '.mp4') {
+          return cb(res.status(400).end('only mp4 is allowd'), false);
+      }
+      cb(null, true)
+  }
+});
+
+const uploadVideo = multer({storage: storage}).single("file");
+
 router.post("/video", (req, res) => {
   //비디오를 서버에 저장
-  upload(req, res, (err) => {
+  console.log('1')
+  uploadVideo(req, res, (err) => {
+    console.log('2')
     if (err) {
+      console.log('3')
       return res.json({ success: false, err });
+    } else {
+      uploadVideoToS3(res.req.file.path, res.req.file.filename);
     }
+    console.log(res.req.file)
     return res.json({
       success: true,
-      filePath: res.req.file.location,
-      fileName: res.req.file.key,
+      filePath: res.req.file.path,
+      fileName: res.req.file.filename,
     });
   });
 });
+
+function uploadVideoToS3(source, target) {
+  fs.readFile(source, function (err, data) {
+    //'base64',
+    if (!err) {
+      var params = {
+        Bucket: "bringcon-bucket/uploads",
+        Key: target,
+        Body: data,
+        ContentType: "video/mp4",
+        ACL: "public-read",
+      };
+
+      s3.putObject(params, function (err, data) {
+        if (!err) {
+          console.log("[s3] video file uploaded:");
+
+          //로컬 파일 삭제하는 부분
+          // fs.unlink(source, (err) => {
+          //     if(err) console.log(err)
+          //     else console.log('successfully deleted')
+          // });
+        } else {
+          console.log(err);
+        }
+      });
+    } else {
+      console.log(err);
+    }
+  });
+}
 
 router.post("/thumbnail", upload, (req, res) => {
   let filePath = "";
@@ -84,7 +142,7 @@ router.post("/thumbnail", upload, (req, res) => {
     .on("end", function () {
       //썸네일 생성 끝난 후
       console.log("Screenshots taken");
-      uploadFile(filePath, fileName); // S3에 업로드
+      uploadThumbnail(filePath, fileName); // S3에 업로드
       let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(
         fileName
       )}`;
@@ -106,7 +164,7 @@ router.post("/thumbnail", upload, (req, res) => {
     });
 });
 
-function uploadFile(source, target) {
+function uploadThumbnail(source, target) {
   fs.readFile(source, function (err, data) {
     //'base64',
     if (!err) {

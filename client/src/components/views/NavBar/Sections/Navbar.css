@@ -5,15 +5,19 @@
   border-bottom: 0 !important;
 }
 
+/* a{
+  color: #ffcb39;
+} */
 .menu {
   color: #ffcb39;
   padding: 0 20px;
   /* border-bottom: solid 1px #e8e8e8; */
   overflow: auto;
-  box-shadow: 0 0 30px #f3f1f1;
   background-color: #1C1C1C;
   overflow: hidden;
   font-family: "Pretendard";
+  font-weight: '16px';
+  height: 10%;
 }
 
 .menu__logo {
@@ -107,4 +111,29 @@
 
 .current{
   font-weight: bold;
+}
+
+button{
+  background-color: #ffcb39;
+  color: #1C1C1C;
+  border-radius: 6px; 
+  height:40px;
+  line-height: 75.35px;
+  vertical-align: middle;
+}
+
+button:hover{
+  color:#ffcb39;
+}
+
+button a{
+  color: #1C1C1C;
+  text-decoration: none;
+  vertical-align: middle;
+  padding: 0
+}
+
+button a:hover{
+  color: #1C1C1C;
+  text-decoration: none;
 }

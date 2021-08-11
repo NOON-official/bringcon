@@ -93,11 +93,8 @@ function UploadProductPage(props) {
     
     formData.append("file", files[0]);
 
-    console.log('a')
     Axios.post("/api/product/video", formData, config).then((response) => {
-      console.log('b') 
       if (response.data.success) {
-        console.log('c')
         let variable = {
           filePath: response.data.filePath,
           fileName: response.data.fileName,

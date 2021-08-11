@@ -103,7 +103,7 @@ function UploadProductPage(props) {
           fileName: response.data.fileName,
         };
 
-        setFilePath(response.data.filePath);
+        setFilePath(response.data.s3VideoPath);
 
         Axios.post("/api/product/thumbnail", variable).then((response) => {
           if (response.data.success) {
@@ -214,6 +214,7 @@ function UploadProductPage(props) {
               </div>
             ))}
           </div> */}
+
           {ThumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
             <div>
               <img
@@ -222,6 +223,16 @@ function UploadProductPage(props) {
               />
             </div>
           )}
+
+          {/* 배포용 ( 삭제 X ) */}
+          {/* {S3thumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
+            <div>
+              <img
+                src={`${S3thumbnailPath}`}
+                alt="thumbnail"
+              />
+            </div>
+          )} */}
         </div>
         <Progress percentage={progress}/>
         <br />

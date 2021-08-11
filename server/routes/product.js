@@ -4,10 +4,9 @@ const multer = require("multer");
 const aws = require("aws-sdk");
 const ffmpeg = require("fluent-ffmpeg");
 const { Product } = require("../models/Product");
-const path = require('path')
-const fs = require('fs')
-const config = require('../config/s3.json')
-
+const path = require("path");
+const fs = require("fs");
+const config = require("../config/s3.json");
 
 //=================================
 //             Product
@@ -173,43 +172,41 @@ router.post("/", (req, res) => {
   });
 });
 
-
 //비디오 다운로드
-router.post('/download', async (req, res) => {
+router.post("/download", async (req, res) => {
   //1. 몽고디비에서 상품 찾기
   const doc = await Product.findById(req.body.product_id).exec();
-  
+
   //2. 상품의  filePath 가져오기
-  const filePath = doc.filePath
+  const filePath = doc.filePath;
 
   //2-2. key(fileName) 추출하기
-  const key = 'uploads/' + filePath.split('uploads/')[1]
-  
+  const key = "uploads/" + filePath.split("uploads/")[1];
+
   //3. 다운로드
   const downloadFile = async (key) => {
-    aws.config.update({ 
+    aws.config.update({
       accessKeyId: config.accessKeyId,
       secretAccessKey: config.secretAccessKey,
       region: config.region,
-      signatureVersion: 'v4'
-  });
+      signatureVersion: "v4",
+    });
 
-  const s3 = new aws.S3()
+    const s3 = new aws.S3();
     const params = {
       Bucket: "bringcon-bucket",
-      ResponseContentDisposition: 'attachment;',
+      ResponseContentDisposition: "attachment;",
       Expires: 60,
-      Key: key
-    }
+      Key: key,
+    };
 
-    let url = s3.getSignedUrl('getObject', params);
+    let url = s3.getSignedUrl("getObject", params);
 
-    res.send({success:true, url: url})
-  }
-  
-  await downloadFile(key)
-})
+    res.send({ success: true, url: url });
+  };
 
+  await downloadFile(key);
+});
 
 //데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
 router.post("/products", (req, res) => {
@@ -397,6 +394,94 @@ router.post("/products_by_hashtag", (req, res) => {
     //검색어가 없으면, 원래대로 프로세스 수행
     Product.find(findArgs)
       .find({ tags: tag })
+      .populate("writer")
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res.status(200).json({
+          success: true,
+          productInfo,
+          postSize: productInfo.length,
+        });
+      });
+  }
+});
+
+router.post("/products_by_userId", (req, res) => {
+  let order = req.body.order ? req.body.order : "desc";
+  let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+  // product collection에 들어 있는 모든 상품 정보를 가져오기
+  let limit = req.body.limit ? parseInt(req.body.limit) : 20;
+  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let term = req.body.searchTerm; //서치바에서 검색한 단어 ex) 'mexico'
+  let userId = req.query.userId;
+  let findArgs = {};
+
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      console.log("key", key);
+
+      if (key === "price") {
+        findArgs[key] = {
+          //Greater than equal
+          $gte: req.body.filters[key][0],
+          //Less than equal
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
+    }
+  }
+
+  if (term) {
+    //검색어가 있으면
+    if (term.startsWith("#")) {
+      //해쉬태그 검색하는 경우
+      term = term.substring(1); //'#' 제거
+
+      Product.find(findArgs)
+        .find({ writer: { $in: userId } })
+        .find({ tags: term })
+        .populate("writer")
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .limit(limit)
+        .exec((err, productInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({
+            success: true,
+            productInfo,
+            postSize: productInfo.length,
+          });
+        });
+    } else {
+      //문자열 검색
+      Product.find(findArgs)
+        .find({ writer: { $in: userId } })
+
+        //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
+        //Product 컬렉션 안에 있는 데이터 중 term과 일치하는 자료 가져옴
+        .find({ $text: { $search: term } })
+        .populate("writer")
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .limit(limit)
+        .exec((err, productInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({
+            success: true,
+            productInfo,
+            postSize: productInfo.length,
+          });
+        });
+    }
+  } else {
+    //검색어가 없으면, 원래대로 프로세스 수행
+    Product.find(findArgs)
+      .find({ writer: { $in: userId } })
       .populate("writer")
       .sort([[sortBy, order]])
       .skip(skip)

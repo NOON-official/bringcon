@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Avatar, Icon, Col, Row } from "antd";
+import { Avatar, Icon, Col, Card, Row, Carousel } from "antd";
 import Meta from "antd/lib/card/Meta";
 import Checkbox from "./Sections/CheckBox";
 import Radiobox from "./Sections/RadioBox";
 import SearchFeature from "./Sections/SearchFeature";
 import { genres, price } from "./Sections/Datas";
 
-function HashTagPage(props) {
+function UserVideos(props) {
+  const userId = props.match.params.userId;
+
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
   const [Limit, setLimit] = useState(8);
@@ -17,8 +19,6 @@ function HashTagPage(props) {
     price: [],
   });
   const [SearchTerm, setSearchTerm] = useState("");
-  const Tag = props.match.params.tag;
-
   //처음 실행시 getProducts 작동!
   useEffect(() => {
     let body = {
@@ -32,7 +32,7 @@ function HashTagPage(props) {
   //새롭게 아이템들을 가져와줌
   const getProducts = (body) => {
     axios
-      .post(`/api/product/products_by_hashtag?tag=${Tag}`, body)
+      .post(`/api/product/products_by_userId?userId=${userId}`, body)
       .then((response) => {
         if (response.data.success) {
           if (body.loadMore) {
@@ -70,66 +70,15 @@ function HashTagPage(props) {
     e.currentTarget.currentTime = 0;
   }
 
-  const renderCards = Products.map((product, index) => {
-    // var minutes = Math.floor(product.duration / 60);
-    // var seconds = Math.floor(product.duration - minutes * 60);
+  //처음 실행시 getProducts 작동!
+  useEffect(() => {
+    let body = {
+      skip: Skip,
+      limit: Limit,
+    };
 
-    return (
-      <Col lg={6} md={12} xs={24}>
-        <div
-          style={{
-            overflow: "hidden",
-            backgroundColor: "black",
-            width: "100%",
-            height: "0px",
-            paddingTop: "56.25%",
-            position: "relative",
-          }}
-        >
-          <a href={`/product/${product._id}`}>
-            <video
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                top: "0",
-                left: "0",
-              }}
-              src={`${product.filePath}`}
-              onMouseOver={handleMouseover}
-              onMouseOut={handleMouseout}
-              muted
-            />
-            {/* <div className="duration">
-                    <span>{minutes} : {seconds}</span>
-                </div> */}
-          </a>
-        </div>
-        <br />
-        <Meta
-          avatar={
-            <a href={`/videos/${product.writer._id}`}>
-              <Avatar src={product.writer.image} />
-            </a>
-          }
-          title={product.title}
-        />
-        <a href={`/videos/${product.writer._id}`}>
-          <span>{product.writer.name}</span>
-        </a>
-        <span
-          style={{
-            marginRight: "10px",
-            fontWeight: "500",
-            float: "right",
-            display: "inline-block",
-            textAlign: "right",
-          }}
-        >{`${product.price.toLocaleString("ko-KR")} ₩`}</span>
-        <br />
-      </Col>
-    );
-  });
+    getProducts(body);
+  }, []);
 
   //장르 변화 줄때도 getProducts 작동!
   const showFilteredResults = (filters) => {
@@ -187,59 +136,121 @@ function HashTagPage(props) {
     getProducts(body); //백엔드에 보내서 처리!
   };
 
-  return (
-    <div style={{ width: "75%", margin: "3rem auto" }}>
-      <div style={{ textAlign: "center" }}>
-        <h2>
-          {" "}
-          #{Tag} pages <Icon type="bulb" />{" "}
-        </h2>
-      </div>
+  const renderCards = Products.map((product, index) => {
+    // var minutes = Math.floor(product.duration / 60);
+    // var seconds = Math.floor(product.duration - minutes * 60);
 
-      {/* Filter */}
-
-      <Row gutter={[16, 16]}>
-        <Col lg={12} xs={24}>
-          {/* CheckBox */}
-          <Checkbox
-            list={genres}
-            handleFilters={(filters) => handleFilters(filters, "genres")}
-          />
-        </Col>
-        <Col lg={12} xs={24}>
-          {/* RadioBox */}
-          <Radiobox
-            list={price}
-            handleFilters={(filters) => handleFilters(filters, "price")}
-          />
-        </Col>
-      </Row>
-
-      {/* Search */}
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          margin: "1rem auto",
-        }}
-      >
-        <SearchFeature refreshFunction={updateSearchTerm} />
-      </div>
-
-      {/* Cards */}
-
-      <Row gutter={[16, 16]}>{renderCards}</Row>
-
-      <br />
-
-      {PostSize >= Limit && (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <button onClick={loadMoreHanlder}>더보기</button>
+    return (
+      <Col lg={6} md={12} xs={24} key={index}>
+        <div
+          style={{
+            overflow: "hidden",
+            backgroundColor: "black",
+            width: "100%",
+            height: "0px",
+            paddingTop: "56.25%",
+            position: "relative",
+          }}
+        >
+          <a href={`/product/${product._id}`}>
+            <video
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: "0",
+                left: "0",
+              }}
+              src={`${product.filePath}`}
+              onMouseOver={handleMouseover}
+              onMouseOut={handleMouseout}
+              muted
+            />
+            {/* <div className="duration">
+                <span>{minutes} : {seconds}</span>
+            </div> */}
+          </a>
         </div>
-      )}
+        <br />
+        <Meta
+          avatar={
+            <a href={`/videos/${product.writer._id}`}>
+              <Avatar src={product.writer.image} />
+            </a>
+          }
+          title={product.title}
+        />
+        <a href={`/videos/${product.writer._id}`}>
+          <span>{product.writer.name}</span>
+        </a>
+        <span
+          style={{
+            marginRight: "10px",
+            fontWeight: "500",
+            float: "right",
+            display: "inline-block",
+            textAlign: "right",
+          }}
+        >{`${product.price.toLocaleString("ko-KR")} ₩`}</span>
+        <br />
+      </Col>
+    );
+  });
+
+  return (
+    <div>
+      <div>
+        <h1>props.match.params.userId videos</h1>
+        <h2> login_id : {props.user.userData && props.user.userData._id}</h2>
+        <h2> query_id : {userId} </h2>
+      </div>
+
+      <div style={{ width: "75%", margin: "3rem auto" }}>
+        {/* Filter */}
+
+        <Row gutter={[16, 16]}>
+          <Col lg={12} xs={24}>
+            {/* CheckBox */}
+            <Checkbox
+              list={genres}
+              handleFilters={(filters) => handleFilters(filters, "genres")}
+            />
+          </Col>
+          <Col lg={12} xs={24}>
+            {/* RadioBox */}
+            <Radiobox
+              list={price}
+              handleFilters={(filters) => handleFilters(filters, "price")}
+            />
+          </Col>
+        </Row>
+
+        {/* Search */}
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            margin: "1rem auto",
+          }}
+        >
+          <SearchFeature refreshFunction={updateSearchTerm} />
+        </div>
+
+        {/* Cards */}
+
+        <Row gutter={[16, 16]}>{renderCards}</Row>
+
+        <br />
+
+        {PostSize >= Limit && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <button onClick={loadMoreHanlder}>더보기</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-export default HashTagPage;
+export default UserVideos;

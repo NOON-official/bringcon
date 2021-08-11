@@ -64,12 +64,16 @@ function LandingPage() {
                 </div>
             <div id="card-avatar">
             <Meta
-                avatar={
-                    <Avatar className="Avatar" src={product.writer.image} />
-                }
-                title={product.title}
-            />
-            <span>{product.writer.name}</span>
+          avatar={
+            <a href={`/videos/${product.writer._id}`}>
+              <Avatar src={product.writer.image} />
+            </a>
+          }
+          title={product.title}
+        />
+        <a href={`/videos/${product.writer._id}`}>
+          <span>{product.writer.name}</span>
+        </a>
             <span id="card-price">{`${product.price.toLocaleString('ko-KR')} ₩`}</span><br />
             </div>   
         </div>

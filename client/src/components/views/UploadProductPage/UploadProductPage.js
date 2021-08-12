@@ -114,8 +114,12 @@ function UploadProductPage(props) {
           }
         });
       } else {
+        if(response.data.err === 'not allowed format'){
+          alert("파일 확장자를 확인해주세요.")
+        } else {
+          alert("파일을 저장하는데 실패했습니다.");
+        }
         setProgress(0);
-        alert("파일을 저장하는데 실패했습니다.");
       }
     });
   };

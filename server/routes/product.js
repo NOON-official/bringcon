@@ -14,6 +14,7 @@ const config = require("../config/s3.json");
 
 const awsLoadPath = path.join(__dirname, "/../config/s3.json");
 aws.config.loadFromPath(awsLoadPath);
+aws.config.update({httpOptions: {timeout: 60000*5}}) //5분
 
 let s3 = new aws.S3();
 
@@ -69,6 +70,10 @@ router.post("/video", (req, res) => {
 
 function uploadVideoToS3(source, target, mimetype) {
   fs.readFile(source, function (err, data) {
+    // 파일 사이즈 가져오기
+    // const stats = fs.statSync(source)
+    // const fileSizeInBytes = stats.size;
+    // console.log(fileSizeInBytes)
     if (!err) {
       var params = {
         Bucket: "bringcon-bucket/uploads",

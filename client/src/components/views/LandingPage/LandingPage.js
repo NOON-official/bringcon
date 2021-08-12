@@ -7,7 +7,6 @@ import Radiobox from './Sections/RadioBox';
 import SearchFeature from './Sections/SearchFeature';
 import { genres, price } from './Sections/Datas';
 import ScrollHorizontal from 'react-scroll-horizontal';
-import StackGrid from "react-stack-grid";
 import './css/LandingPage.css'
 import HorizontalScroll from 'react-scroll-horizontal';
 

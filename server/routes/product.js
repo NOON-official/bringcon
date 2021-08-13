@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
 const ffmpeg = require("fluent-ffmpeg");
 const { Product } = require("../models/Product");
@@ -15,55 +14,89 @@ const config = require("../config/s3.json");
 
 const awsLoadPath = path.join(__dirname, "/../config/s3.json");
 aws.config.loadFromPath(awsLoadPath);
+aws.config.update({httpOptions: {timeout: 60000*5}}) //5분
 
 let s3 = new aws.S3();
 
-let uploadStorage = multer({
-  storage: multerS3({
-    s3: s3,
-
-    //destination
-    bucket: "bringcon-bucket/uploads",
-
-    //filename
-    key: function (req, file, cb) {
+//로컬에 비디오 업로드
+// STORAGE MULTER CONFIG
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
       cb(null, `${Date.now()}_${file.originalname}`);
-    },
-
-    //The mimetype used to upload the file
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-
-    //access control for the file
-    acl: "public-read-write",
-  }),
+  }
 });
 
-//   fileFilter: (req, file, cb) => {
-//         //파일 확장자 추출
-//         const ext = path.extname(file.originalname)
-//         if(ext !== '.mp4') {
-//             return cb(res.status(400).end('only mp4 is allowd'), false);
-//         }
-//         cb(null, true)
-//     }
+const fileFilter = function(req, file, cb) {
+  const ext = path.extname(file.originalname).toLowerCase();
+      if(ext === '.mp4' 
+      || ext === '.mov'
+      || ext === '.wmv'
+      || ext === '.avi'
+      || ext === '.avchd'
+      || ext === '.flv'
+      || ext === '.f4v'
+      || ext === '.swf'
+      || ext === '.mkv') {
+        return cb(null, true)
+      } else {
+        return cb('not allowed format', false);
+      }
+}
 
-var upload = uploadStorage.single("file");
+const uploadVideo = multer({storage: storage, fileFilter: fileFilter}).single("file");
 
 router.post("/video", (req, res) => {
-  //비디오를 서버에 저장
-  upload(req, res, (err) => {
+    //비디오를 서버에 저장
+    uploadVideo(req, res, (err) => {
     if (err) {
       return res.json({ success: false, err });
+    } else {
+      uploadVideoToS3(res.req.file.path, res.req.file.filename, req.file.mimetype);
+      
+      let s3VideoPath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/${encodeURIComponent(res.req.file.filename)}`
+      
+      return res.json({
+        success: true,
+        s3VideoPath: s3VideoPath,
+        filePath: res.req.file.path,
+        fileName: res.req.file.filename,
+      });
     }
-    return res.json({
-      success: true,
-      filePath: res.req.file.location,
-      fileName: res.req.file.key,
-    });
   });
 });
 
-router.post("/thumbnail", upload, (req, res) => {
+function uploadVideoToS3(source, target, mimetype) {
+  fs.readFile(source, function (err, data) {
+    // 파일 사이즈 가져오기
+    // const stats = fs.statSync(source)
+    // const fileSizeInBytes = stats.size;
+    // console.log(fileSizeInBytes)
+    if (!err) {
+      var params = {
+        Bucket: "bringcon-bucket/uploads",
+        Key: target,
+        Body: data,
+        ContentType: mimetype,
+        ACL: "public-read",
+      };
+
+      s3.putObject(params, function (err, data) {
+        if (!err) {
+          console.log("[s3] video file uploaded:");
+        } else {
+          console.log(err);
+        }
+      });
+    } else {
+      console.log(err);
+    }
+  });
+}
+
+router.post("/thumbnail", (req, res) => {
   let filePath = "";
   let fileDuration = "";
   let fileName = "";
@@ -78,15 +111,13 @@ router.post("/thumbnail", upload, (req, res) => {
     .on("filenames", function (filenames) {
       console.log("Will generate " + filenames.join(", "));
       fileName = filenames[0];
-      filePath = `thumbnails/${fileName}`;
+      filePath = `uploads/thumbnails/${fileName}`;
     })
     .on("end", function () {
       //썸네일 생성 끝난 후
       console.log("Screenshots taken");
-      uploadFile(filePath, fileName); // S3에 업로드
-      let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(
-        fileName
-      )}`;
+      uploadThumbnail(filePath, fileName); // S3에 업로드
+      let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(fileName)}`;
       return res.json({
         success: true,
         filePath: filePath,
@@ -98,16 +129,15 @@ router.post("/thumbnail", upload, (req, res) => {
       //옵션
       // Will take screenshots at 20%, 40%, 60% and 80% of the video
       count: 1, //썸네일 1개
-      folder: "thumbnails",
+      folder: "uploads/thumbnails",
       size: "336x189", // 16:9 비율
       //'%b': input basename (filename without extension)
       filename: "thumbnail-%b.png",
     });
 });
 
-function uploadFile(source, target) {
+function uploadThumbnail(source, target) {
   fs.readFile(source, function (err, data) {
-    //'base64',
     if (!err) {
       var params = {
         Bucket: "bringcon-bucket/uploads/thumbnails",
@@ -119,13 +149,7 @@ function uploadFile(source, target) {
 
       s3.putObject(params, function (err, data) {
         if (!err) {
-          console.log("[s3] file uploaded:");
-
-          //로컬 파일 삭제하는 부분
-          // fs.unlink(source, (err) => {
-          //     if(err) console.log(err)
-          //     else console.log('success')
-          // });
+          console.log("[s3] thumbnail file uploaded:");
         } else {
           console.log(err);
         }
@@ -137,6 +161,7 @@ function uploadFile(source, target) {
 }
 
 //현재 submit안하고 dropzone에 넣기만해도 로컬에 저장됨, 라우트 수정 필요
+//상품 업로드 버튼 누른 직후 호출됨
 router.post("/", (req, res) => {
   //받아온 정보들을 DB에 넣어 준다.
   const product = new Product(req.body);
@@ -144,6 +169,20 @@ router.post("/", (req, res) => {
   product.save((err) => {
     if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });
+  });
+
+  //로컬 파일 삭제
+  const filename = decodeURIComponent(req.body.filePath.split('/uploads/')[1]);
+  const videoSource = `uploads/${filename}`
+  const thumbnailSource = req.body.thumbnail
+    
+  fs.unlink(videoSource, (err) => {
+      if(err) console.log(err)
+      else console.log('local video is successfully deleted')
+  });
+  fs.unlink(thumbnailSource, (err) => {
+      if(err) console.log(err)
+      else console.log('local thumbnail is successfully deleted')
   });
 });
 

@@ -80,7 +80,7 @@ function UploadProductPage(props) {
     setProgress(0);
     let formData = new FormData();
     const config = {
-      header: { "content-type": "multipart/form-data" },
+      header: { "content-type": "multipart/form-data"},
       //프로그레스 바 상태 config에 추가
       onUploadProgress: progressEvent => {
         setProgress(
@@ -94,13 +94,13 @@ function UploadProductPage(props) {
     formData.append("file", files[0]);
 
     Axios.post("/api/product/video", formData, config).then((response) => {
-       if (response.data.success) {
+      if (response.data.success) {
         let variable = {
           filePath: response.data.filePath,
           fileName: response.data.fileName,
         };
 
-        setFilePath(response.data.filePath);
+        setFilePath(response.data.s3VideoPath);
 
         Axios.post("/api/product/thumbnail", variable).then((response) => {
           if (response.data.success) {
@@ -114,8 +114,12 @@ function UploadProductPage(props) {
           }
         });
       } else {
+        if(response.data.err === 'not allowed format'){
+          alert("파일 확장자를 확인해주세요.")
+        } else {
+          alert("파일을 저장하는데 실패했습니다.");
+        }
         setProgress(0);
-        alert("파일을 저장하는데 실패했습니다.");
       }
     });
   };
@@ -211,6 +215,7 @@ function UploadProductPage(props) {
               </div>
             ))}
           </div> */}
+
           {ThumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
             <div>
               <img
@@ -219,6 +224,16 @@ function UploadProductPage(props) {
               />
             </div>
           )}
+
+          {/* 배포용 ( 삭제 X ) */}
+          {/* {S3thumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
+            <div>
+              <img
+                src={`${S3thumbnailPath}`}
+                alt="thumbnail"
+              />
+            </div>
+          )} */}
         </div>
         <Progress percentage={progress}/>
         <br />

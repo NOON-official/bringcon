@@ -8,6 +8,7 @@ import SearchFeature from "./Sections/SearchFeature";
 import { genres, price } from "./Sections/Datas";
 import ScrollHorizontal from "react-scroll-horizontal";
 import "./css/LandingPage.css";
+import HorizontalScroll from "react-scroll-horizontal";
 
 function LandingPage() {
   const [Products, setProducts] = useState([]);
@@ -51,7 +52,11 @@ function LandingPage() {
   const renderCards = Products.map((product, index) => {
     return (
       <div key={index} className="tile">
-        <div id="card-video">
+        {/* <StackGrid> */}
+        <div
+          id="card-video"
+          style={{ backgroundImage: `url(${product.s3thumbnail})` }}
+        >
           <a href={`/product/${product._id}`}>
             <video
               src={`${product.filePath}`}
@@ -75,9 +80,10 @@ function LandingPage() {
           </a>
           <span id="card-price">{`${product.price.toLocaleString(
             "ko-KR"
-          )} ₩`}</span>
+          )} 원`}</span>
           <br />
         </div>
+        {/* </StackGrid> */}
       </div>
     );
   });
@@ -132,41 +138,69 @@ function LandingPage() {
   };
 
   return (
-    <div style={{ width: "100%", margin: "3rem auto" }}>
+    <div
+      id="filters"
+      style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
+    >
       {/* Filter */}
-
-      <Row gutter={[16, 16]}>
-        <Col lg={12} xs={24}>
-          {/* CheckBox */}
-          <Checkbox
-            list={genres}
-            handleFilters={(filters) => handleFilters(filters, "genres")}
-          />
-        </Col>
-        <Col lg={12} xs={24}>
-          {/* RadioBox */}
-          <Radiobox
-            list={price}
-            handleFilters={(filters) => handleFilters(filters, "price")}
-          />
-        </Col>
-      </Row>
+      {/* <Row gutter={[16, 16]}>
+                <Col lg={12} xs={24}>
+                    {/* CheckBox */}
+      {/* <Checkbox list={genres} handleFilters={filters => handleFilters(filters, "genres")} />
+                </Col>
+                <Col lg={12} xs={24}>
+                    {/* RadioBox */}
+      {/* <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />
+                </Col> */}
+      {/* </Row> */}
 
       {/* Search */}
 
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end",
-          margin: "1rem auto",
+          justifyContent: "center",
+          paddingBottom: "1em",
+          margin: "1em auto",
+          backgroundColor: "#1C1C1C",
         }}
       >
         <SearchFeature refreshFunction={updateSearchTerm} />
+        <br />
+      </div>
+      <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "1em auto",
+            backgroundColor: "#1C1C1C",
+          }}
+        >
+          <span id="hash">동물</span>
+          <span id="hash">서버</span>
+          <span id="hash">수강신청</span>
+          <span id="hash">감자</span>
+        </div>
+        <div
+          id="drops"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            padding: "1em auto",
+            backgroundColor: "#1C1C1C",
+          }}
+        >
+          <span id="dropdown">전체</span>
+          <span id="dropdown">최신순</span>
+        </div>
       </div>
 
       {/* Cards */}
-      <div id="scroll-horizontal" style={{ height: `45em` }}>
-        <ScrollHorizontal>{renderCards}</ScrollHorizontal>
+      <div id="scroll-horizontal" style={{ height: `43em` }}>
+        {/* <StackGrid columnWidth="20%" columnHeight> */}
+        <HorizontalScroll>{renderCards}</HorizontalScroll>
+        {/* </StackGrid> */}
       </div>
     </div>
   );

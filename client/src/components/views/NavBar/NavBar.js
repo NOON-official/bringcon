@@ -21,9 +21,11 @@ function NavBar() {
       className="menu"
       style={{ position: "fixed", zIndex: 5, width: "100%" }}
     >
+      <a href="/">
       <div className="menu__logo">
         <img src={Logo} style={{ marginTop: "18px", marginRight: "10px" }} />
       </div>
+      </a>
       <div className="menu__container">
         <div className="menu_left">
           <LeftMenu mode="horizontal" />

@@ -8,6 +8,7 @@ import SearchFeature from './Sections/SearchFeature';
 import { genres, price } from './Sections/Datas';
 import ScrollHorizontal from 'react-scroll-horizontal';
 import './css/LandingPage.css'
+import HorizontalScroll from 'react-scroll-horizontal';
 
 function LandingPage() {
 
@@ -54,29 +55,28 @@ function LandingPage() {
     const renderCards = Products.map((product, index) => {
         return (
            <div key={index} className="tile">
-                <div id="card-video">
+               {/* <StackGrid> */}
+                <div id="card-video" style={{backgroundImage: `url(${product.s3thumbnail})`}}>
                     <a href={`/product/${product._id}`} >
-                    <video 
-                        src={`${product.filePath}`} 
-                        onMouseOver={handleMouseover} 
+                    <video
+                        src={`${product.filePath}`}
+                        onMouseOver={handleMouseover}
                         onMouseOut={handleMouseout} muted/>
                     </a>
                 </div>
             <div id="card-avatar">
             <Meta
-          avatar={
-            <a href={`/videos/${product.writer._id}`}>
-              <Avatar src={product.writer.image} />
-            </a>
-          }
-          title={product.title}
-        />
-        <a href={`/videos/${product.writer._id}`}>
-          <span>{product.writer.name}</span>
-        </a>
-            <span id="card-price">{`${product.price.toLocaleString('ko-KR')} ₩`}</span><br />
-            </div>   
+                avatar={
+                    <Avatar className="Avatar" src={product.writer.image} />
+                }
+                title={product.title}
+            />
+            <span>{product.writer.name}</span>
+            <span id="card-price">{`${product.price.toLocaleString('ko-KR')} 원`}</span><br />
+            </div>
+            {/* </StackGrid> */}
         </div>
+        
         )
     })
 
@@ -133,39 +133,51 @@ function LandingPage() {
 
 
     return (
-        <div style={{ width: '100%', margin: '3rem auto' }}>
-
-            <div style={{ textAlign: 'center' }}>
-                <h2> 콘텐츠의 공유를 빠르고 쉽게 <Icon type="bulb" /> </h2>
-            </div>
-          
+        <div id="filters" style={{ width: '100%', paddingTop: '1em', borderTop: '#1C1C1C'}}>
             {/* Filter */}
-
-            <Row gutter={[16, 16]}>
+            {/* <Row gutter={[16, 16]}>
                 <Col lg={12} xs={24}>
                     {/* CheckBox */}
-                    <Checkbox list={genres} handleFilters={filters => handleFilters(filters, "genres")} />
+                    {/* <Checkbox list={genres} handleFilters={filters => handleFilters(filters, "genres")} />
                 </Col>
                 <Col lg={12} xs={24}>
                     {/* RadioBox */}
-                    <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />
-                </Col>
-            </Row>
+                    {/* <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />
+                </Col> */}
+            {/* </Row> */}
 
 
             {/* Search */}
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '1rem auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '1em', margin: '1em auto', backgroundColor: "#1C1C1C"}}>
                 <SearchFeature
                     refreshFunction={updateSearchTerm}
                 />
+                <br/>
+                
+            </div>
+            <div>
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '1em auto', backgroundColor: "#1C1C1C"}}>
+                <span id="hash">동물</span>
+                <span id="hash">서버</span>
+                <span id="hash">수강신청</span>
+                <span id="hash">감자</span>
+            </div>
+            <div id="drops" style={{ display: 'flex', justifyContent: 'flex-end', padding: '1em auto', backgroundColor: "#1C1C1C"}}>
+                <span id="dropdown">전체</span>
+                <span id="dropdown">최신순</span>
             </div>
 
+            </div>
+
+
             {/* Cards */}
-            <div id='scroll-horizontal' style={{ height: `45em` }}>
-                <ScrollHorizontal>
+            <div id='scroll-horizontal' style={{ height: `43em` }}>
+                {/* <StackGrid columnWidth="20%" columnHeight> */}
+                    <HorizontalScroll>
                     {renderCards}
-                </ScrollHorizontal>
+                    </HorizontalScroll>
+                {/* </StackGrid> */}
             </div>
         </div>
     )

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import { loginUser } from "../../../../_actions/user_actions";
 import { registerUser } from "../../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
+import { error } from "jquery";
 
 function LoginGoogle(props) {
   const dispatch = useDispatch();
@@ -11,17 +13,27 @@ function LoginGoogle(props) {
   const clientId =
     "868725939307-s3dblc74bco886t7kmimukn9rodb1vrj.apps.googleusercontent.com";
 
-  const onSuccess = (res) => {
-    let profile = res.getBasicProfile();
-    console.log("Name : " + profile.getName());
-    console.log("Image URL : " + profile.getImageUrl());
-    console.log("Emai: " + profile.getEmail());
-    console.log(profile);
+  const SCOPE = "https://www.googleapis.com/auth/youtube.readonly";
 
-    let dataToSubmit = {
+  async function onSuccess(res) {
+    const getChannelId = await axios
+      .get(
+        `https://www.googleapis.com/youtube/v3/channels?part=id&mine=true&access_token=${res.accessToken}`
+      )
+      .then((response) => {
+        return response.data.items;
+      })
+      .catch((err) => console.log(err));
+
+    const channelId = getChannelId;
+
+    const profile = res.getBasicProfile();
+
+    const dataToSubmit = {
       email: profile.getEmail(),
       image: profile.getImageUrl(),
       name: profile.getName(),
+      channelId: channelId,
     };
 
     dispatch(registerUser(dataToSubmit)).then((response) => {
@@ -42,7 +54,7 @@ function LoginGoogle(props) {
           }, 3000);
         });
     });
-  };
+  }
 
   const onFailure = (res) => {
     alert("아이디와 비번이 정확하지 않습니다.");
@@ -56,6 +68,7 @@ function LoginGoogle(props) {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={"single_host_origin"}
+        scope={SCOPE}
       />
     </div>
   );

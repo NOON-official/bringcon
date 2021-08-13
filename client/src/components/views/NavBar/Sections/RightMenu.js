@@ -5,7 +5,8 @@ import axios from "axios";
 import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
-import GoogleLogin from "../../LoginPage/LoginPage";
+import Swal from "sweetalert2";
+// import GoogleLogin from "../../LoginPage/LoginPage";
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
@@ -15,52 +16,57 @@ function RightMenu(props) {
       if (response.status === 200) {
         props.history.push("/login");
       } else {
-        alert("Log Out Failed");
+        Swal.fire("Oops...", "로그인에 실패했습니다.", "error");
       }
     });
   };
 
   if (user.userData && !user.userData.isAuth) {
     return (
-      <Menu mode={props.mode}>
+      <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
         <Menu.Item key="mail">
-          <GoogleLogin />
+          <button>
+            <a href="/login">Login</a>
+          </button>
         </Menu.Item>
       </Menu>
     );
   } else {
     return (
-      <Menu mode={props.mode}>
+      <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
         {/* 회사 및 서비스 소개 페이지 만들기 */}
         <Menu.Item key="about">
-          <a href="#">About</a>
+          <a href="#" style={{ color: "#ffcb39" }}>
+            About
+          </a>
         </Menu.Item>
 
         <Menu.Item key="history">
-          <a href="/user/history">History</a>
+          <a href="/user/history" style={{ color: "#ffcb39" }}>
+            History
+          </a>
         </Menu.Item>
 
         <Menu.Item key="upload">
-          <a href="/product/upload">Upload</a>
+          <a href="/product/upload" style={{ color: "#ffcb39" }}>
+            Upload
+          </a>
         </Menu.Item>
-
-        <Menu.Item key="cart" style={{ paddingBottom: 3 }}>
-          <Badge count={user.userData && user.userData.cart.length}>
-            <a
-              href="/user/cart"
-              className="head-example"
-              style={{ marginRight: -22, color: "#667777" }}
-            >
-              <Icon
-                type="shopping-cart"
-                style={{ fontSize: 30, marginBottom: 3 }}
-              />
+        <Menu.Item key="cart">
+          <Badge
+            count={user.userData && user.userData.cart.length}
+            style={{ zIndex: 10 }}
+          >
+            <a href="/user/cart" style={{ color: "#ffcb39" }}>
+              Cart
             </a>
           </Badge>
         </Menu.Item>
 
         <Menu.Item key="logout">
-          <a onClick={logoutHandler}>Log out</a>
+          <a onClick={logoutHandler} style={{ color: "#ffcb39" }}>
+            Log out
+          </a>
         </Menu.Item>
       </Menu>
     );

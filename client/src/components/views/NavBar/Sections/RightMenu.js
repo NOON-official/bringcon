@@ -6,6 +6,7 @@ import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import "./Navbar.css"
 // import GoogleLogin from "../../LoginPage/LoginPage";
 
 function RightMenu(props) {
@@ -52,10 +53,10 @@ function RightMenu(props) {
             Upload
           </a>
         </Menu.Item>
-        <Menu.Item key="cart">
-          <Badge
+        <Menu.Item id="cart" key="cart">
+          <Badge 
             count={user.userData && user.userData.cart.length}
-            style={{ zIndex: 10 }}
+            style={{ zIndex: 1,  }}
           >
             <a href="/user/cart" style={{ color: "#ffcb39" }}>
               Cart

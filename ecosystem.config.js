@@ -2,7 +2,7 @@ module.exports = {
     apps: [
         {
             name: "client",
-            script: "npm run frontend",
+            script: "npm run frontend-prod",
             
             env: {
                 "PORT": 3000,

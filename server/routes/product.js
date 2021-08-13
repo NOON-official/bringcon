@@ -14,6 +14,7 @@ const config = require("../config/s3.json");
 
 const awsLoadPath = path.join(__dirname, "/../config/s3.json");
 aws.config.loadFromPath(awsLoadPath);
+aws.config.update({httpOptions: {timeout: 60000*5}}) //5분
 
 let s3 = new aws.S3();
 
@@ -25,26 +26,38 @@ let storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
       cb(null, `${Date.now()}_${file.originalname}`);
-  },
-  fileFilter: (req, file, cb) => {
-      const ext = path.extname(file.originalname)
-      if(ext !== '.mp4') {
-          return cb(res.status(400).end('only mp4 is allowd'), false);
-      }
-      cb(null, true)
   }
 });
 
-const uploadVideo = multer({storage: storage}).single("file");
+const fileFilter = function(req, file, cb) {
+  const ext = path.extname(file.originalname).toLowerCase();
+      if(ext === '.mp4' 
+      || ext === '.mov'
+      || ext === '.wmv'
+      || ext === '.avi'
+      || ext === '.avchd'
+      || ext === '.flv'
+      || ext === '.f4v'
+      || ext === '.swf'
+      || ext === '.mkv') {
+        return cb(null, true)
+      } else {
+        return cb('not allowed format', false);
+      }
+}
+
+const uploadVideo = multer({storage: storage, fileFilter: fileFilter}).single("file");
 
 router.post("/video", (req, res) => {
-  //비디오를 서버에 저장
-  uploadVideo(req, res, (err) => {
+    //비디오를 서버에 저장
+    uploadVideo(req, res, (err) => {
     if (err) {
       return res.json({ success: false, err });
     } else {
-      uploadVideoToS3(res.req.file.path, res.req.file.filename);
+      uploadVideoToS3(res.req.file.path, res.req.file.filename, req.file.mimetype);
+      
       let s3VideoPath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/${encodeURIComponent(res.req.file.filename)}`
+      
       return res.json({
         success: true,
         s3VideoPath: s3VideoPath,
@@ -55,15 +68,18 @@ router.post("/video", (req, res) => {
   });
 });
 
-function uploadVideoToS3(source, target) {
+function uploadVideoToS3(source, target, mimetype) {
   fs.readFile(source, function (err, data) {
-    //'base64',
+    // 파일 사이즈 가져오기
+    // const stats = fs.statSync(source)
+    // const fileSizeInBytes = stats.size;
+    // console.log(fileSizeInBytes)
     if (!err) {
       var params = {
         Bucket: "bringcon-bucket/uploads",
         Key: target,
         Body: data,
-        ContentType: "video/mp4",
+        ContentType: mimetype,
         ACL: "public-read",
       };
 
@@ -156,7 +172,7 @@ router.post("/", (req, res) => {
   });
 
   //로컬 파일 삭제
-  const filename = req.body.filePath.split('/uploads/')[1];
+  const filename = decodeURIComponent(req.body.filePath.split('/uploads/')[1]);
   const videoSource = `uploads/${filename}`
   const thumbnailSource = req.body.thumbnail
     

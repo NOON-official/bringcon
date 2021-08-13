@@ -7,7 +7,6 @@ import Radiobox from './Sections/RadioBox';
 import SearchFeature from './Sections/SearchFeature';
 import { genres, price } from './Sections/Datas';
 import ScrollHorizontal from 'react-scroll-horizontal';
-import StackGrid from "react-stack-grid";
 import './css/LandingPage.css'
 import HorizontalScroll from 'react-scroll-horizontal';
 
@@ -158,7 +157,7 @@ function LandingPage() {
                 
             </div>
             <div>
-            <div div style={{ display: 'flex', justifyContent: 'center', padding: '1em auto', backgroundColor: "#1C1C1C"}}>
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '1em auto', backgroundColor: "#1C1C1C"}}>
                 <span id="hash">동물</span>
                 <span id="hash">서버</span>
                 <span id="hash">수강신청</span>

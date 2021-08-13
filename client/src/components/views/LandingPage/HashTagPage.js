@@ -107,10 +107,16 @@ function HashTagPage(props) {
         </div>
         <br />
         <Meta
-          avatar={<Avatar src={product.writer.image} />}
+          avatar={
+            <a href={`/videos/${product.writer._id}`}>
+              <Avatar src={product.writer.image} />
+            </a>
+          }
           title={product.title}
         />
-        <span>{product.writer.name}</span>
+        <a href={`/videos/${product.writer._id}`}>
+          <span>{product.writer.name}</span>
+        </a>
         <span
           style={{
             marginRight: "10px",

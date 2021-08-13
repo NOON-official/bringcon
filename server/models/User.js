@@ -50,6 +50,9 @@ const userSchema = mongoose.Schema({
   accountHolder: {
     type: String,
   },
+  channelId: {
+    type: Array,
+  },
 });
 
 userSchema.pre("save", function (next) {

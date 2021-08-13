@@ -5,6 +5,7 @@ import axios from "axios";
 import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Swal from 'sweetalert2';
 // import GoogleLogin from "../../LoginPage/LoginPage";
 
 function RightMenu(props) {
@@ -15,7 +16,11 @@ function RightMenu(props) {
       if (response.status === 200) {
         props.history.push("/login");
       } else {
-        alert("Log Out Failed");
+        Swal.fire(
+          'Oops...',
+          '로그인에 실패했습니다.',
+          'error'
+        )
       }
     });
   };

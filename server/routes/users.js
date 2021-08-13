@@ -6,6 +6,7 @@ const { Order } = require("../models/Order");
 
 const { auth } = require("../middleware/auth");
 const async = require("async");
+const { default: axios } = require("axios");
 
 //=================================
 //             User
@@ -234,7 +235,6 @@ router.post("/successBuy", auth, (req, res) => {
   );
 });
 
-//api 수정중
 router.post("/account", (req, res) => {
   console.log(req.body);
   User.findOneAndUpdate(

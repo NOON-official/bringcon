@@ -17,8 +17,10 @@ import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
 import AddAccount from "./views/MyPage/AddAccount";
 import MyPage from "./views/MyPage/MyPage";
-import './App.css';
+import AdminLandingPage from "./admin/AdminLandingPage/AdminLandingPage";
+import "./App.css";
 import UserVideos from "./views/LandingPage/UserVideos";
+import AdminDetailProductPage from "./admin/DetailProductPage/DetailProductPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -52,7 +54,6 @@ function App() {
             path="/videos/:userId"
             component={Auth(UserVideos, null)}
           />
-
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route
             exact
@@ -72,6 +73,17 @@ function App() {
             component={Auth(BoardWriteForm, true)}
           ></Route>
           <Route path="/board/detail" component={BoardDetail}></Route>
+          // admin pages
+          <Route
+            exact
+            path="/adminpage"
+            component={Auth(AdminLandingPage, true, true)}
+          />
+          <Route
+            exact
+            path="/product_admin/:productId"
+            component={Auth(AdminDetailProductPage, true, true)}
+          />
         </Switch>
         <CommunicationChat />
       </div>

@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch } from "react-redux";
-import { Avatar, Icon, Col, Row } from 'antd';
+import { Avatar} from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import { Descriptions } from "antd";
 import Comment from './Comment';
+import Collection from './Collection';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../css/Tabs.css';
+import '../css/UserVideo.css';
+
 
 function Tabs(props) {
-    console.log(props)
+    console.log("Tabs",props)
   const productId = props.detail._id;
   const [toggleState, setToggleState] = useState(1);
   const [CommentLists, setCommentLists] = useState([]);
@@ -83,31 +85,25 @@ function Tabs(props) {
             })}
         </div>
           <hr />
-          {/* <div>
+          <div>
             <Meta
                 avatar={
-                    <Avatar className="Avatar" src={product.writer.image} />
+                    <Avatar className="Avatar" src={props.detail.writer && props.detail.writer.image}/>
                 }
-                title={product.title}
+                title={props.detail.writer && props.detail.writer.name}
             />
-            <span>{product.writer.name}</span>
-          </div> */}
-          <p>
+           
+          </div>
+          <p className="content-details">
           {props.detail.description}
           </p>
         </div>
-
+        
         <div
           className={toggleState === 2 ? "content  active-content" : "content"}
         >
-          <h2>Content 2</h2>
-          <hr />
           <div>
-              {/* <Descriptions>
-              <Descriptions.Item label="Description">
-                  {props.detail.description}
-                </Descriptions.Item>
-              </Descriptions> */}
+            <Collection/>
           </div>
           {/* <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
@@ -118,8 +114,6 @@ function Tabs(props) {
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
-          <h2>Content 3</h2>
-          <hr />
           <Comment refreshFunction={updateComment} commentLists={Comment} postId={productId}/>
         </div>
       </div>

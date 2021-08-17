@@ -14,7 +14,7 @@ const config = require("../config/s3.json");
 
 const awsLoadPath = path.join(__dirname, "/../config/s3.json");
 aws.config.loadFromPath(awsLoadPath);
-aws.config.update({httpOptions: {timeout: 60000*5}}) //5분
+aws.config.update({ httpOptions: { timeout: 60000 * 5 } }); //5분
 
 let s3 = new aws.S3();
 
@@ -22,42 +22,52 @@ let s3 = new aws.S3();
 // STORAGE MULTER CONFIG
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, "uploads/");
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-      cb(null, `${Date.now()}_${file.originalname}`);
-  }
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
 });
 
-const fileFilter = function(req, file, cb) {
+const fileFilter = function (req, file, cb) {
   const ext = path.extname(file.originalname).toLowerCase();
-      if(ext === '.mp4' 
-      || ext === '.mov'
-      || ext === '.wmv'
-      || ext === '.avi'
-      || ext === '.avchd'
-      || ext === '.flv'
-      || ext === '.f4v'
-      || ext === '.swf'
-      || ext === '.mkv') {
-        return cb(null, true)
-      } else {
-        return cb('not allowed format', false);
-      }
-}
+  if (
+    ext === ".mp4" ||
+    ext === ".mov" ||
+    ext === ".wmv" ||
+    ext === ".avi" ||
+    ext === ".avchd" ||
+    ext === ".flv" ||
+    ext === ".f4v" ||
+    ext === ".swf" ||
+    ext === ".mkv"
+  ) {
+    return cb(null, true);
+  } else {
+    return cb("not allowed format", false);
+  }
+};
 
-const uploadVideo = multer({storage: storage, fileFilter: fileFilter}).single("file");
+const uploadVideo = multer({ storage: storage, fileFilter: fileFilter }).single(
+  "file"
+);
 
 router.post("/video", (req, res) => {
-    //비디오를 서버에 저장
-    uploadVideo(req, res, (err) => {
+  //비디오를 서버에 저장
+  uploadVideo(req, res, (err) => {
     if (err) {
       return res.json({ success: false, err });
     } else {
-      uploadVideoToS3(res.req.file.path, res.req.file.filename, req.file.mimetype);
-      
-      let s3VideoPath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/${encodeURIComponent(res.req.file.filename)}`
-      
+      uploadVideoToS3(
+        res.req.file.path,
+        res.req.file.filename,
+        req.file.mimetype
+      );
+
+      let s3VideoPath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/${encodeURIComponent(
+        res.req.file.filename
+      )}`;
+
       return res.json({
         success: true,
         s3VideoPath: s3VideoPath,
@@ -66,6 +76,25 @@ router.post("/video", (req, res) => {
       });
     }
   });
+});
+
+router.post("/permission", (req, res) => {
+  const productId = req.query.id;
+
+  Product.findOneAndUpdate(
+    { _id: productId },
+    {
+      $set: {
+        judged: true,
+      },
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+
+      res.status(200).json({ success: true });
+    }
+  );
 });
 
 function uploadVideoToS3(source, target, mimetype) {
@@ -117,7 +146,9 @@ router.post("/thumbnail", (req, res) => {
       //썸네일 생성 끝난 후
       console.log("Screenshots taken");
       uploadThumbnail(filePath, fileName); // S3에 업로드
-      let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(fileName)}`;
+      let s3FilePath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/thumbnails/${encodeURIComponent(
+        fileName
+      )}`;
       return res.json({
         success: true,
         filePath: filePath,
@@ -172,17 +203,17 @@ router.post("/", (req, res) => {
   });
 
   //로컬 파일 삭제
-  const filename = decodeURIComponent(req.body.filePath.split('/uploads/')[1]);
-  const videoSource = `uploads/${filename}`
-  const thumbnailSource = req.body.thumbnail
-    
+  const filename = decodeURIComponent(req.body.filePath.split("/uploads/")[1]);
+  const videoSource = `uploads/${filename}`;
+  const thumbnailSource = req.body.thumbnail;
+
   fs.unlink(videoSource, (err) => {
-      if(err) console.log(err)
-      else console.log('local video is successfully deleted')
+    if (err) console.log(err);
+    else console.log("local video is successfully deleted");
   });
   fs.unlink(thumbnailSource, (err) => {
-      if(err) console.log(err)
-      else console.log('local thumbnail is successfully deleted')
+    if (err) console.log(err);
+    else console.log("local thumbnail is successfully deleted");
   });
 });
 
@@ -256,6 +287,7 @@ router.post("/products", (req, res) => {
       term = term.substring(1); //'#' 제거
 
       Product.find(findArgs)
+        .find({ judged: true })
         .find({ tags: term })
         .populate("writer")
         .sort([[sortBy, order]])
@@ -271,6 +303,7 @@ router.post("/products", (req, res) => {
     } else {
       //문자열 검색
       Product.find(findArgs)
+        .find({ judged: true })
 
         //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
         //Product 컬렉션 안에 있는 데이터 중 term과 일치하는 자료 가져옴
@@ -290,6 +323,92 @@ router.post("/products", (req, res) => {
   } else {
     //검색어가 없으면, 원래대로 프로세스 수행
     Product.find(findArgs)
+      .find({ judged: true })
+      .populate("writer")
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res.status(200).json({
+          success: true,
+          productInfo,
+          postSize: productInfo.length,
+        });
+      });
+  }
+});
+
+//데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
+router.post("/products_admin", (req, res) => {
+  let order = req.body.order ? req.body.order : "desc";
+  let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+  // product collection에 들어 있는 모든 상품 정보를 가져오기
+  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let term = req.body.searchTerm; //서치바에서 검색한 단어 ex) 'mexico'
+
+  let findArgs = {};
+
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      console.log("key", key);
+
+      if (key === "price") {
+        findArgs[key] = {
+          //Greater than equal
+          $gte: req.body.filters[key][0],
+          //Less than equal
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
+    }
+  }
+
+  if (term) {
+    //검색어가 있으면
+    if (term.startsWith("#")) {
+      //해쉬태그 검색하는 경우
+      term = term.substring(1); //'#' 제거
+
+      Product.find(findArgs)
+        .find({ judged: false })
+        .find({ tags: term })
+        .populate("writer")
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .exec((err, productInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({
+            success: true,
+            productInfo,
+            postSize: productInfo.length,
+          });
+        });
+    } else {
+      //문자열 검색
+      Product.find(findArgs)
+        .find({ judged: false })
+
+        //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
+        //Product 컬렉션 안에 있는 데이터 중 term과 일치하는 자료 가져옴
+        .find({ $text: { $search: term } })
+        .populate("writer")
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .exec((err, productInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({
+            success: true,
+            productInfo,
+            postSize: productInfo.length,
+          });
+        });
+    }
+  } else {
+    //검색어가 없으면, 원래대로 프로세스 수행
+    Product.find(findArgs)
+      .find({ judged: false })
       .populate("writer")
       .sort([[sortBy, order]])
       .skip(skip)
@@ -369,6 +488,7 @@ router.post("/products_by_hashtag", (req, res) => {
       term = term.substring(1); //'#' 제거
 
       Product.find(findArgs)
+        .find({ judged: true })
         .find({ tags: tag })
         .find({ tags: term })
         .populate("writer")
@@ -386,6 +506,7 @@ router.post("/products_by_hashtag", (req, res) => {
     } else {
       //문자열 검색
       Product.find(findArgs)
+        .find({ judged: true })
         .find({ tags: tag })
 
         //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
@@ -407,6 +528,7 @@ router.post("/products_by_hashtag", (req, res) => {
   } else {
     //검색어가 없으면, 원래대로 프로세스 수행
     Product.find(findArgs)
+      .find({ judged: true })
       .find({ tags: tag })
       .populate("writer")
       .sort([[sortBy, order]])

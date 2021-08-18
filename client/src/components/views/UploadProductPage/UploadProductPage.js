@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Progress from "../Progress/Progress";
 import Dropzone from "react-dropzone";
 import { Form, Input, Icon } from "antd";
 import Axios from "axios";
@@ -235,8 +234,6 @@ function UploadProductPage(props) {
             </div>
           )} */}
         </div>
-        <Progress percentage={progress}/>
-        <br />
         <br />
         <label>이름</label>
         <Input onChange={titleChangeHandler} value={Title} />

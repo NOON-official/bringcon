@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Input } from "antd";
-import "../css/SearchBar.css";
-import CheckBox from "./CheckBox";
+import "../css/AdminSearchBar.css";
 
 const { Search } = Input;
 

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Tabs from "./Sections/Tabs";
+import Tabs from "./Sections/AdminTabs";
 import { Row, Col } from "antd";
 import { useDispatch } from "react-redux";
 import Ratio from "react-ratio";
 import styled from "styled-components";
 import { Button } from "antd";
 import Swal from "sweetalert2";
-import "./css/DetailPage.css";
+import "./css/AdminDetailPage.css";
 
-function DetailProductPage(props) {
+function AdminDetailPage(props) {
   const dispatch = useDispatch();
   const productId = props.match.params.productId;
   const [Product, setProduct] = useState({});
@@ -95,4 +95,4 @@ function DetailProductPage(props) {
   );
 }
 
-export default DetailProductPage;
+export default AdminDetailPage;

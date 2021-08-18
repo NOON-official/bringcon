@@ -12,6 +12,8 @@ import '../css/UserVideo.css';
 
 
 function Tabs(props) {
+  console.log(props)
+  
   const productId = props.detail._id;
   const variable = { productId: productId }
 
@@ -102,7 +104,7 @@ function Tabs(props) {
           className={toggleState === 2 ? "content  active-content" : "content"}
         >
           <div>
-            <Collection/>
+            <Collection writer={props.detail.writer}/>
           </div>
           {/* <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente

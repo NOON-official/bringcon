@@ -17,10 +17,10 @@ import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
 import AddAccount from "./views/MyPage/AddAccount";
 import MyPage from "./views/MyPage/MyPage";
-import AdminLandingPage from "./admin/AdminLandingPage/AdminLandingPage";
+import AdminLandingPage from "./AdminPage/AdminLandingPage/AdminLandingPage";
 import "./App.css";
 import UserVideos from "./views/LandingPage/UserVideos";
-import AdminDetailProductPage from "./admin/DetailProductPage/DetailProductPage";
+import AdminDetailPage from "./AdminPage/AdminDetailPage/AdminDetailPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -82,7 +82,7 @@ function App() {
           <Route
             exact
             path="/product_admin/:productId"
-            component={Auth(AdminDetailProductPage, true, true)}
+            component={Auth(AdminDetailPage, true, true)}
           />
         </Switch>
         <CommunicationChat />

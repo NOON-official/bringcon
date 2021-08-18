@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch } from "react-redux";
 import { Avatar} from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import Comment from './Comment';
+import { Descriptions } from "antd";
+import CommentTab from './CommentTab';
 import Collection from './Collection';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -11,39 +12,37 @@ import '../css/UserVideo.css';
 
 
 function Tabs(props) {
-    console.log("Tabs",props)
   const productId = props.detail._id;
-  const [toggleState, setToggleState] = useState(1);
-  const [CommentLists, setCommentLists] = useState([]);
-  const body = {
-      productId: productId
-  }
+  const variable = { productId: productId }
 
-  const dispatch = useDispatch();
+  const [toggleState, setToggleState] = useState(1);
+  const [Comments, setComments] = useState([]);
+
+  useEffect(() => {
+    if(productId !== undefined) {
+    axios.post('/api/comment/getComments', variable)
+      .then(response => {
+          if(response.data.success) {
+              setComments(response.data.comments)
+          } else {
+              Swal.fire(
+                  'Oops...',
+                  '후기를 가져오지 못했어요',
+                  'error'
+              )
+          }
+      })
+    }      
+}, [props])
 
   const toggleTab = (index) => {
     setToggleState(index);
   };
 
-  const updateComment = (newComment) => {
-      setCommentLists(CommentLists.concat(newComment))
-  }
+  const refreshFunction = (newComment) => {
+    setComments(Comments.concat(newComment))
+}
 
-  useEffect(() => {
-      axios.post('api/comment/getComments', body)
-        .then(response => {
-            if(response.data.success) {
-                console.log('response.data.comments', response.data.comment)
-                setCommentLists(response.data.comments)
-            } else {
-                Swal.fire(
-                    'Oops...',
-                    '후기를 가져오지 못했어요',
-                    'error'
-                )
-            }
-        })
-  }, [])
 
   return (
     <div className="container">
@@ -114,7 +113,9 @@ function Tabs(props) {
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
-          <Comment refreshFunction={updateComment} commentLists={Comment} postId={productId}/>
+          <h2>Content 3</h2>
+          <hr />
+          <CommentTab refreshFunction={refreshFunction} commentLists={Comments} postId={productId}/>
         </div>
       </div>
     </div>

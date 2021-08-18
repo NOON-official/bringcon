@@ -71,7 +71,7 @@ function DetailProductPage(props) {
             <span id="view">view: {Product.views}</span>
           </div>
           <Button
-            class="addtocart"
+            className="addtocart"
             size="large"
             shape="round"
             onClick={clickHandler}
@@ -79,7 +79,7 @@ function DetailProductPage(props) {
             여행 목록에 담기
           </Button>
           <Button
-            class="addtocart"
+            className="addtocart"
             size="large"
             shape="round"
             onClick={clickHandler}

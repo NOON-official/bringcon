@@ -1,47 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import { useDispatch } from "react-redux";
-import { Avatar, Icon, Col, Row } from 'antd';
-import Meta from 'antd/lib/card/Meta';
-import { Descriptions } from "antd";
-import Comment from './Comment';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import '../css/Tabs.css';
+import React, { useState } from 'react';
+import '../css/AdminTabs.css';
 
-function Tabs(props) {
-    console.log(props)
-  const productId = props.detail._id;
+function AdminTabs(props) {
   const [toggleState, setToggleState] = useState(1);
-  const [CommentLists, setCommentLists] = useState([]);
-  const body = {
-      productId: productId
-  }
-
-  const dispatch = useDispatch();
 
   const toggleTab = (index) => {
     setToggleState(index);
   };
-
-  const updateComment = (newComment) => {
-      setCommentLists(CommentLists.concat(newComment))
-  }
-
-  useEffect(() => {
-      axios.post('api/comment/getComments', body)
-        .then(response => {
-            if(response.data.success) {
-                console.log('response.data.comments', response.data.comment)
-                setCommentLists(response.data.comments)
-            } else {
-                Swal.fire(
-                    'Oops...',
-                    '후기를 가져오지 못했어요',
-                    'error'
-                )
-            }
-        })
-  }, [])
 
   return (
     <div className="container">
@@ -102,17 +67,6 @@ function Tabs(props) {
         >
           <h2>Content 2</h2>
           <hr />
-          <div>
-              {/* <Descriptions>
-              <Descriptions.Item label="Description">
-                  {props.detail.description}
-                </Descriptions.Item>
-              </Descriptions> */}
-          </div>
-          {/* <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-            voluptatum qui adipisci.
-          </p> */}
         </div>
 
         <div
@@ -120,11 +74,10 @@ function Tabs(props) {
         >
           <h2>Content 3</h2>
           <hr />
-          <Comment refreshFunction={updateComment} commentLists={Comment} postId={productId}/>
         </div>
       </div>
     </div>
   );
 }
 
-export default Tabs;
+export default AdminTabs;

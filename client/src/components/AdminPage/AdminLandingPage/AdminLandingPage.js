@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Avatar, Icon, Col, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
-import Checkbox from "./Sections/CheckBox";
-import Radiobox from "./Sections/RadioBox";
 import SearchFeature from "./Sections/SearchFeature";
 import { genres, price } from "./Sections/Datas";
-import ScrollHorizontal from "react-scroll-horizontal";
-import "./css/LandingPage.css";
+import "./css/AdminLandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 
-function LandingPage() {
+function AdminLandingPage() {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
   const [PostSize, setPostSize] = useState(0);
@@ -165,4 +162,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default AdminLandingPage;

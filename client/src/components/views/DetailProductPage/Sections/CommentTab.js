@@ -43,6 +43,8 @@ function CommentTab(props) {
     }
 
     return (
+        <div>
+            <div className="total-comments" style={{color: "#ffcb39", float:'right', fontSize: '16px'}}>총 {props.commentLists.length}개의 후기가 있습니다.</div>
         <div className="commentlist">
             <br/>
             
@@ -50,16 +52,17 @@ function CommentTab(props) {
 
             {props.commentLists && props.commentLists.map((comment, index) => (
                 <React.Fragment key={index}>
-                    <div>
+                    <div className="comment">
                         <Comment
                             author={comment.writer.name}
                             avatar = {
                                 <Avatar
+                                    style={{width:"42px", height:"42px"}}
                                     src={comment.writer && comment.writer.image}
                                     alt="image"/>
                             }
                             content = {
-                                <p>
+                                <p className="comment-content">
                                     {comment.content}
                                 </p>
                             }>
@@ -67,23 +70,28 @@ function CommentTab(props) {
                     </div>
                 </React.Fragment>
             ))}
-
-            <hr/>
-
-            {/* Comment Form */}
-
-            <form style={{display: 'flex'}} onSubmit={onSubmit}>
-                <TextArea
-                    style={{width:'100%', borderRadius: '5px'}}
-                    onChange={handleClick}
-                    value={commentValue}
-                    placeholder="후기를 작성해주세요"
-                />
-                <br/>
-                <Button style={{width: '20%', height: '52px'}}
-                onClick={onSubmit}>Submit</Button>
-            </form>
         </div>
+        <form style={{display: 'flex'}} onSubmit={onSubmit}>
+            <Avatar
+                className="comment-writer-image"
+                style={{width:"42px", height:"42px", marginRight:"15px"}}
+                src={user.userData && user.userData.image}
+                alt="image"/>
+        <TextArea
+            className="review-input"
+            style={{width:'336px'}}
+            onChange={handleClick}
+            value={commentValue}
+            placeholder="후기를 작성해주세요"
+        />
+        <br/>
+        <Button className="review-upload-button" style={{width: '84px', height: '42px'}}
+        onClick={onSubmit}>Submit</Button>
+    </form>
+        <div>
+       
+    </div>
+    </div>
     )
 }
 

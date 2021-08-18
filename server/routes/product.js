@@ -78,25 +78,6 @@ router.post("/video", (req, res) => {
   });
 });
 
-router.post("/permission", (req, res) => {
-  const productId = req.query.id;
-
-  Product.findOneAndUpdate(
-    { _id: productId },
-    {
-      $set: {
-        judged: true,
-      },
-    },
-    { new: true },
-    (err, doc) => {
-      if (err) return res.json({ success: false, err });
-
-      res.status(200).json({ success: true });
-    }
-  );
-});
-
 function uploadVideoToS3(source, target, mimetype) {
   fs.readFile(source, function (err, data) {
     // 파일 사이즈 가져오기
@@ -627,6 +608,25 @@ router.post("/products_by_userId", (req, res) => {
         });
       });
   }
+});
+
+router.post("/permission", (req, res) => {
+  const productId = req.query.id;
+
+  Product.findOneAndUpdate(
+    { _id: productId },
+    {
+      $set: {
+        judged: true,
+      },
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+
+      res.status(200).json({ success: true });
+    }
+  );
 });
 
 module.exports = router;

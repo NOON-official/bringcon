@@ -3,49 +3,36 @@ import axios from "axios";
 import '../css/UserVideo.css';
 
 function Collection(props) {
-  const userId = "610b4d9f669e491c54fd7ef8";
-
+  console.log(props)
+  const [UserId, setUserId] = useState("");
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
-  const [PostSize, setPostSize] = useState(0);
 
-  //처음 실행시 getProducts 작동!
+  if(props.writer !== undefined && UserId===""){
+    setUserId(props.writer._id)
+  }
+
+  // UserId 가져온 후 getProducts 작동!
   useEffect(() => {
-    let body = {
-      skip: Skip,
-    };
-
-    getProducts(body);
-  }, []);
+    if(UserId !== ""){
+      let body = {
+        skip: Skip,
+      };
+      getProducts(body);
+    }
+  }, [UserId]);
 
   //새롭게 아이템들을 가져와줌
   const getProducts = (body) => {
     axios
-      .post(`/api/product/products_by_userId?userId=${userId}`, body)
+      .post(`/api/product/products_by_userId?userId=${UserId}`, body)
       .then((response) => {
         if (response.data.success) {
-          if (body.loadMore) {
-            setProducts([...Products, ...response.data.productInfo]);
-          } else {
-            setProducts(response.data.productInfo);
-          }
-          setPostSize(response.data.postSize);
+          setProducts(response.data.productInfo);
         } else {
-          alert(" 상품들을 가져오는데 실패 했습니다.");
+          alert("상품들을 가져오는데 실패 했습니다.");
         }
       });
-  };
-
-  // 더보기 눌렀을 때 getProducts 작동!
-  const loadMoreHanlder = () => {
-    let skip = Skip;
-    let body = {
-      skip: skip,
-      loadMore: true,
-    };
-
-    getProducts(body);
-    setSkip(skip);
   };
 
   function handleMouseover(e) {
@@ -57,19 +44,7 @@ function Collection(props) {
     e.currentTarget.currentTime = 0;
   }
 
-  //처음 실행시 getProducts 작동!
-  useEffect(() => {
-    let body = {
-      skip: Skip,
-    };
-
-    getProducts(body);
-  }, []);
-
   const renderCards = Products.map((product, index) => {
-    // var minutes = Math.floor(product.duration / 60);
-    // var seconds = Math.floor(product.duration - minutes * 60);
-
     return (
       <div className="uservideo-container">
         <div className="description-box"

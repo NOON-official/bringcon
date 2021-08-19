@@ -35,7 +35,6 @@ function Tabs(props) {
         <div
           className={toggleState === 1 ? "content  active-content" : "content"}
         >
-          <h1>my page!</h1>
           <h2>프로필 이미지</h2>
           <Avatar
             src={props.detail.userData && props.detail.userData.image}
@@ -43,16 +42,25 @@ function Tabs(props) {
           ></Avatar>
 
           <h2>name : {props.detail.userData && props.detail.userData.name}</h2>
+          <h2>
+            email : {props.detail.userData && props.detail.userData.email}{" "}
+          </h2>
 
           <h2>
-            계좌 번호 :
-            {props.detail.userData && props.detail.userData.accountNumber}
+            계좌 정보 :
+            {props.detail.userData ? (
+              props.detail.userData.accountNumber === undefined ? (
+                <a href="/user/account">계좌정보를 입력해주세요. </a>
+              ) : (
+                `${props.detail.userData.accountNumber}  ${props.detail.userData.bank}  ${props.detail.userData.accountHolder}`
+              )
+            ) : (
+              <div></div>
+            )}
           </h2>
-          <h2>
-            예금주 :
-            {props.detail.userData && props.detail.userData.accountHolder}
-          </h2>
-          <h2>은행 : {props.detail.userData && props.detail.userData.bank}</h2>
+          <a href="/user/info">기본 정보 수정하기</a>
+          <br />
+          <a href="/user/account">계좌 정보 수정하기</a>
         </div>
       </div>
       <div

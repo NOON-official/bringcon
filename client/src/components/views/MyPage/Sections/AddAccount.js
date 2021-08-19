@@ -59,7 +59,7 @@ function AddAccount(props) {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    if (!Bank || !Holder || !Number === 0) {
+    if (!Bank || !Holder || !Number) {
       return alert(" 모든 값을 넣어주셔야 합니다.");
     }
 

@@ -260,9 +260,24 @@ router.post("/account", (req, res) => {
   );
 });
 
-// updatae user information
-router.post("/update/image", (req, res) => {
-  console.log("updating image");
+
+router.post("/info", (req, res) => {
+  console.log(req.body);
+  User.findOneAndUpdate(
+    { _id: req.body._id },
+    {
+      $set: {
+        name : req.body.name,
+      },
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      res.status(200).json({
+        success: true,
+      });
+    }
+  );
 });
 
 module.exports = router;

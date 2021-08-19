@@ -15,12 +15,13 @@ import CommunicationChat from "./views/Chatbot/Chat";
 import BodyPage from "./views/Board/BodyPage";
 import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
-import AddAccount from "./views/MyPage/AddAccount";
+import AddAccount from "./views/MyPage/Sections/AddAccount";
 import MyPage from "./views/MyPage/MyPage";
 import AdminLandingPage from "./admin/AdminLandingPage/AdminLandingPage";
 import "./App.css";
 import UserVideos from "./views/LandingPage/UserVideos";
 import AdminDetailProductPage from "./admin/DetailProductPage/DetailProductPage";
+import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -64,6 +65,11 @@ function App() {
             exact
             path="/user/account"
             component={Auth(AddAccount, true)}
+          />
+          <Route
+            exact
+            path="/user/info"
+            component={Auth(UpdateUserInfo, true)}
           />
           <Route exact path="/user/mypage" component={Auth(MyPage, true)} />
           <Route exact path="/board" component={Auth(BodyPage, null)} />

@@ -27,7 +27,7 @@ function UploadProductPage(props) {
   const [FilePath, setFilePath] = useState("");
   const [Duration, setDuration] = useState("");
   const [ThumbnailPath, setThumbnailPath] = useState("");
-  const [S3thumbnailPath, setS3thumbnailPath] = useState("")
+  const [S3thumbnailPath, setS3thumbnailPath] = useState("");
   const [Tags, setTags] = useState([]);
   const [progress, setProgress] = useState(0);
 
@@ -60,7 +60,7 @@ function UploadProductPage(props) {
   const updateImages = (newImages) => {
     setImages(newImages);
   };
-  
+
   const resetHandler = (event) => {
     event.preventDefault();
     setImages([]);
@@ -74,26 +74,27 @@ function UploadProductPage(props) {
     setTags([]);
     setProgress(0);
     alert("초기화되었습니다.");
-  }
-  
+  };
+
   const dropHandler = (files) => {
     setProgress(0);
     let formData = new FormData();
     const config = {
-      header: { "content-type": "multipart/form-data"},
+      header: { "content-type": "multipart/form-data" },
       //프로그레스 바 상태 config에 추가
-      onUploadProgress: progressEvent => {
+      onUploadProgress: (progressEvent) => {
         setProgress(
-          parseInt (
+          parseInt(
             Math.round((progressEvent.loaded * 100) / progressEvent.total)
           )
         );
-      }
+      },
     };
-    
+
     formData.append("file", files[0]);
 
     Axios.post("/api/product/video", formData, config).then((response) => {
+      console.log(user);
       if (response.data.success) {
         let variable = {
           filePath: response.data.filePath,
@@ -106,7 +107,7 @@ function UploadProductPage(props) {
           if (response.data.success) {
             setDuration(response.data.fileDuration);
             setThumbnailPath(response.data.filePath);
-            setS3thumbnailPath(response.data.s3FilePath)
+            setS3thumbnailPath(response.data.s3FilePath);
             setImages((Images) => [...Images, response.data.filePath]);
           } else {
             setProgress(0);
@@ -114,8 +115,8 @@ function UploadProductPage(props) {
           }
         });
       } else {
-        if(response.data.err === 'not allowed format'){
-          alert("파일 확장자를 확인해주세요.")
+        if (response.data.err === "not allowed format") {
+          alert("파일 확장자를 확인해주세요.");
         } else {
           alert("파일을 저장하는데 실패했습니다.");
         }
@@ -132,7 +133,7 @@ function UploadProductPage(props) {
     }
 
     //서버에 채운 값들을 request로 보낸다.
-  
+
     const body = {
       //로그인 된 사람의 ID
       writer: user.userData._id,
@@ -235,7 +236,7 @@ function UploadProductPage(props) {
             </div>
           )} */}
         </div>
-        <Progress percentage={progress}/>
+        <Progress percentage={progress} />
         <br />
         <br />
         <label>이름</label>
@@ -284,7 +285,7 @@ function UploadProductPage(props) {
             />
           </div>
         </div>
-        <button onClick = {resetHandler}>초기화</button>
+        <button onClick={resetHandler}>초기화</button>
         <button type="submit">확인</button>
       </Form>
     </div>

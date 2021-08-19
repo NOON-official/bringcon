@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Avatar, Icon, Col, Row } from 'antd';
-import Meta from 'antd/lib/card/Meta';
+import { Avatar, Icon, Col, Row } from "antd";
+import Meta from "antd/lib/card/Meta";
 import { Descriptions } from "antd";
-import Comment from './Comment';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import '../css/Tabs.css';
+import Comment from "./Comment";
+import axios from "axios";
+import Swal from "sweetalert2";
+import "../css/Tabs.css";
 
 function Tabs(props) {
-    console.log(props)
+  console.log(props);
   const productId = props.detail._id;
   const [toggleState, setToggleState] = useState(1);
   const [CommentLists, setCommentLists] = useState([]);
   const body = {
-      productId: productId
-  }
+    productId: productId,
+  };
 
   const dispatch = useDispatch();
 
@@ -24,24 +24,19 @@ function Tabs(props) {
   };
 
   const updateComment = (newComment) => {
-      setCommentLists(CommentLists.concat(newComment))
-  }
+    setCommentLists(CommentLists.concat(newComment));
+  };
 
   useEffect(() => {
-      axios.post('api/comment/getComments', body)
-        .then(response => {
-            if(response.data.success) {
-                console.log('response.data.comments', response.data.comment)
-                setCommentLists(response.data.comments)
-            } else {
-                Swal.fire(
-                    'Oops...',
-                    '후기를 가져오지 못했어요',
-                    'error'
-                )
-            }
-        })
-  }, [])
+    axios.get("api/comment/getComments").then((response) => {
+      if (response.data.success) {
+        console.log("response.data.comments", response.data.comment);
+        setCommentLists(response.data.comments);
+      } else {
+        Swal.fire("Oops...", "후기를 가져오지 못했어요", "error");
+      }
+    });
+  }, []);
 
   return (
     <div className="container">
@@ -72,16 +67,16 @@ function Tabs(props) {
         >
           {/* 해시태그 있어야 하는 부분 */}
           <div>
-              {props.detail.tags &&
-            props.detail.tags.map((tag) => {
-              return (
-                <a href={`/hashtag/${tag}`} className="link-tags">
-                  {" "}
-                  <li className="content-tags">{tag}</li>{" "}
-                </a>
-              );
-            })}
-        </div>
+            {props.detail.tags &&
+              props.detail.tags.map((tag) => {
+                return (
+                  <a href={`/hashtag/${tag}`} className="link-tags">
+                    {" "}
+                    <li className="content-tags">{tag}</li>{" "}
+                  </a>
+                );
+              })}
+          </div>
           <hr />
           {/* <div>
             <Meta
@@ -92,9 +87,7 @@ function Tabs(props) {
             />
             <span>{product.writer.name}</span>
           </div> */}
-          <p>
-          {props.detail.description}
-          </p>
+          <p>{props.detail.description}</p>
         </div>
 
         <div
@@ -103,7 +96,7 @@ function Tabs(props) {
           <h2>Content 2</h2>
           <hr />
           <div>
-              {/* <Descriptions>
+            {/* <Descriptions>
               <Descriptions.Item label="Description">
                   {props.detail.description}
                 </Descriptions.Item>
@@ -120,7 +113,11 @@ function Tabs(props) {
         >
           <h2>Content 3</h2>
           <hr />
-          <Comment refreshFunction={updateComment} commentLists={Comment} postId={productId}/>
+          <Comment
+            refreshFunction={updateComment}
+            commentLists={Comment}
+            postId={productId}
+          />
         </div>
       </div>
     </div>

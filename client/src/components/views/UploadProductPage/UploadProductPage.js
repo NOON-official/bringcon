@@ -4,6 +4,7 @@ import { Form, Input, Icon } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import "../../utils/Hashtag.css";
+import Progress from "../../utils/Progress/Progress";
 const { TextArea } = Input;
 
 const Genres = [
@@ -172,31 +173,41 @@ function UploadProductPage(props) {
       </div>
 
       <Form onSubmit={submitHandler}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          {/* DropZone */}
-          <Dropzone
-            onDrop={dropHandler}
-            multiple={false}
-            // maxSize={100000000}
-            refreshFunction={updateImages}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <div
-                style={{
-                  width: 336,
-                  height: 189,
-                  border: "1px solid lightgray",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                {...getRootProps()}
-              >
-                <input {...getInputProps()} />
-                <Icon type="plus" style={{ fontSize: "3rem" }} />
-              </div>
-            )}
-          </Dropzone>
+        <div style={{ justifyContent: "space-between" }}>
+          {!progress ? (
+            <Dropzone
+              onDrop={dropHandler}
+              multiple={false}
+              // maxSize={100000000}
+              refreshFunction={updateImages}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <div
+                  style={{
+                    width: 336,
+                    height: 189,
+                    border: "1px solid lightgray",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  {...getRootProps()}
+                >
+                  <input {...getInputProps()} />
+                  <Icon type="plus" style={{ fontSize: "3rem" }} />
+                </div>
+              )}
+            </Dropzone>
+          ) : ThumbnailPath ? (
+            <div>
+              <img
+                src={`http://localhost:5000/${ThumbnailPath}`}
+                alt="thumbnail"
+              />
+            </div>
+          ) : (
+            <Progress percentage={progress} />
+          )}
 
           {/* <div
             style={{
@@ -215,15 +226,6 @@ function UploadProductPage(props) {
               </div>
             ))}
           </div> */}
-
-          {ThumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
-            <div>
-              <img
-                src={`http://localhost:5000/${ThumbnailPath}`}
-                alt="thumbnail"
-              />
-            </div>
-          )}
 
           {/* 배포용 ( 삭제 X ) */}
           {/* {S3thumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링

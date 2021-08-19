@@ -1,42 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Avatar, Icon, Col, Row } from "antd";
+import { Avatar } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Descriptions } from "antd";
-import Comment from "./Comment";
+import CommentTab from "./CommentTab";
+import Collection from "./Collection";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "../css/Tabs.css";
+import "../css/UserVideo.css";
 
 function Tabs(props) {
   console.log(props);
-  const productId = props.detail._id;
-  const [toggleState, setToggleState] = useState(1);
-  const [CommentLists, setCommentLists] = useState([]);
-  const body = {
-    productId: productId,
-  };
 
-  const dispatch = useDispatch();
+  const productId = props.detail._id;
+  const variable = { productId: productId };
+
+  const [toggleState, setToggleState] = useState(1);
+  const [Comments, setComments] = useState([]);
+
+  useEffect(() => {
+    if (productId !== undefined) {
+      axios.post("/api/comment/getComments", variable).then((response) => {
+        if (response.data.success) {
+          setComments(response.data.comments);
+        } else {
+          Swal.fire("Oops...", "후기를 가져오지 못했어요", "error");
+        }
+      });
+    }
+  }, [props]);
 
   const toggleTab = (index) => {
     setToggleState(index);
   };
 
-  const updateComment = (newComment) => {
-    setCommentLists(CommentLists.concat(newComment));
+  const refreshFunction = (newComment) => {
+    setComments(Comments.concat(newComment));
   };
-
-  useEffect(() => {
-    axios.get("api/comment/getComments").then((response) => {
-      if (response.data.success) {
-        console.log("response.data.comments", response.data.comment);
-        setCommentLists(response.data.comments);
-      } else {
-        Swal.fire("Oops...", "후기를 가져오지 못했어요", "error");
-      }
-    });
-  }, []);
 
   return (
     <div className="container">
@@ -78,29 +79,25 @@ function Tabs(props) {
               })}
           </div>
           <hr />
-          {/* <div>
+          <div>
             <Meta
-                avatar={
-                    <Avatar className="Avatar" src={product.writer.image} />
-                }
-                title={product.title}
+              avatar={
+                <Avatar
+                  className="Avatar"
+                  src={props.detail.writer && props.detail.writer.image}
+                />
+              }
+              title={props.detail.writer && props.detail.writer.name}
             />
-            <span>{product.writer.name}</span>
-          </div> */}
-          <p>{props.detail.description}</p>
+          </div>
+          <p className="content-details">{props.detail.description}</p>
         </div>
 
         <div
           className={toggleState === 2 ? "content  active-content" : "content"}
         >
-          <h2>Content 2</h2>
-          <hr />
           <div>
-            {/* <Descriptions>
-              <Descriptions.Item label="Description">
-                  {props.detail.description}
-                </Descriptions.Item>
-              </Descriptions> */}
+            <Collection writer={props.detail.writer} />
           </div>
           {/* <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
@@ -113,9 +110,9 @@ function Tabs(props) {
         >
           <h2>Content 3</h2>
           <hr />
-          <Comment
-            refreshFunction={updateComment}
-            commentLists={Comment}
+          <CommentTab
+            refreshFunction={refreshFunction}
+            commentLists={Comments}
             postId={productId}
           />
         </div>

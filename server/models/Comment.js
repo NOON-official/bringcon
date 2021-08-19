@@ -10,10 +10,6 @@ const commentSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Product'
     },
-    responseTo: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
     content: {
         type: String
     }

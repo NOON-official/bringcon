@@ -20,7 +20,7 @@ import MyPage from "./views/MyPage/MyPage";
 import AdminLandingPage from "./admin/AdminLandingPage/AdminLandingPage";
 import "./App.css";
 import UserVideos from "./views/LandingPage/UserVideos";
-import AdminDetailProductPage from "./admin/DetailProductPage/DetailProductPage";
+import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 //null   Anyone Can go inside
 //true   only logged in user can go inside

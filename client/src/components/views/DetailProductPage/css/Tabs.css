@@ -1,3 +1,7 @@
+/* body {
+    overflow:hidden;
+} */
+
 .tabs-container{
     display:flex;
     flex-direction: column;
@@ -101,6 +105,7 @@ button{
 
 .active-content{
     display: block;
+    overflow: auto;
 }
 
 .content-tags{
@@ -122,4 +127,8 @@ button{
 
 .link-tags:hover{
     text-decoration: none;
+}
+
+.content-details{
+    height: 60% !important;
 }

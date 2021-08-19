@@ -15,14 +15,13 @@ router.post("/saveComment", (req, res) => {
   });
 });
 
-router.get("/getComments", (req, res) => {
-  console.log(req.body);
+router.post("/getComments", (req, res) => {
   Comment.find({ postId: req.body.productId })
     .populate("writer")
     .exec((err, comments) => {
-      if (err) return res.json({ success: false, comments });
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, comments });
     });
-  return res.status(200).json({ success: true, comminets });
 });
 
 module.exports = router;

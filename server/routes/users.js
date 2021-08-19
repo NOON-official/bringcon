@@ -24,6 +24,9 @@ router.get("/auth", auth, (req, res) => {
     image: req.user.image,
     cart: req.user.cart,
     history: req.user.history,
+    accountHolder: req.user.accountHolder,
+    accountNumber: req.user.accountNumber,
+    bank: req.user.bank,
   });
 });
 
@@ -64,6 +67,7 @@ router.get("/logout", auth, (req, res) => {
   );
 });
 
+// 결제 관련
 router.post("/addToCart", auth, (req, res) => {
   //먼저  User Collection에 해당 유저의 정보를 가져오기
   User.findOne({ _id: req.user._id }, (err, userInfo) => {
@@ -244,6 +248,26 @@ router.post("/account", (req, res) => {
         accountHolder: req.body.accountHolder,
         accountNumber: req.body.accountNumber,
         bank: req.body.Bank,
+      },
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      res.status(200).json({
+        success: true,
+      });
+    }
+  );
+});
+
+
+router.post("/info", (req, res) => {
+  console.log(req.body);
+  User.findOneAndUpdate(
+    { _id: req.body._id },
+    {
+      $set: {
+        name : req.body.name,
       },
     },
     { new: true },

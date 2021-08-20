@@ -559,6 +559,7 @@ router.post("/products_by_userId", (req, res) => {
       term = term.substring(1); //'#' 제거
 
       Product.find(findArgs)
+        .find({ judged: true })
         .find({ writer: { $in: userId } })
         .find({ tags: term })
         .populate("writer")
@@ -575,6 +576,7 @@ router.post("/products_by_userId", (req, res) => {
     } else {
       //문자열 검색
       Product.find(findArgs)
+        .find({ judged: true })
         .find({ writer: { $in: userId } })
 
         //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
@@ -595,6 +597,7 @@ router.post("/products_by_userId", (req, res) => {
   } else {
     //검색어가 없으면, 원래대로 프로세스 수행
     Product.find(findArgs)
+      .find({ judged: true })
       .find({ writer: { $in: userId } })
       .populate("writer")
       .sort([[sortBy, order]])

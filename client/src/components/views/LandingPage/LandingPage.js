@@ -6,6 +6,7 @@ import Checkbox from "./Sections/CheckBox";
 import Radiobox from "./Sections/RadioBox";
 import SearchFeature from "./Sections/SearchFeature";
 import { genres, price } from "./Sections/Datas";
+import ScrollHorizontal from "react-scroll-horizontal";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 
@@ -25,7 +26,6 @@ function LandingPage() {
   const [Skip, setSkip] = useState(0);
   const [Standard, setStandard] = useState(1);
   const [Category, setCategory] = useState(1);
-  const [PostSize, setPostSize] = useState(0);
   const [Filters, setFilters] = useState({
     genres: [],
     price: [],
@@ -45,7 +45,6 @@ function LandingPage() {
     axios.post("/api/product/products", body).then((response) => {
       if (response.data.success) {
         setProducts(response.data.productInfo);
-        setPostSize(response.data.postSize);
       } else {
         alert(" 상품을 가져오는데 실패했습니다.");
       }
@@ -64,7 +63,6 @@ function LandingPage() {
   const renderCards = Products.map((product, index) => {
     return (
       <div key={index} className="tile">
-        {/* <StackGrid> */}
         <div
           id="card-video"
           style={{ backgroundImage: `url(${product.s3thumbnail})` }}
@@ -87,15 +85,14 @@ function LandingPage() {
             }
             title={product.title}
           />
-          <a href={`/videos/${product.writer._id}`} style={{color:"#fff"}}>
-            <span style={{color:"#fff"}}>{product.writer.name}</span>
+          <a href={`/videos/${product.writer._id}`}>
+            <span>{product.writer.name}</span>
           </a>
           <span id="card-price">{`${product.price.toLocaleString(
             "ko-KR"
           )} 원`}</span>
           <br />
         </div>
-        {/* </StackGrid> */}
       </div>
     );
   });
@@ -231,11 +228,19 @@ function LandingPage() {
       </div>
 
       {/* Cards */}
-      <div id="scroll-horizontal" style={{ height: `43em` }}>
-        {/* <StackGrid columnWidth="20%" columnHeight> */}
-        <HorizontalScroll>{renderCards}</HorizontalScroll>
-        {/* </StackGrid> */}
-      </div>
+      {renderCards.length <= 10 ? 
+      (
+        <div id="scroll-horizontal-fixed" style={{ height: `43em`}}>
+          <HorizontalScroll>{renderCards}</HorizontalScroll>
+        </div>
+      )
+      :
+      (
+        <div id="scroll-horizontal" style={{ height: `43em` }}>
+          <HorizontalScroll>{renderCards}</HorizontalScroll>
+        </div>
+      )
+    }
     </div>
   );
 }

@@ -94,7 +94,6 @@ function UploadProductPage(props) {
     formData.append("file", files[0]);
 
     Axios.post("/api/product/video", formData, config).then((response) => {
-      console.log(user);
       if (response.data.success) {
         let variable = {
           filePath: response.data.filePath,
@@ -124,6 +123,7 @@ function UploadProductPage(props) {
       }
     });
   };
+  console.log("props", props.user.userData);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -166,12 +166,21 @@ function UploadProductPage(props) {
   //   setImages(newImages);
   // };
 
+  //판매자 정보가 없으면 판매자 정보 입력 페이지로 이동
+  // if(!user.userData.accountHoler || !user.userData.accountNumner || !user.userData.bank ) {
+  //   return (
+  //     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
+  //       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+  //         <h2> 동영상 업로드 </h2>
+  //         <a href = "/user/account">동영상을 판매하기 위해서는 판매자 정보를 입력해야 합니다.</a></div>
+  //       </div>
+  //   )
+  // }
   return (
     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
         <h2> 동영상 업로드 </h2>
       </div>
-
       <Form onSubmit={submitHandler}>
         <div style={{ justifyContent: "space-between" }}>
           {!progress ? (
@@ -287,6 +296,7 @@ function UploadProductPage(props) {
         <button onClick={resetHandler}>초기화</button>
         <button type="submit">확인</button>
       </Form>
+      )
     </div>
   );
 }

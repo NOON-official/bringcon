@@ -57,7 +57,7 @@ function LoginGoogle(props) {
   }
 
   const onFailure = (res) => {
-    alert("아이디와 비번이 정확하지 않습니다.");
+    alert("구글 로그인에 실패하였습니다");
   };
 
   return (

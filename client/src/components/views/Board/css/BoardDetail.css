@@ -1,39 +1,39 @@
 .content {
-    padding: 30px;
+  padding: 30px;
 }
 
 #title {
-    padding-bottom: 3px;
-    border-bottom: none;
-    font-size: 25px;
+  padding-bottom: 3px;
+  border-bottom: none;
+  font-size: 25px;
 }
 
 #writer {
-    text-align: right;
-    font-size: 13px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    border-top: none;
-    border-bottom: none;
-    background-color: white;
+  text-align: right;
+  font-size: 13px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-top: none;
+  border-bottom: none;
+  background-color: white;
 }
 
 #writer span {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 #date {
-    text-align: right;
-    font-size: 13px;
-    padding-top: 0px;
-    border-top: none;
-    background-color: white;
+  text-align: right;
+  font-size: 13px;
+  padding-top: 0px;
+  border-top: none;
+  background-color: white;
 }
 
 #date span {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 thead {
-    margin: 10px;
+  margin: 10px;
 }

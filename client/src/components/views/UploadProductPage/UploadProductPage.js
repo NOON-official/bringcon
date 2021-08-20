@@ -252,7 +252,7 @@ function UploadProductPage(props) {
               ) : S3thumbnailPath ? (
                 <div>
                   <img
-                    src={`{S3thumbnailPath}`}
+                    src={`${S3thumbnailPath}`}
                     alt="thumbnail"
                   />
                 </div>

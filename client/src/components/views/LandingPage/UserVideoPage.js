@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Avatar, Icon, Col, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
+import Checkbox from "./Sections/CheckBox";
+import Radiobox from "./Sections/RadioBox";
 import SearchFeature from "./Sections/SearchFeature";
 import { genres, price } from "./Sections/Datas";
-import "./css/AdminLandingPage.css";
+import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 
-function AdminLandingPage() {
+function UserVideoPage(props) {
+  const userId = props.match.params.userId;
+
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
   const [Filters, setFilters] = useState({
@@ -15,6 +19,7 @@ function AdminLandingPage() {
     price: [],
   });
   const [SearchTerm, setSearchTerm] = useState("");
+  const [WriterName, setWriterName] = useState("");
 
   //처음 실행시 getProducts 작동!
   useEffect(() => {
@@ -26,9 +31,10 @@ function AdminLandingPage() {
 
   //새롭게 아이템들을 가져와줌
   const getProducts = (body) => {
-    axios.post("/api/product/products_admin", body).then((response) => {
+    axios.post(`/api/product/products_by_userId?userId=${userId}`, body).then((response) => {
       if (response.data.success) {
         setProducts(response.data.productInfo);
+        setWriterName(response.data.productInfo[0].writer.name)
       } else {
         alert(" 상품을 가져오는데 실패했습니다.");
       }
@@ -51,7 +57,7 @@ function AdminLandingPage() {
           id="card-video"
           style={{ backgroundImage: `url(${product.s3thumbnail})` }}
         >
-          <a href={`/product_admin/${product._id}`}>
+          <a href={`/product/${product._id}`}>
             <video
               src={`${product.filePath}`}
               onMouseOver={handleMouseover}
@@ -135,6 +141,20 @@ function AdminLandingPage() {
       id="filters"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
     >
+      {/* Filter */}
+      {/* <Row gutter={[16, 16]}>
+                <Col lg={12} xs={24}>
+                    {/* CheckBox */}
+      {/* <Checkbox list={genres} handleFilters={filters => handleFilters(filters, "genres")} />
+                </Col>
+                <Col lg={12} xs={24}>
+                    {/* RadioBox */}
+      {/* <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />
+                </Col> */}
+      {/* </Row> */}
+
+      {/* Search */}
+
       <div
         style={{
           display: "flex",
@@ -144,8 +164,35 @@ function AdminLandingPage() {
           backgroundColor: "#1C1C1C",
         }}
       >
-        <SearchFeature refreshFunction={updateSearchTerm} />
+        <SearchFeature placeholder={`${WriterName}님의 콘텐츠를 탐험해보세요!`} refreshFunction={updateSearchTerm} />
         <br />
+      </div>
+      <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "1em auto",
+            backgroundColor: "#1C1C1C",
+          }}
+        >
+          <span id="hash">동물</span>
+          <span id="hash">서버</span>
+          <span id="hash">수강신청</span>
+          <span id="hash">감자</span>
+        </div>
+        <div
+          id="drops"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            padding: "1em auto",
+            backgroundColor: "#1C1C1C",
+          }}
+        >
+          <span id="dropdown">전체</span>
+          <span id="dropdown">최신순</span>
+        </div>
       </div>
 
       {/* Cards */}
@@ -166,4 +213,4 @@ function AdminLandingPage() {
   );
 }
 
-export default AdminLandingPage;
+export default UserVideoPage;

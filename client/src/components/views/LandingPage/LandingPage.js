@@ -10,10 +10,22 @@ import ScrollHorizontal from "react-scroll-horizontal";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 
+const Categories = [
+  { key: 1, value: "전체" },
+  { key: 2, value: "Clips" },
+  { key: 3, value: "Memes" },
+];
+
+const Standards = [
+  { key: 1, value: "최신순" },
+  { key: 2, value: "인기순" },
+];
+
 function LandingPage() {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
-  const [PostSize, setPostSize] = useState(0);
+  const [Standard, setStandard] = useState(1);
+  const [Category, setCategory] = useState(1);
   const [Filters, setFilters] = useState({
     genres: [],
     price: [],
@@ -33,7 +45,6 @@ function LandingPage() {
     axios.post("/api/product/products", body).then((response) => {
       if (response.data.success) {
         setProducts(response.data.productInfo);
-        setPostSize(response.data.postSize);
       } else {
         alert(" 상품을 가져오는데 실패했습니다.");
       }
@@ -52,7 +63,6 @@ function LandingPage() {
   const renderCards = Products.map((product, index) => {
     return (
       <div key={index} className="tile">
-        {/* <StackGrid> */}
         <div
           id="card-video"
           style={{ backgroundImage: `url(${product.s3thumbnail})` }}
@@ -83,7 +93,6 @@ function LandingPage() {
           )} 원`}</span>
           <br />
         </div>
-        {/* </StackGrid> */}
       </div>
     );
   });
@@ -135,6 +144,14 @@ function LandingPage() {
     //자식 컴포넌트인 SearchFeature에서 전달해준 값으로 업데이트됨
     setSearchTerm(newSearchTerm);
     getProducts(body); //백엔드에 보내서 처리!
+  };
+
+  const CategoryChangeHandler = (event) => {
+    setCategory(event.currentTarget.value);
+  };
+
+  const standardChangeHandler = (event) => {
+    setStandard(event.currentTarget.value);
   };
 
   return (
@@ -191,17 +208,39 @@ function LandingPage() {
             backgroundColor: "#1C1C1C",
           }}
         >
-          <span id="dropdown">전체</span>
-          <span id="dropdown">최신순</span>
+          <select onChange={CategoryChangeHandler} value={Category} className="landing-category-dropdown">
+          {Categories.map((item) => (
+            <option key={item.key} value={item.key}>
+              {" "}
+              {item.value}
+            </option>
+          ))}
+        </select>
+          <select onChange={standardChangeHandler} value={Standard} className="landing-sort-dropdown">
+          {Standards.map((item) => (
+            <option key={item.key} value={item.key}>
+              {" "}
+              {item.value}
+            </option>
+          ))}
+        </select>
         </div>
       </div>
 
       {/* Cards */}
-      <div id="scroll-horizontal" style={{ height: `43em` }}>
-        {/* <StackGrid columnWidth="20%" columnHeight> */}
-        <HorizontalScroll>{renderCards}</HorizontalScroll>
-        {/* </StackGrid> */}
-      </div>
+      {renderCards.length <= 10 ? 
+      (
+        <div id="scroll-horizontal-fixed" style={{ height: `43em`}}>
+          <HorizontalScroll>{renderCards}</HorizontalScroll>
+        </div>
+      )
+      :
+      (
+        <div id="scroll-horizontal" style={{ height: `43em` }}>
+          <HorizontalScroll>{renderCards}</HorizontalScroll>
+        </div>
+      )
+    }
     </div>
   );
 }

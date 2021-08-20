@@ -106,7 +106,6 @@ function UploadProductPage(props) {
     formData.append("file", files[0]);
 
     Axios.post("/api/product/video", formData, config).then((response) => {
-      console.log(user);
       if (response.data.success) {
         let variable = {
           filePath: response.data.filePath,
@@ -250,10 +249,10 @@ function UploadProductPage(props) {
                     </div>
                   )}
                 </Dropzone>
-              ) : ThumbnailPath ? (
+              ) : S3thumbnailPath ? (
                 <div>
                   <img
-                    src={`http://localhost:5000/${ThumbnailPath}`}
+                    src={`{S3thumbnailPath}`}
                     alt="thumbnail"
                   />
                 </div>

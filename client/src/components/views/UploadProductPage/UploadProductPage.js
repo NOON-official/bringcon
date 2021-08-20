@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
-import { Form, Input, Icon } from "antd";
+import { Form, Input, Icon, Col } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
-import "../../utils/Hashtag.css";
 import Progress from "../../utils/Progress/Progress";
+import './Upload.css';
+import "../../utils/Hashtag.css";
+
 const { TextArea } = Input;
 
 const Genres = [
-  { key: 1, value: "영화 & 애니메이션" },
-  { key: 2, value: "예능 프로그램" },
-  { key: 3, value: "스포츠" },
-  { key: 4, value: "동물" },
-  { key: 5, value: "어린이" },
-  { key: 6, value: "뉴스" },
-  { key: 7, value: "드라마" },
+  { key: 1, value: "Emotions" },
+  { key: 2, value: "Foods and Drinks" },
+  { key: 3, value: "Animals" },
+  { key: 4, value: "Gaming" },
+  { key: 5, value: "Animations" },
+  { key: 6, value: "Sports" },
+];
+
+const Categories = [
+  { key: 1, value: "Clips" },
+  { key: 2, value: "Memes" },
 ];
 
 function UploadProductPage(props) {
@@ -23,6 +29,7 @@ function UploadProductPage(props) {
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState(0);
   const [Genre, setGenre] = useState(1);
+  const [Category, setCategory] = useState(1);
   const [Images, setImages] = useState([]);
   const [FilePath, setFilePath] = useState("");
   const [Duration, setDuration] = useState("");
@@ -57,6 +64,10 @@ function UploadProductPage(props) {
     setGenre(event.currentTarget.value);
   };
 
+  const CategoryChangeHandler = (event) => {
+    setCategory(event.currentTarget.value);
+  };
+
   const updateImages = (newImages) => {
     setImages(newImages);
   };
@@ -71,6 +82,7 @@ function UploadProductPage(props) {
     setDescription("");
     setPrice(0);
     setGenre(1);
+    setCategory(1);
     setTags([]);
     setProgress(0);
     alert("초기화되었습니다.");
@@ -128,7 +140,7 @@ function UploadProductPage(props) {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (!Title || !Description || !Price || !Genre || Images.length === 0) {
+    if (!Title || !Description || !Price || !Genre || !Category ||Images.length === 0) {
       return alert(" 모든 값을 넣어주셔야 합니다.");
     }
 
@@ -142,6 +154,7 @@ function UploadProductPage(props) {
       price: Price,
       images: Images,
       genres: Genre,
+      categories: Category,
       filePath: FilePath,
       duration: Duration,
       thumbnail: ThumbnailPath,
@@ -167,12 +180,10 @@ function UploadProductPage(props) {
   // };
 
   return (
-    <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <h2> 동영상 업로드 </h2>
-      </div>
-
+    <div style={{width:'100vw', height: '90vh', margin: 'auto'}} className="upload-body">
+    <div style={{ width: "90%", margin: "auto", paddingTop: '50px'}} className="upload-box">
       <Form onSubmit={submitHandler}>
+      <Col lg={12} sm={24} className="upload-zone">
         <div style={{ justifyContent: "space-between" }}>
           {!progress ? (
             <Dropzone
@@ -184,24 +195,25 @@ function UploadProductPage(props) {
               {({ getRootProps, getInputProps }) => (
                 <div
                   style={{
-                    width: 336,
-                    height: 189,
-                    border: "1px solid lightgray",
+                    width: 629,
+                    height: 354,
+                    border: "3px solid #ffcb39",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    borderRadius: "12px"
                   }}
                   {...getRootProps()}
                 >
                   <input {...getInputProps()} />
-                  <Icon type="plus" style={{ fontSize: "3rem" }} />
+                  <Icon type="plus" style={{ fontSize: "3rem" }} className="plus-icon"/>
                 </div>
               )}
             </Dropzone>
           ) : ThumbnailPath ? (
             <div>
               <img
-                src={`http://localhost:5000/${ThumbnailPath}`}
+                src={`http://localhost:5000${ThumbnailPath}`}
                 alt="thumbnail"
               />
             </div>
@@ -237,31 +249,20 @@ function UploadProductPage(props) {
             </div>
           )} */}
         </div>
-        <br />
-        <label>이름</label>
-        <Input onChange={titleChangeHandler} value={Title} />
-        <br />
-        <br />
-        <label>설명</label>
-        <TextArea onChange={descriptionChangeHandler} value={Description} />
-        <br />
-        <br />
-        <label>가격(원)</label>
-        <Input type="number" onChange={priceChangeHandler} value={Price} />
-        <br />
-        <label>장르</label>
-        <br />
-        <select onChange={genreChangeHandler} value={Genre}>
-          {Genres.map((item) => (
-            <option key={item.key} value={item.key}>
-              {" "}
-              {item.value}
-            </option>
-          ))}
-        </select>
-        <br />
-        <label>태그</label>
-        <br />
+        <br/>
+        <br/>
+        <Input onChange={titleChangeHandler} value={Title}
+          placeholder="제목을 입력하세요." className="upload-title"
+          style={{backgroundColor: "#1C1C1C", color: "#fff"}}/>
+        <Input type="number"  onChange={priceChangeHandler}
+          placeholder="가격을 입력하세요." className="upload-price"
+          style={{backgroundColor: "#1C1C1C", color: "#fff"}}/>
+        <br/>
+        <br/>
+        <button type="submit" className="upload-submit">업로드하기</button>
+        <button onClick={resetHandler} className="upload-reset">초기화</button>
+        </Col>
+        <Col lg={12} sm={24} className="upload-info">
         <div className="box">
           <div className="tags-input">
             <ul>
@@ -278,15 +279,37 @@ function UploadProductPage(props) {
               ))}
             </ul>
             <input
+              className="upload-tags"
               type="text"
               placeholder="스페이스바를 눌러 해시태그를 입력하세요"
               onKeyUp={(e) => (e.keyCode === 32 ? addTags(e) : null)}
             />
           </div>
         </div>
-        <button onClick={resetHandler}>초기화</button>
-        <button type="submit">확인</button>
+        <hr className="upload-line" style={{height: '3px', backgroundColor: "#ffcb39", border: 'none'}}/>
+        <select onChange={genreChangeHandler} value={Genre} className="genres-dropdown">
+          {Genres.map((item) => (
+            <option key={item.key} value={item.key}>
+              {" "}
+              {item.value}
+            </option>
+          ))}
+        </select>
+        <select onChange={CategoryChangeHandler} value={Category} className="catogories-dropdown">
+          {Categories.map((item) => (
+            <option key={item.key} value={item.key}>
+              {" "}
+              {item.value}
+            </option>
+          ))}
+        </select>
+        <TextArea onChange={descriptionChangeHandler} value={Description}
+          style={{width: "491px", height: "287px", marginLeft: '42px',
+          background: 'transparent', color: '#fff'}} className="upload-description"
+          placeholder = "영상에 대한 상세 설명을 작성하세요."/>   
+        </Col>
       </Form>
+    </div>
     </div>
   );
 }

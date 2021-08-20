@@ -6,11 +6,7 @@ import { CircularProgress } from "@material-ui/core";
 const Progress = ({ percentage }) => {
   return (
     <div className="container">
-      <CircularProgress
-        variant="determinate"
-        value={percentage}
-        size="10000pixel"
-      />
+      <CircularProgress variant="determinate" value={percentage} size="100px" />
       <div className="text">{percentage}%</div>
     </div>
   );

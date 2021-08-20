@@ -4,9 +4,8 @@ import { Form, Input, Icon, Col } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import Progress from "../../utils/Progress/Progress";
-import './Upload.css';
+import "./Upload.css";
 import "../../utils/Hashtag.css";
-
 const { TextArea } = Input;
 
 const Genres = [
@@ -37,6 +36,7 @@ function UploadProductPage(props) {
   const [S3thumbnailPath, setS3thumbnailPath] = useState("");
   const [Tags, setTags] = useState([]);
   const [progress, setProgress] = useState(0);
+  const [hasAccount, setAccount] = useState(false);
 
   const removeTags = (indexToRemove) => {
     setTags(Tags.filter((_, index) => index !== indexToRemove));
@@ -140,7 +140,14 @@ function UploadProductPage(props) {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (!Title || !Description || !Price || !Genre || !Category ||Images.length === 0) {
+    if (
+      !Title ||
+      !Description ||
+      !Price ||
+      !Genre ||
+      !Category ||
+      Images.length === 0
+    ) {
       return alert(" 모든 값을 넣어주셔야 합니다.");
     }
 
@@ -179,49 +186,82 @@ function UploadProductPage(props) {
   //   setImages(newImages);
   // };
 
-  return (
-    <div style={{width:'100vw', height: '90vh', margin: 'auto'}} className="upload-body">
-    <div style={{ width: "90%", margin: "auto", paddingTop: '50px'}} className="upload-box">
-      <Form onSubmit={submitHandler}>
-      <Col lg={12} sm={24} className="upload-zone">
-        <div style={{ justifyContent: "space-between" }}>
-          {!progress ? (
-            <Dropzone
-              onDrop={dropHandler}
-              multiple={false}
-              // maxSize={100000000}
-              refreshFunction={updateImages}
-            >
-              {({ getRootProps, getInputProps }) => (
-                <div
-                  style={{
-                    width: 629,
-                    height: 354,
-                    border: "3px solid #ffcb39",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "12px"
-                  }}
-                  {...getRootProps()}
-                >
-                  <input {...getInputProps()} />
-                  <Icon type="plus" style={{ fontSize: "3rem" }} className="plus-icon"/>
-                </div>
-              )}
-            </Dropzone>
-          ) : ThumbnailPath ? (
-            <div>
-              <img
-                src={`http://localhost:5000${ThumbnailPath}`}
-                alt="thumbnail"
-              />
-            </div>
-          ) : (
-            <Progress percentage={progress} />
-          )}
+  if (hasAccount === false) {
+    if (user.userData && user.userData.bank !== undefined) {
+      setAccount(true);
+    }
 
-          {/* <div
+    return (
+      <div
+        style={{ width: "100vw", height: "90vh", margin: "auto" }}
+        className="upload-body"
+      >
+        {" "}
+        <div
+          style={{ width: "90%", margin: "auto", paddingTop: "50px" }}
+          className="upload-box"
+        >
+          <a href="/user/account">
+            판매자 정보를 입력해야 동영상을 업로드 할 수 있습니다.
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      style={{ width: "100vw", height: "90vh", margin: "auto" }}
+      className="upload-body"
+    >
+      <div
+        style={{ width: "90%", margin: "auto", paddingTop: "50px" }}
+        className="upload-box"
+      >
+        <Form onSubmit={submitHandler}>
+          <Col lg={12} sm={24} className="upload-zone">
+            <div style={{ justifyContent: "space-between" }}>
+              {!progress ? (
+                <Dropzone
+                  onDrop={dropHandler}
+                  multiple={false}
+                  // maxSize={100000000}
+                  refreshFunction={updateImages}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div
+                      style={{
+                        width: 629,
+                        height: 354,
+                        border: "3px solid #ffcb39",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "12px",
+                      }}
+                      {...getRootProps()}
+                    >
+                      <input {...getInputProps()} />
+                      <Icon
+                        type="plus"
+                        style={{ fontSize: "3rem" }}
+                        className="plus-icon"
+                      />
+                    </div>
+                  )}
+                </Dropzone>
+              ) : ThumbnailPath ? (
+                <div>
+                  <img
+                    src={`http://localhost:5000/${ThumbnailPath}`}
+                    alt="thumbnail"
+                  />
+                </div>
+              ) : (
+                <Progress percentage={progress} />
+              )}
+
+              {/* <div
             style={{
               display: "flex",
               width: "350px",
@@ -239,8 +279,8 @@ function UploadProductPage(props) {
             ))}
           </div> */}
 
-          {/* 배포용 ( 삭제 X ) */}
-          {/* {S3thumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
+              {/* 배포용 ( 삭제 X ) */}
+              {/* {S3thumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
             <div>
               <img
                 src={`${S3thumbnailPath}`}
@@ -248,68 +288,104 @@ function UploadProductPage(props) {
               />
             </div>
           )} */}
-        </div>
-        <br/>
-        <br/>
-        <Input onChange={titleChangeHandler} value={Title}
-          placeholder="제목을 입력하세요." className="upload-title"
-          style={{backgroundColor: "#1C1C1C", color: "#fff"}}/>
-        <Input type="number"  onChange={priceChangeHandler}
-          placeholder="가격을 입력하세요." className="upload-price"
-          style={{backgroundColor: "#1C1C1C", color: "#fff"}}/>
-        <br/>
-        <br/>
-        <button type="submit" className="upload-submit">업로드하기</button>
-        <button onClick={resetHandler} className="upload-reset">초기화</button>
-        </Col>
-        <Col lg={12} sm={24} className="upload-info">
-        <div className="box">
-          <div className="tags-input">
-            <ul>
-              {Tags.map((tag, index) => (
-                <li key={index} className="tag">
-                  <span>{tag}</span>
-                  <span
-                    className="tag-close-icon"
-                    onClick={() => removeTags(index)}
-                  >
-                    X
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <input
-              className="upload-tags"
-              type="text"
-              placeholder="스페이스바를 눌러 해시태그를 입력하세요"
-              onKeyUp={(e) => (e.keyCode === 32 ? addTags(e) : null)}
+            </div>
+            <br />
+            <br />
+            <Input
+              onChange={titleChangeHandler}
+              value={Title}
+              placeholder="제목을 입력하세요."
+              className="upload-title"
+              style={{ backgroundColor: "#1C1C1C", color: "#fff" }}
             />
-          </div>
-        </div>
-        <hr className="upload-line" style={{height: '3px', backgroundColor: "#ffcb39", border: 'none'}}/>
-        <select onChange={genreChangeHandler} value={Genre} className="genres-dropdown">
-          {Genres.map((item) => (
-            <option key={item.key} value={item.key}>
-              {" "}
-              {item.value}
-            </option>
-          ))}
-        </select>
-        <select onChange={CategoryChangeHandler} value={Category} className="catogories-dropdown">
-          {Categories.map((item) => (
-            <option key={item.key} value={item.key}>
-              {" "}
-              {item.value}
-            </option>
-          ))}
-        </select>
-        <TextArea onChange={descriptionChangeHandler} value={Description}
-          style={{width: "491px", height: "287px", marginLeft: '42px',
-          background: 'transparent', color: '#fff'}} className="upload-description"
-          placeholder = "영상에 대한 상세 설명을 작성하세요."/>   
-        </Col>
-      </Form>
-    </div>
+            <Input
+              type="number"
+              onChange={priceChangeHandler}
+              placeholder="가격을 입력하세요."
+              className="upload-price"
+              style={{ backgroundColor: "#1C1C1C", color: "#fff" }}
+            />
+            <br />
+            <br />
+            <button type="submit" className="upload-submit">
+              업로드하기
+            </button>
+            <button onClick={resetHandler} className="upload-reset">
+              초기화
+            </button>
+          </Col>
+          <Col lg={12} sm={24} className="upload-info">
+            <div className="box">
+              <div className="tags-input">
+                <ul>
+                  {Tags.map((tag, index) => (
+                    <li key={index} className="tag">
+                      <span>{tag}</span>
+                      <span
+                        className="tag-close-icon"
+                        onClick={() => removeTags(index)}
+                      >
+                        X
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <input
+                  className="upload-tags"
+                  type="text"
+                  placeholder="스페이스바를 눌러 해시태그를 입력하세요"
+                  onKeyUp={(e) => (e.keyCode === 32 ? addTags(e) : null)}
+                />
+              </div>
+            </div>
+            <hr
+              className="upload-line"
+              style={{
+                height: "3px",
+                backgroundColor: "#ffcb39",
+                border: "none",
+              }}
+            />
+            <select
+              onChange={genreChangeHandler}
+              value={Genre}
+              className="genres-dropdown"
+            >
+              {Genres.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {" "}
+                  {item.value}
+                </option>
+              ))}
+            </select>
+            <select
+              onChange={CategoryChangeHandler}
+              value={Category}
+              className="catogories-dropdown"
+            >
+              {Categories.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {" "}
+                  {item.value}
+                </option>
+              ))}
+            </select>
+            <TextArea
+              onChange={descriptionChangeHandler}
+              value={Description}
+              style={{
+                width: "491px",
+                height: "287px",
+                marginLeft: "42px",
+                background: "transparent",
+                color: "#fff",
+              }}
+              className="upload-description"
+              placeholder="영상에 대한 상세 설명을 작성하세요."
+            />
+          </Col>
+        </Form>
+      </div>
     </div>
   );
 }

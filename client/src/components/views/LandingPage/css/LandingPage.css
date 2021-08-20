@@ -16,7 +16,7 @@
   grid-template-rows : auto auto;
   grid-auto-flow: column;
   background-color: #1C1C1C;
-  height:80%;
+  height:80% !important;
 }
 
 #scroll-horizontal-fixed .scroll-horizontal > div {
@@ -24,7 +24,7 @@
   grid-template-rows : auto auto;
   grid-auto-flow: column;
   background-color: #1C1C1C;
-  height:80%;
+  height:80% !important;
   transform: none !important; 
 }
 

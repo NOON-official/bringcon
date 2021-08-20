@@ -1,9 +1,7 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 *{
-  font-family: 'Pretendard';
-  background-image: url(http://salehriaz.com/404Page/img/overlay_stars.svg);
-}
+  font-family: 'Pretendard';}
 
 #filters{
   background-color: #1C1C1C;
@@ -122,7 +120,7 @@
   line-height: 24px;
 }
 
-#dropdown{
+.landing-sort-dropdown, .landing-category-dropdown{
   width: 84px;
   height: 28px;
   line-height: 25px;
@@ -134,8 +132,9 @@
   margin-top: 0px;
   margin-bottom:20px;
   margin-left:20px;
+  background: transparent;
 }
 
-#drops{
-  margin-right: 40px;
+.landing-sort-dropdown option, .landing-category-dropdown option{
+  background-color: transparent;
 }

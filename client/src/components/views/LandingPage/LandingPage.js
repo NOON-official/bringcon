@@ -10,9 +10,22 @@ import ScrollHorizontal from "react-scroll-horizontal";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 
+const Categories = [
+  { key: 1, value: "전체" },
+  { key: 2, value: "Clips" },
+  { key: 3, value: "Memes" },
+];
+
+const Standards = [
+  { key: 1, value: "최신순" },
+  { key: 2, value: "인기순" },
+];
+
 function LandingPage() {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
+  const [Standard, setStandard] = useState(1);
+  const [Category, setCategory] = useState(1);
   const [Filters, setFilters] = useState({
     genres: [],
     price: [],
@@ -133,6 +146,14 @@ function LandingPage() {
     getProducts(body); //백엔드에 보내서 처리!
   };
 
+  const CategoryChangeHandler = (event) => {
+    setCategory(event.currentTarget.value);
+  };
+
+  const standardChangeHandler = (event) => {
+    setStandard(event.currentTarget.value);
+  };
+
   return (
     <div
       id="filters"
@@ -187,8 +208,22 @@ function LandingPage() {
             backgroundColor: "#1C1C1C",
           }}
         >
-          <span id="dropdown">전체</span>
-          <span id="dropdown">최신순</span>
+          <select onChange={CategoryChangeHandler} value={Category} className="landing-category-dropdown">
+          {Categories.map((item) => (
+            <option key={item.key} value={item.key}>
+              {" "}
+              {item.value}
+            </option>
+          ))}
+        </select>
+          <select onChange={standardChangeHandler} value={Standard} className="landing-sort-dropdown">
+          {Standards.map((item) => (
+            <option key={item.key} value={item.key}>
+              {" "}
+              {item.value}
+            </option>
+          ))}
+        </select>
         </div>
       </div>
 

@@ -1,18 +1,16 @@
 .tags-input{
+    background: #ffcb39;
+    margin-top:28px;
+    margin-bottom:25px;
+    margin-left:42px;
+    border: none;
+    width: 399px;
+    min-height: 21px !important;
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
-    min-height: 48px;
-    width: 100%;
     padding: 0 8px;
-    border: 1px solid rgb(214, 216, 218);
     border-radius: 6px;
-    /* &:focus-within { */
-        /* border: 1px solid #0052cc; */
-    /* } */
-        /* &:focus{
-            outline: transparent;
-        } */
 }
 
 .tags-input input {
@@ -32,8 +30,8 @@
 
 .tag{
     width: auto;
-    height: 32px;
-    display: flex;
+    height: 21px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     color: #fff;
@@ -60,4 +58,15 @@
 
 .tag-title{
     margin-top: 3px;
+}
+
+.tags-input input{
+    height: 21px;
+    background: #ffcb39 !important;
+}
+
+.upload-tags::placeholder{
+    color: #000;
+    font-size: 12px;
+    font-weight: 700;
 }

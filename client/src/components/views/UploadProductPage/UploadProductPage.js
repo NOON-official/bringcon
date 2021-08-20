@@ -74,18 +74,7 @@ function UploadProductPage(props) {
 
   const resetHandler = (event) => {
     event.preventDefault();
-    setImages([]);
-    setFilePath("");
-    setDuration("");
-    setThumbnailPath("");
-    setTitle("");
-    setDescription("");
-    setPrice(0);
-    setGenre(1);
-    setCategory(1);
-    setTags([]);
-    setProgress(0);
-    alert("초기화되었습니다.");
+    window.location.replace("/product/upload");
   };
 
   const dropHandler = (files) => {

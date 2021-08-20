@@ -153,11 +153,19 @@ function AdminLandingPage() {
       </div>
 
       {/* Cards */}
-      <div id="scroll-horizontal" style={{ height: `43em` }}>
-        {/* <StackGrid columnWidth="20%" columnHeight> */}
-        <HorizontalScroll>{renderCards}</HorizontalScroll>
-        {/* </StackGrid> */}
-      </div>
+      {renderCards.length <= 10 ? 
+      (
+        <div id="scroll-horizontal-fixed" style={{ height: `43em`}}>
+          <HorizontalScroll>{renderCards}</HorizontalScroll>
+        </div>
+      )
+      :
+      (
+        <div id="scroll-horizontal" style={{ height: `43em` }}>
+          <HorizontalScroll>{renderCards}</HorizontalScroll>
+        </div>
+      )
+    }
     </div>
   );
 }

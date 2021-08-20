@@ -19,7 +19,7 @@ import AddAccount from "./views/MyPage/Sections/AddAccount";
 import MyPage from "./views/MyPage/MyPage";
 import AdminLandingPage from "./admin/AdminLandingPage/AdminLandingPage";
 import "./App.css";
-import UserVideos from "./views/LandingPage/UserVideos";
+import UserVideoPage from "./views/LandingPage/UserVideoPage";
 import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 //null   Anyone Can go inside
@@ -53,7 +53,7 @@ function App() {
           <Route
             exact
             path="/videos/:userId"
-            component={Auth(UserVideos, null)}
+            component={Auth(UserVideoPage, null)}
           />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route

@@ -13,7 +13,6 @@ import HorizontalScroll from "react-scroll-horizontal";
 function LandingPage() {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
-  const [PostSize, setPostSize] = useState(0);
   const [Filters, setFilters] = useState({
     genres: [],
     price: [],
@@ -33,7 +32,6 @@ function LandingPage() {
     axios.post("/api/product/products", body).then((response) => {
       if (response.data.success) {
         setProducts(response.data.productInfo);
-        setPostSize(response.data.postSize);
       } else {
         alert(" 상품을 가져오는데 실패했습니다.");
       }

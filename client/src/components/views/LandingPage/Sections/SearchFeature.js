@@ -6,7 +6,6 @@ import CheckBox from './CheckBox';
 const { Search } = Input;
 
 function SearchFeature(props) {
-
     const [SearchTerm, setSearchTerm] = useState("")
 
     const searchHandler = (event) => {
@@ -17,9 +16,7 @@ function SearchFeature(props) {
     return (
         <div>
             <Search
-                placeholder="브링콘과 함께 콘텐츠 여행을 떠나보세요!"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'enter your text'"
+                placeholder={props.placeholder ? props.placeholder : "브링콘과 함께 콘텐츠 여행을 떠나보세요!"}
                 onChange={searchHandler}
                 style={{ width: 720, height: '40px', borderRadius: '200px'}}
                 value={SearchTerm}

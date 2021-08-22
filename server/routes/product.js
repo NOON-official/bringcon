@@ -207,7 +207,7 @@ router.post("/download", async (req, res) => {
   const filePath = doc.filePath;
 
   //2-2. key(fileName) 추출하기
-  const key = "uploads/" + filePath.split("uploads/")[1];
+  const key = "uploads/" + decodeURIComponent(filePath.split("uploads/")[1]);
 
   //3. 다운로드
   const downloadFile = async (key) => {

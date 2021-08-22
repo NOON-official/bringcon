@@ -38,14 +38,12 @@ function LoginGoogle(props) {
 
     dispatch(registerUser(dataToSubmit)).then((response) => {
       if (response.payload.success) {
-        alert("안뇽, 나는 쩌비야~~ ><(회원가입 인사말)");
       }
       dispatch(loginUser(dataToSubmit))
         .then((response) => {
           console.log(response);
           if (response.payload.loginSuccess) {
-            alert("로그인 성공");
-            props.history.push("/");
+            props.history.push("/welcome");
           }
         })
         .catch(() => {

@@ -240,10 +240,7 @@ function UploadProductPage(props) {
                 </Dropzone>
               ) : S3thumbnailPath ? (
                 <div>
-                  <img
-                    src={`${S3thumbnailPath}`}
-                    alt="thumbnail"
-                  />
+                  <img src={`${S3thumbnailPath}`} alt="thumbnail" />
                 </div>
               ) : (
                 <Progress percentage={progress} />

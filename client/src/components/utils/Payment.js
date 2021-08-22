@@ -87,7 +87,6 @@ function Payment(props) {
   /* 3. 콜백 함수 정의하기 */
   function callback(rsp) {
     if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-      alert('결제 성공');
       // jQuery로 HTTP 요청
       jQuery.ajax({
         url: '/api/payments/complete', //가맹점 서버

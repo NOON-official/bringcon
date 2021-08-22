@@ -238,12 +238,34 @@ function UploadProductPage(props) {
                     </div>
                   )}
                 </Dropzone>
-              ) : S3thumbnailPath ? (
+              ) : ThumbnailPath ? (
                 <div>
-                  <img src={`${S3thumbnailPath}`} alt="thumbnail" />
+                  <img style={{
+                        width: 629,
+                        height: 354,
+                        border: "3px solid #ffcb39",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "12px",
+                      }}
+                    src={`http://${window.location.hostname}:5000/${ThumbnailPath}`}
+                    alt="thumbnail"
+                  />
                 </div>
               ) : (
+                <div style={{
+                  width: 629,
+                  height: 354,
+                  border: "3px solid #ffcb39",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "12px",
+                }}>
                 <Progress percentage={progress} />
+                </div>
+             
               )}
 
               {/* <div

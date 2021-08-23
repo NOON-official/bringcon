@@ -11,34 +11,34 @@ import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 
 const Categories = [
-  { key: 1, value: "전체" },
-  { key: 2, value: "Clips" },
-  { key: 3, value: "Memes" },
+  { key: 0, value: "전체" },
+  { key: 1, value: "Clips" },
+  { key: 2, value: "Memes" },
 ];
 
 const Standards = [
-  { key: 1, value: "최신순" },
-  { key: 2, value: "인기순" },
+  { key: "views", value: "인기순" },
+  { key: "_id", value: "최신순" },
 ];
 
 function LandingPage() {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
-  const [Standard, setStandard] = useState(1);
+  const [Standard, setStandard] = useState("views");
   const [Category, setCategory] = useState(1);
   const [Filters, setFilters] = useState({
     genres: [],
     price: [],
   });
   const [SearchTerm, setSearchTerm] = useState("");
-
   //처음 실행시 getProducts 작동!
   useEffect(() => {
     let body = {
       skip: Skip,
+      sortBy: Standard,
     };
     getProducts(body);
-  }, []);
+  }, [Standard]);
 
   //새롭게 아이템들을 가져와줌
   const getProducts = (body) => {
@@ -208,39 +208,42 @@ function LandingPage() {
             backgroundColor: "#1C1C1C",
           }}
         >
-          <select onChange={CategoryChangeHandler} value={Category} className="landing-category-dropdown">
-          {Categories.map((item) => (
-            <option key={item.key} value={item.key}>
-              {" "}
-              {item.value}
-            </option>
-          ))}
-        </select>
-          <select onChange={standardChangeHandler} value={Standard} className="landing-sort-dropdown">
-          {Standards.map((item) => (
-            <option key={item.key} value={item.key}>
-              {" "}
-              {item.value}
-            </option>
-          ))}
-        </select>
+          <select
+            onChange={CategoryChangeHandler}
+            value={Category}
+            className="landing-category-dropdown"
+          >
+            {Categories.map((item) => (
+              <option key={item.key} value={item.key}>
+                {" "}
+                {item.value}
+              </option>
+            ))}
+          </select>
+          <select
+            onChange={standardChangeHandler}
+            value={Standard}
+            className="landing-sort-dropdown"
+          >
+            {Standards.map((item) => (
+              <option key={item.key} value={item.key}>
+                {item.value}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
       {/* Cards */}
-      {renderCards.length <= 10 ? 
-      (
-        <div id="scroll-horizontal-fixed" style={{ height: `43em`}}>
+      {renderCards.length <= 10 ? (
+        <div id="scroll-horizontal-fixed" style={{ height: `43em` }}>
           <HorizontalScroll>{renderCards}</HorizontalScroll>
         </div>
-      )
-      :
-      (
+      ) : (
         <div id="scroll-horizontal" style={{ height: `43em` }}>
           <HorizontalScroll>{renderCards}</HorizontalScroll>
         </div>
-      )
-    }
+      )}
     </div>
   );
 }

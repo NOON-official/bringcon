@@ -32,7 +32,7 @@ function Payment(props) {
         buyer_email: BuyerEmail, // 구매자 이메일
 
         //모바일 환경 본인인증 후 리디렉션될 URL(imp_uid, merchant_uid, success 정보 전달됨)
-        m_redirect_url: "http://bringcon.shop:3000/payments/complete/mobile"
+        m_redirect_url: "http://bringcon.shop/payments/complete/mobile"
       };
 
       /* 4. 결제 창 호출하기 */

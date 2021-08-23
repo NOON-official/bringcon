@@ -1,46 +1,47 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
-*{
-  font-family: 'Pretendard';}
+* {
+  font-family: "Pretendard";
+}
 
-#filters{
-  background-color: #1C1C1C;
+#filters {
+  background-color: #1c1c1c;
 }
 
 #scroll-horizontal .scroll-horizontal {
-  height:80% !important;
+  height: 80% !important;
 }
 
 #scroll-horizontal .scroll-horizontal > div {
   display: grid !important;
-  grid-template-rows : auto auto;
+  grid-template-rows: auto auto;
   grid-auto-flow: column;
-  background-color: #1C1C1C;
-  height:80% !important;
+  background-color: #1c1c1c;
+  height: 80% !important;
 }
 
 #scroll-horizontal-fixed .scroll-horizontal > div {
   display: grid !important;
-  grid-template-rows : auto auto;
+  grid-template-rows: auto auto;
   grid-auto-flow: column;
-  background-color: #1C1C1C;
-  height:80% !important;
-  transform: none !important; 
+  background-color: #1c1c1c;
+  height: 80% !important;
+  transform: none !important;
 }
 
-.tile{
+.tile {
   margin: 0;
-  width:300px;
+  width: 300px;
   height: 250px;
 }
 
-.tile:hover{
+.tile:hover {
   transition: 0.3s;
-  -webkit-transform:scale(1.05);
-  -moz-transform:scale(1.05);
-  -ms-transform:scale(1.05);   
-  -o-transform:scale(1.05);
-  transform:scale(1.05)
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 #card-video {
@@ -63,7 +64,7 @@
   backdrop-filter: blur(7px);
   top: 0;
   left: 0;
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) )
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 }
 
 #card-avatar {
@@ -78,11 +79,11 @@
   margin-left: 42px;
   margin-right: 42px;
   background-color: transparent;
-  color:#fff;
-  font-weight:lighter;
+  color: #fff;
+  font-weight: lighter;
 }
 
-.ant-card-meta-title{
+.ant-card-meta-title {
   color: #fff !important;
 }
 
@@ -93,20 +94,20 @@
 
 #card-price {
   height: 18px;
-  font-size:12px;
+  font-size: 12px;
   /* margin-right: 10px; */
   font-weight: 300;
   float: right;
   text-align: right;
   background: transparent;
   border-radius: 6px;
-  color:#ffcb39 !important;
+  color: #ffcb39 !important;
   padding-left: 5px;
   padding-right: 5px;
   border: 1px solid #ffcb39;
 }
 
-#hash{
+#hash {
   text-align: center;
   font-weight: bold;
   color: #000;
@@ -120,7 +121,8 @@
   line-height: 24px;
 }
 
-.landing-sort-dropdown, .landing-category-dropdown{
+.landing-sort-dropdown,
+.landing-category-dropdown {
   width: 84px;
   height: 28px;
   line-height: 25px;
@@ -130,11 +132,12 @@
   font-size: 14px;
   border-radius: 32px;
   margin-top: 0px;
-  margin-bottom:20px;
-  margin-left:20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
   background: transparent;
 }
 
-.landing-sort-dropdown option, .landing-category-dropdown option{
+.landing-sort-dropdown option,
+.landing-category-dropdown option {
   background-color: transparent;
 }

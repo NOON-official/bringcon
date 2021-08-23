@@ -1,4 +1,4 @@
-input.ant-input {
+.search-wrapper {
     border: none;
     background-color: #ffcb39;
     border-radius: 50px;
@@ -25,3 +25,14 @@ svg{
     margin-right: 15px;
 }
 
+.search-wrapper select {
+    width: 150px;
+    border-right: 2px solid #1C1C1C !important;
+    background: #ffcb39;
+    position: relative;
+    cursor: pointer;
+    font-size:18px;
+    color: #1C1C1C;
+    border: none;
+    font-weight: 400;
+}

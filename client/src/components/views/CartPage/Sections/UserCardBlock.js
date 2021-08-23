@@ -1,5 +1,6 @@
-import React from 'react'
-import "./UserCardBlock.css"
+import React from 'react';
+import "./UserCardBlock.css";
+import {Checkbox} from 'antd';
 function UserCardBlock(props) {
 
     // const renderCartImage = (images) => {
@@ -14,24 +15,33 @@ function UserCardBlock(props) {
 
     const renderItems = () => (
         props.products && props.products.map((product, index) => (
-            <tr key={index}>
+            <tr key={index} className="rendered-card">
                 <td>
-                    {/* <img style={{ width: '70px' }} alt="product"
-                        src={renderCartImage(product.images)} /> */}
-                        <img style={{ width: '70px' }} alt="product"
-                        src={product.s3thumbnail} />
-                        
+                    <Checkbox/>
                 </td>
                 <td>
-                    {product.quantity} EA
+                    <img style={{ width: '142px', height: '80px' }} alt="product" className="cart-image"
+                    src={product.s3thumbnail} />    
+                </td>
+                <td style={{width: '200px', marginLeft: '26px'}}>
+                    <div className="cart-title">{product.title}</div>
+                    <br/>
+                    <div className="cart-seller">{product.writer.name}</div>
                 </td>
                 <td>
-                    $ {product.price}
-                </td>
-                <td>
-                    <button onClick={() => props.removeItem(product._id)}>
-                        Remove 
-                    </button>
+                    <span className="cart-price">{product.price}원</span>
+                    <br/>
+                    <div style={{marginTop: '8px'}}>
+                        {product.tags && product.tags.map((tag) => {
+                            return (
+                            <a href={`/hashtag/${tag}`} className="link-tags">
+                                {" "}
+                                <li className="content-tags">{tag}</li>
+                                {" "}
+                            </a>
+                            );
+                        })}
+                    </div>
                 </td>
             </tr>
         ))
@@ -40,17 +50,17 @@ function UserCardBlock(props) {
 
     return (
         <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Image</th>
-                        <th>Product Quantity</th>
-                        <th>Product Price</th>
-                        <th>Remove from Cart</th>
-                    </tr>
-                </thead>
-
+            <table style={{marginLeft: '63px', width: '1000px'}}>       
                 <tbody>
+                    <td className="remove-info" colSpan='3'>
+                        <div className="check-all-text" style={{width:'100px'}}>
+                            <Checkbox style={{marginRight: '4px'}}/>
+                            전체 선택
+                        </div>
+                    </td>
+                    <td className="remove-info">
+                    <button style={{float:'right'}} className="single-remove-button">선택 삭제</button>
+                    </td>
                     {renderItems()}
                 </tbody>
             </table>

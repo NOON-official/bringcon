@@ -5,6 +5,7 @@ import UserCardBlock from './Sections/UserCardBlock';
 import { Empty, Result, Col } from 'antd';
 import Payment from '../../utils/Payment';
 import './Sections/CartPage.css';
+import MobilePay from "../../utils/MobilePay"
 
 function CartPage(props) {
     const dispatch = useDispatch();
@@ -151,6 +152,7 @@ function CartPage(props) {
                                 userData={props.user.userData}
                                 onSuccess={transactionSuccess}
                             />
+                            <MobilePay onSuccess={transactionSuccess}/>
                         </div>
                     </form>
                     </Col>

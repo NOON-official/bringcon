@@ -25,6 +25,7 @@ import "./App.css";
 import UserVideoPage from "./views/LandingPage/UserVideoPage";
 import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
+import MobilePay from "./utils/MobilePay"
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -117,6 +118,11 @@ function App() {
                   exact
                   path="/product_admin/:productId"
                   component={Auth(AdminDetailProductPage, true, true)}
+                />
+                <Route
+                  exact
+                  path="/payments/complete/mobile"
+                  component={Auth(MobilePay, true, true)}
                 />
               </Switch>
             </CSSTransition>

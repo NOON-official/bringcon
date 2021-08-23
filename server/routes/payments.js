@@ -66,7 +66,8 @@ router.post("/complete", async (req, res) => {
   //모바일 결제
   router.get("/complete/mobile", async (req, res) => {
     try {
-      console.log(req.query)
+      console.log(req)
+      console.log(req.body)
       const { imp_uid, merchant_uid } = req.query; // req의 query에서 imp_uid, merchant_uid 추출
       // imp_success
       // 액세스 토큰(access token) 발급 받기

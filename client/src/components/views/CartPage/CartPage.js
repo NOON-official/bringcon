@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { getCartItems, removeCartItem, onSuccessBuy } from '../../../_actions/user_actions';
 import UserCardBlock from './Sections/UserCardBlock';
-import { Empty, Result } from 'antd';
+import { Empty, Result, Col } from 'antd';
 import Payment from '../../utils/Payment';
+import './Sections/CartPage.css';
 
 function CartPage(props) {
     const dispatch = useDispatch();
@@ -77,17 +78,18 @@ function CartPage(props) {
 
 
     return (
-        <div style={{ width: '85%', margin: '3rem auto' }}>
-            <h1>My Cart</h1>
-
-            <div>
+        <div style={{ width: 'auto', height: '100vh', backgroundColor: "#1C1C1C", margin: 'auto', overflow: 'hidden'}}>
+            <div className="my-cart" style={{width: '1092px', margin:'auto', marginBottom: '16px', paddingTop: '50px'}}>장바구니</div>
+            <div className="cart-page" style={{width: '1092px', height: '411px', overflow: 'auto', margin: 'auto'}}>
                 <UserCardBlock products={props.user.cartDetail} removeItem={removeFromCart} />
             </div>
-
+            <div style={{width: '1092px', marginLeft:'218px', marginBottom: '16px'}}>
             {ShowTotal ?
-                <div style={{ marginTop: '3rem' }}>
-                    <h2>Total Amount: ${Total}</h2>
+            <Col style={{width: '700px', float: 'left'}}>
+                <div className="total-price" style={{width: '378px', marginBottom: '16px'}}>
+                    <h2 className="number-price">총 {props.user.userData.cart.length}개의 상품 {Total}원</h2>
                 </div>
+            </Col>
                 : ShowSuccess ?
                     // 결제 성공하면 화면에 메시지 보여줌
                     <Result
@@ -106,7 +108,8 @@ function CartPage(props) {
             즉 카트에 상품이 없으면 결제 버튼도 안보임 */}
             {ShowTotal &&
                 <div>
-                    <form>
+                    <Col>
+                    <form className="pay-form" style={{float:'right'}}>
                         <div className="form-check">
                             <label>
                             <input
@@ -117,11 +120,7 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            카드 결제
-                            </label>
-                        </div>
-                        
-                        <div className="form-check">
+                            카드 결제</label>
                             <label>
                             <input
                                 type="radio"
@@ -131,11 +130,7 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            실시간 계좌이체
-                            </label>
-                        </div>
-                        
-                        <div className="form-check">
+                            실시간 계좌이체</label>
                             <label>
                             <input
                                 type="radio"
@@ -145,10 +140,9 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            휴대폰 결제
-                            </label>
+                            휴대폰 결제</label>           
                         </div>
-                    
+
                         <div className="form-group">
                             <Payment
                                 pg={PG}
@@ -159,8 +153,10 @@ function CartPage(props) {
                             />
                         </div>
                     </form>
+                    </Col>
                 </div>
             }
+        </div>
         </div>
       ) 
 }

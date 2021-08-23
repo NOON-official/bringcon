@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import jQuery from 'jquery';
 import axios from "axios";
+import Swal from 'sweetalert2';
+import './Payment.css';
   
 function Payment(props) {
   const [MerchantId, setMerchantId] = useState('')
@@ -66,7 +68,11 @@ function Payment(props) {
                 setBuyerEmail(response.data.buyerEmail)
                 setSaved(true)
             } else {
-                alert(" 주문 정보를 저장하는데 실패했습니다.")
+                Swal.fire(
+                  'Oops...',
+                  '주문 정보를 저장하는 데 실패했습니다.',
+                  'error'
+                )
             }
         })
   }
@@ -80,13 +86,22 @@ function Payment(props) {
   }
 
   function onSuccess (data) {
-    alert('결제가 완료되었습니다.');
+    Swal.fire(
+      'Success!',
+      '결제가 완료되었습니다',
+      'success'
+    )
     props.onSuccess(data)
   }
 
   /* 3. 콜백 함수 정의하기 */
   function callback(rsp) {
     if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+      Swal.fire(
+        'Success!',
+        '결제에 성공했습니다',
+        'success'
+      )
       // jQuery로 HTTP 요청
       jQuery.ajax({
         url: '/api/payments/complete', //가맹점 서버
@@ -117,12 +132,17 @@ function Payment(props) {
       })
 
     } else {
-      alert(`결제 실패: ${rsp.error_msg}`);
+      Swal.fire(
+        'Oops...',
+        '결제에 실패했습니다',
+        'error'
+      )
+      // alert(`결제 실패: ${rsp.error_msg}`);
     }
   }
 
   return (
-    <button onClick={onClickPayment}>결제하기</button>
+    <button className="pay-button" onClick={onClickPayment}>결제하기</button>
   );
 }
 

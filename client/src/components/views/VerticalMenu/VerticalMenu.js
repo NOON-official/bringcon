@@ -14,13 +14,12 @@ export const VerticalMenu = () => {
     );
 
     return (
-        <div class="component" style={{width: 100}}>
+        <div className="component" style={{width: 168}}>
             <ul>
-                <li class="profile" key="1"><a href="/">프로필<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
-                <li class="history" key="2"><a href="/history">구매 내역<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
-                <li class="content" key="3"><a href="/">내 콘텐츠<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
-                <li class="like" key="4"><a href="/">찜한 상품<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
-                <li class="review" key="5"><a href="/board">내 후기<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
+                <li className="profile" key="1"><a href="/user/mypage">프로필<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
+                <li className="history" key="2"><a href="/user/history">구매 내역<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
+                <li className="content" key="3"><a href="/">내 콘텐츠<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
+                <li className="review" key="5"><a href="/board">내 후기<span><img src={Flag} style={{width:'12px'}}/></span></a></li>
             </ul>
         </div>
     );

@@ -72,7 +72,7 @@ function UserVideoPage(props) {
           id="card-video"
           style={{ backgroundImage: `url(${product.s3thumbnail})` }}
         >
-          <a href={`/product/${product._id}`}>
+          <a href={`/product/${product._id}`} target="_blank">
             <video
               src={`${product.filePath}`}
               onMouseOver={handleMouseover}
@@ -84,13 +84,13 @@ function UserVideoPage(props) {
         <div id="card-avatar">
           <Meta
             avatar={
-              <a href={`/videos/${product.writer._id}`}>
+              <a href={`/videos/${product.writer._id}`} target="_blank">
                 <Avatar src={product.writer.image} />
               </a>
             }
             title={product.title}
           />
-          <a href={`/videos/${product.writer._id}`}>
+          <a href={`/videos/${product.writer._id}`} target="_blank">
             <span>{product.writer.name}</span>
           </a>
           <span id="card-price">{`${product.price.toLocaleString(

@@ -6,6 +6,7 @@ import './Payment.css';
 import queryString from 'query-string';
   
 function Payment(props) {
+  //모바일 결제 성공시 처리 부분
   const { location } = props.history;
   const { search } = location;
   const query = queryString.parse(search);
@@ -25,10 +26,6 @@ function Payment(props) {
       }
     })
   }
-
-
-  
-  
 
   const [MerchantId, setMerchantId] = useState('')
   const [OrderName, setOrderName] = useState('')
@@ -122,11 +119,6 @@ function Payment(props) {
   /* 3. 콜백 함수 정의하기 */
   function callback(rsp) {
     if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-      Swal.fire(
-        'Success!',
-        '결제에 성공했습니다',
-        'success'
-      )
       // jQuery로 HTTP 요청
       jQuery.ajax({
         url: '/api/payments/complete', //가맹점 서버

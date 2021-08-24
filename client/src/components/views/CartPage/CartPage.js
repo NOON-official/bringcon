@@ -81,83 +81,88 @@ function CartPage(props) {
         <div style={{ width: 'auto', height: '100vh', backgroundColor: "#1C1C1C", margin: 'auto', overflow: 'hidden'}}>
             <div className="my-cart" style={{width: '1092px', margin:'auto', marginBottom: '16px', paddingTop: '50px'}}>장바구니</div>
             <div className="cart-page" style={{width: '1092px', height: '411px', overflow: 'auto', margin: 'auto'}}>
+                {ShowTotal ?
                 <UserCardBlock products={props.user.cartDetail} removeItem={removeFromCart} />
-            </div>
-            <div style={{width: '1092px', marginLeft:'218px', marginBottom: '16px'}}>
-            {ShowTotal ?
-            <Col style={{width: '700px', float: 'left'}}>
-                <div className="total-price" style={{width: '378px', marginBottom: '16px'}}>
-                    <h2 className="number-price">총 {props.user.userData.cart.length}개의 상품 {Total}원</h2>
-                </div>
-            </Col>
-                : ShowSuccess ?
+                  : ShowSuccess ?
                     // 결제 성공하면 화면에 메시지 보여줌
                     <Result
                         status="success"
                         title="Successfully Purchased Items"
                     />
                     :
+                    // 카트에 상품이 없는 경우
                     <>
                         <br />
                         <Empty description={false} />
                     </>
-            }
-
-
-            {/* ShowTotal이 있을 때만 결제 버튼을 보여줌
-            즉 카트에 상품이 없으면 결제 버튼도 안보임 */}
-            {ShowTotal &&
-                <div>
-                    <Col>
-                    <form className="pay-form" style={{float:'right'}}>
-                        <div className="form-check">
-                            <label>
-                            <input
-                                type="radio"
-                                name="react-tips"
-                                value="card"
-                                checked={PayMethod === "card"}
-                                onChange={handleOptionChange}
-                                className="form-check-input"
-                            />
-                            카드 결제</label>
-                            <label>
-                            <input
-                                type="radio"
-                                name="react-tips"
-                                value="trans"
-                                checked={PayMethod === "trans"}
-                                onChange={handleOptionChange}
-                                className="form-check-input"
-                            />
-                            실시간 계좌이체</label>
-                            <label>
-                            <input
-                                type="radio"
-                                name="react-tips"
-                                value="phone"
-                                checked={PayMethod === "phone"}
-                                onChange={handleOptionChange}
-                                className="form-check-input"
-                            />
-                            휴대폰 결제</label>           
+            } 
+            </div>
+            <div style={{width: '1092px', marginLeft:'218px', marginBottom: '16px'}}>
+                {ShowTotal ?
+                    <Col style={{width: '700px', float: 'left'}}>
+                        <div className="total-price" style={{width: '378px', marginBottom: '16px'}}>
+                            <h2 className="number-price">총 {props.user.userData.cart.length}개의 상품 {Total}원</h2>
                         </div>
-
-                        <div className="form-group">
-                            <Payment
-                                pg={PG}
-                                payMethod={PayMethod}
-                                total={Total}
-                                userData={props.user.userData}
-                                onSuccess={transactionSuccess}
-                                history={props.history}
-                            />
-                        </div>
-                    </form>
                     </Col>
-                </div>
-            }
-        </div>
+                :
+                    <Col/>
+                }
+
+
+                {/* ShowTotal이 있을 때만 결제 버튼을 보여줌
+                즉 카트에 상품이 없으면 결제 버튼도 안보임 */}
+                {ShowTotal &&
+                    <div>
+                        <Col>
+                        <form className="pay-form" style={{float:'right'}}>
+                            <div className="form-check">
+                                <label>
+                                <input
+                                    type="radio"
+                                    name="react-tips"
+                                    value="card"
+                                    checked={PayMethod === "card"}
+                                    onChange={handleOptionChange}
+                                    className="form-check-input"
+                                />
+                                카드 결제</label>
+                                <label>
+                                <input
+                                    type="radio"
+                                    name="react-tips"
+                                    value="trans"
+                                    checked={PayMethod === "trans"}
+                                    onChange={handleOptionChange}
+                                    className="form-check-input"
+                                />
+                                실시간 계좌이체</label>
+                                <label>
+                                <input
+                                    type="radio"
+                                    name="react-tips"
+                                    value="phone"
+                                    checked={PayMethod === "phone"}
+                                    onChange={handleOptionChange}
+                                    className="form-check-input"
+                                />
+                                휴대폰 결제</label>           
+                            </div>
+
+                            <div className="form-group">
+                                <Payment
+                                    pg={PG}
+                                    payMethod={PayMethod}
+                                    total={Total}
+                                    userData={props.user.userData}
+                                    onSuccess={transactionSuccess}
+                                    history={props.history}
+                                />
+                            </div>
+                        </form>
+                        </Col>
+                    </div>
+                }
+            </div>
         </div>
       ) 
 }

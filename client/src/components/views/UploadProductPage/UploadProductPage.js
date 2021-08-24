@@ -91,6 +91,8 @@ function UploadProductPage(props) {
         );
       },
     };
+    
+    console.log(files[0].size)
 
     formData.append("file", files[0]);
 

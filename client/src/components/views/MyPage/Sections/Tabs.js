@@ -5,67 +5,112 @@ import Meta from "antd/lib/card/Meta";
 import { Descriptions } from "antd";
 import axios from "axios";
 import Swal from "sweetalert2";
+import VerticalMenu from '../../VerticalMenu/VerticalMenu';
 import "../css/Tabs.css";
 
 function Tabs(props) {
   console.log(props.detail.userData);
   const [toggleState, setToggleState] = useState(1);
+  const [Tags, setTags] = useState([]);
+
+  const removeTags = (indexToRemove) => {
+    setTags(Tags.filter((_, index) => index !== indexToRemove));
+  };
+  const addTags = (event) => {
+    if (event.keyCode === 32 && event.target.value !== "") {
+      setTags([...Tags, event.target.value.trim()]); //공백 제거
+      event.target.value = "";
+    }
+  };
 
   const toggleTab = (index) => {
     setToggleState(index);
   };
 
   return (
-    <div className="container">
-      <div className="bloc-tabs">
+    <div style={{paddingTop: '50px', width: 'auto', margin: 'auto'}}>
+      <Col style={{float: 'left', marginLeft: '84px', marginRight: '84px'}}>
+        <VerticalMenu/>
+      </Col>
+      <Col>
+    <div className="mypage-container">
+      <div className="mypage-bloc-tabs">
         <button
-          className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
+          className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
           onClick={() => toggleTab(1)}
         >
           기본 정보
         </button>
-        <button
-          className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
-          onClick={() => toggleTab(2)}
-        >
-          취향
-        </button>
       </div>
-      <div className="content-tabs">
+      <div className="mypage-content-tabs">
         <div
-          className={toggleState === 1 ? "content  active-content" : "content"}
+          className={toggleState === 1 ? "mypage-content  active-content" : "mypage-content"}
         >
-          <h2>프로필 이미지</h2>
+          <Col style={{float:'left', borderRight: '3px solid #ffcb39'}}>
+          <div className="profile-info">프로필 및 닉네임</div>
           <Avatar
             src={props.detail.userData && props.detail.userData.image}
             size="large"
+            className="mypage-avatar"
           ></Avatar>
 
-          <h2>name : {props.detail.userData && props.detail.userData.name}</h2>
-          <h2>
-            email : {props.detail.userData && props.detail.userData.email}{" "}
-          </h2>
+          <div className="name-info">
+            {props.detail.userData && props.detail.userData.name}
+            <button className="change-info-basic" ><a href="/user/info">닉네임 수정</a></button>
 
-          <h2>
-            계좌 정보 :
+          </div>
+          <div className="email-info">
+            {props.detail.userData && props.detail.userData.name}{" "}({props.detail.userData && props.detail.userData.email}{" "})
+          </div>
+          <div className="account-info-account">
+            <div className="info-title">계좌 정보</div>
             {props.detail.userData ? (
               props.detail.userData.accountNumber === undefined ? (
                 <a href="/user/account">계좌정보를 입력해주세요. </a>
               ) : (
-                `${props.detail.userData.accountNumber}  ${props.detail.userData.bank}  ${props.detail.userData.accountHolder}`
+                <span className="my-account">{props.detail.userData.bank}&nbsp;&nbsp;&nbsp;{props.detail.userData.accountNumber}</span>
               )
             ) : (
               <div></div>
             )}
-          </h2>
-          <a href="/user/info">기본 정보 수정하기</a>
-          <br />
-          <a href="/user/account">계좌 정보 수정하기</a>
+            <button className="change-info-account"><a href="/user/account">계좌 정보 수정</a></button>
+          </div>
+          </Col>
+
+          <Col style={{float: 'right'}}>
+          <div className="tag-info">
+            <span className="info-title-tag">선호하는 해시태그</span>
+            <div className="interest-tag-box">
+              <div className="interest-tags-input">
+                <input
+                  className="interest-upload-tags"
+                  type="text"
+                  placeholder="스페이스바를 눌러 해시태그를 입력하세요"
+                  onKeyUp={(e) => (e.keyCode === 32 ? addTags(e) : null)}
+                />
+              </div>
+              <div className="setting-tags-container">
+              <ul className="setting-tags">
+                  {Tags.map((tag, index) => (
+                    <li key={index} className="interest-tag">
+                      <span>{tag}</span>
+                      <span
+                        className="interest-tag-close-icon"
+                        onClick={() => removeTags(index)}
+                      >
+                        X
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+          </Col>
         </div>
       </div>
-      <div
-        className={toggleState === 2 ? "content  active-content" : "content"}
-      ></div>
+    </div>
+    </Col>
     </div>
   );
 }

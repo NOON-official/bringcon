@@ -68,7 +68,7 @@ router.post("/complete", async (req, res) => {
     try {
       console.log(req)
       console.log(req.body)
-      const { imp_uid, merchant_uid } = req.query; // req의 query에서 imp_uid, merchant_uid 추출
+      const { imp_uid, merchant_uid, imp_success } = req.query; // req의 query에서 imp_uid, merchant_uid 추출
       // imp_success
       // 액세스 토큰(access token) 발급 받기
       const getToken = await axios({

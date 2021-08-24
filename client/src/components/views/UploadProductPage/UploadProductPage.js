@@ -92,7 +92,11 @@ function UploadProductPage(props) {
       },
     };
     
-    console.log(files[0].size)
+    if(files[0].size > 314572800) // 300M
+    {
+      alert("300MB 초과하는 파일은 업로드할 수 없습니다.");
+      return;
+    }
 
     formData.append("file", files[0]);
 

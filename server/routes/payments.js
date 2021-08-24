@@ -66,9 +66,7 @@ router.post("/complete", async (req, res) => {
   //모바일 결제
   router.get("/complete", async (req, res) => {
     try {
-      console.log(req)
-      console.log(req.body)
-      const { imp_uid, merchant_uid, imp_success } = req.query; // req의 query에서 imp_uid, merchant_uid 추출
+      const { imp_uid, merchant_uid } = req.query; // req의 query에서 imp_uid, merchant_uid 추출
       // imp_success
       // 액세스 토큰(access token) 발급 받기
       const getToken = await axios({
@@ -111,11 +109,11 @@ router.post("/complete", async (req, res) => {
             // 가상계좌 발급 안내 문자메시지 발송
             SMS.send({ text: `가상계좌 발급이 성공되었습니다. 계좌 정보 \${vbank_num} \${vbank_date} \${vbank_name}`});
             res.send({ status: "vbankIssued", message: "가상계좌 발급 성공" });
-            res.redirect("http://bringcon.shop/user/cart")
+            // res.redirect("http://bringcon.shop/user/cart")
             break;
           case "paid": // 결제 완료
             res.send({ status: "success", message: "일반 결제 성공", payment: paymentData });
-            res.redirect("http://bringcon.shop/user/cart")
+            // res.redirect("http://bringcon.shop/user/cart")
             break;
         }
       } else { // 결제 금액 불일치. 위/변조 된 결제
@@ -124,7 +122,7 @@ router.post("/complete", async (req, res) => {
   
     } catch (e) {
       res.status(400).send(e);
-      res.redirect("http://bringcon.shop/user/cart")
+      // res.redirect("http://bringcon.shop/user/cart")
     }
   });
 

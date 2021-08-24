@@ -150,6 +150,7 @@ function CartPage(props) {
                                 total={Total}
                                 userData={props.user.userData}
                                 onSuccess={transactionSuccess}
+                                history={props.history}
                             />
                         </div>
                     </form>

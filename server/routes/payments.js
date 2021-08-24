@@ -64,7 +64,7 @@ router.post("/complete", async (req, res) => {
   });
   
   //모바일 결제
-  router.get("/complete/mobile", async (req, res) => {
+  router.get("/complete", async (req, res) => {
     try {
       console.log(req)
       console.log(req.body)
@@ -111,9 +111,11 @@ router.post("/complete", async (req, res) => {
             // 가상계좌 발급 안내 문자메시지 발송
             SMS.send({ text: `가상계좌 발급이 성공되었습니다. 계좌 정보 \${vbank_num} \${vbank_date} \${vbank_name}`});
             res.send({ status: "vbankIssued", message: "가상계좌 발급 성공" });
+            res.redirect("http://bringcon.shop/user/cart")
             break;
           case "paid": // 결제 완료
             res.send({ status: "success", message: "일반 결제 성공", payment: paymentData });
+            res.redirect("http://bringcon.shop/user/cart")
             break;
         }
       } else { // 결제 금액 불일치. 위/변조 된 결제
@@ -122,6 +124,7 @@ router.post("/complete", async (req, res) => {
   
     } catch (e) {
       res.status(400).send(e);
+      res.redirect("http://bringcon.shop/user/cart")
     }
   });
 

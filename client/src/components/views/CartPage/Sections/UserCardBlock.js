@@ -1,14 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./UserCardBlock.css";
 import {Checkbox} from 'antd';
 function UserCardBlock(props) {
 
+    const [indeterminate, setIndeterminate] = useState(true);
+    const [checkAll, setCheckAll] = useState(false);
     // const renderCartImage = (images) => {
     //     if (images.length > 0) {
     //         let image = images[0]
     //         return `http://localhost:5000/${image}`
     //     }
     // }
+    function handleChange(checkedValues) {
+        console.log('checked = ', checkedValues.target.value);
+    }
+
+    const onCheckAllChange = e => {
+        // setCheckedList(e.target.checked ? plainOptions : []);
+        setIndeterminate(false);
+        setCheckAll(e.target.checked);
+    };
 
 
 
@@ -17,7 +28,7 @@ function UserCardBlock(props) {
         props.products && props.products.map((product, index) => (
             <tr key={index} className="rendered-card">
                 <td>
-                    <Checkbox/>
+                    <Checkbox value={product} onChange={handleChange}/>
                 </td>
                 <td>
                     <img style={{ width: '142px', height: '80px' }} alt="product" className="cart-image"
@@ -54,7 +65,7 @@ function UserCardBlock(props) {
                 <tbody>
                     <td className="remove-info" colSpan='3'>
                         <div className="check-all-text" style={{width:'100px'}}>
-                            <Checkbox style={{marginRight: '4px'}}/>
+                            <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} style={{marginRight: '4px'}}/>
                             전체 선택
                         </div>
                     </td>

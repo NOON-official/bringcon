@@ -67,7 +67,7 @@ function LandingPage() {
           id="card-video"
           style={{ backgroundImage: `url(${product.s3thumbnail})` }}
         >
-          <a href={`/product/${product._id}`}>
+          <a href={`/product/${product._id}`} target="_blank">
             <video
               src={`${product.filePath}`}
               onMouseOver={handleMouseover}
@@ -79,13 +79,13 @@ function LandingPage() {
         <div id="card-avatar">
           <Meta
             avatar={
-              <a href={`/videos/${product.writer._id}`}>
+              <a href={`/videos/${product.writer._id}`} target="_blank">
                 <Avatar src={product.writer.image} />
               </a>
             }
             title={product.title}
           />
-          <a href={`/videos/${product.writer._id}`}>
+          <a href={`/videos/${product.writer._id}`} target="_blank">
             <span>{product.writer.name}</span>
           </a>
           <span id="card-price">{`${product.price.toLocaleString(
@@ -194,6 +194,7 @@ function LandingPage() {
             backgroundColor: "#1C1C1C",
           }}
         >
+          {/* 링크 달 때, 새탭에서 띄우게 하기. */}
           <span id="hash">동물</span>
           <span id="hash">서버</span>
           <span id="hash">수강신청</span>

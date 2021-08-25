@@ -8,7 +8,7 @@
 .component ul {
     background-color: #ffcb39;
     list-style: none;
-    height: 300px;
+    height: 168px;
     text-align:center;
     border-radius: 10px;
     padding-left: 0;
@@ -16,18 +16,18 @@
 }
 .component ul li{
     display:inline-block;
-    width: 100px;
-    color: #fff;
-    height: 13%;
+    width: 168px;
+    color: #1C1C1C;
+    height: 5%;
     padding: 3%;
-    margin-top: 10%;
-    margin-bottom: 10%;
+    margin-top: 5%;
+    margin-bottom: 5%;
     font-family: 'Pretendard';
-    font-size: 16px;
+    font-size: 18px;
 }
 
-.component ul li:hover{
-    cursor: pointer;
+.component ul li a:hover{
+    cursor: pointer !important;
 }
 /* .component ul span{
     width: 100%;
@@ -50,7 +50,7 @@
 
 .component ul li a{
     text-decoration: none;
-    color: #fff; 
+    color: #1C1C1C; 
 }
 
 .component ul li a:focus{

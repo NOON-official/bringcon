@@ -37,8 +37,6 @@ function LoginGoogle(props) {
     };
 
     dispatch(registerUser(dataToSubmit)).then((response) => {
-      if (response.payload.success) {
-      }
       dispatch(loginUser(dataToSubmit))
         .then((response) => {
           console.log(response);
@@ -48,7 +46,7 @@ function LoginGoogle(props) {
         })
         .catch(() => {
           setTimeout(() => {
-            console.log("erroer");
+            console.log("error");
           }, 3000);
         });
     });

@@ -27,6 +27,7 @@ router.get("/auth", auth, (req, res) => {
     accountHolder: req.user.accountHolder,
     accountNumber: req.user.accountNumber,
     bank: req.user.bank,
+    interests: req.user.interests,
   });
 });
 
@@ -260,6 +261,24 @@ router.post("/account", (req, res) => {
   );
 });
 
+router.post("/interests", (req, res) => {
+  console.log(req.body);
+  User.findOneAndUpdate(
+    { _id: req.body._id },
+    {
+      $set: {
+        interests: req.body.interests,
+      },
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      res.status(200).json({
+        success: true,
+      });
+    }
+  );
+});
 
 router.post("/info", (req, res) => {
   console.log(req.body);
@@ -267,7 +286,7 @@ router.post("/info", (req, res) => {
     { _id: req.body._id },
     {
       $set: {
-        name : req.body.name,
+        name: req.body.name,
       },
     },
     { new: true },

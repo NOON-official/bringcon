@@ -63,53 +63,99 @@ function HistoryPage(props) {
                     {/* <HistorySearchFeature/> */}
                 </div>
                 <div className="purchased-list">
-                    {/* userData와 history가 있으면 */}
-                            <table style={{width: '900px', margin: 'auto'}}>
-                                <thead style={{height: '68px'}}>
-                                    <tr>
-                                        <th className="history-checkall" colSpan='4'><Checkbox style={{marginRight: '5px', marginLeft: '10px'}}/>전체 선택</th>
-                                        <th><button style={{float:'right'}} className="single-download-button">선택 다운로드</button></th>
-                                    </tr>
-                                </thead>
-                                {props.user.userData && props.user.userData.history &&
-                                props.user.userData.history.map((item, index) => (
-                                <tbody style={{width: '900px', margin: 'auto'}}>
-                                    <tr className="purchased-row" key={index} style={{height: '120px'}}>
-                                        <td style={{borderBottom: 'none'}}><Checkbox style={{marginLeft: '10px'}}/></td>  
-                                        {/* 여기 썸네일 이미지 들어가야 함 */}
-                                    {/* <td>{item.merchantUid}</td> */}
-                                    <td>
-                                    {/* <div className="purchased-title">{item.name}</div> */}
-                                    {/* 여기는 올린 사람 이름 들어가야 함 */}
-                                    {/* <div className="purchased-uploader">{item.name}</div> */}
-                                    </td>
-                                    <td>
-                                        {/* <div className="purchased-price">{item.price}원</div> */}
-                                    </td>
-                                    <td>
-                                        {/* <button className="single-download-button" onClick={e => { e.preventDefault(); handleClick(item.id)} }>다운로드</button> */}
-                                        <br/>
-                                        <button className="rebuy-button">재구매</button>
-                                    </td>
-                                    </tr>
-                                    <tr className="toggle-box">
-                                        <td colSpan="5">
-                                            <div className="purchase-info" onClick={e => { e.preventDefault(); handleToggle()}}>
-                                                구매 내역
-                                                <div className={`close ${open ? `block` : ''}`}>
-                                                {/* {item.name} */}
-                                            </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            ))}
-                        </table>
+                    <table style={{width: '900px', margin: 'auto'}}>
+                        <thead style={{height: '68px'}}>
+                            <tr>
+                                <th className="history-checkall" colSpan='4'><Checkbox style={{marginRight: '5px', marginLeft: '10px'}}/>전체 선택</th>
+                                <th><button style={{float:'right'}} className="single-download-button">선택 다운로드</button></th>
+                            </tr>
+                        </thead>
                         
+                        {/* 주문 건당 토글바 */}
+                        {props.user.userData && props.user.userData.history &&
+                        props.user.userData.history.map((order, index) => (
+                            <tr className="toggle-box">
+                            <td colSpan="5">
+                            <div className="purchase-info" onClick={e => { e.preventDefault(); handleToggle()}}>
+                                {/* 결제 일시 */}
+                                <span style={{float: 'left', paddingLeft: '15px'}}>{`${getDateOfPurchase(order.OrderInfo.dateOfPurchase)}`}</span>
+                                
+                                {/* 결제 수단 */}
+                                <span style={{paddingLeft: '90px'}}>
+                                    {(() => {
+                                    switch(order.OrderInfo.payMethod) {
+                                        case "card":
+                                            // 카카오페이, 페이코 등으로 결제한 경우
+                                            if(order.OrderInfo.embPgProvider){
+                                                if(order.OrderInfo.embPgProvider === "kakaopay") return "카카오페이"
+                                                else if(order.OrderInfo.embPgProvider === "payco") return "페이코"
+                                                else return order.OrderInfo.embPgProvider
+                                            } else { // 일반 카드로 결제한 경우
+                                                return `카드결제 (${order.OrderInfo.cardName} ${order.OrderInfo.cardNumber})`
+                                            }
+
+                                        case "trans":
+                                            return "실시간계좌이체"
+                                    
+                                        case "phone":
+                                            return "휴대폰결제"
+
+                                        default:
+                                            return "결제완료"
+                                    }
+                                })()}
+                                </span>
+
+                                {/* 결제 총금액 */}
+                                <span style={{float: 'right', paddingRight: '15px'}}>{`${order.OrderInfo.amount.toLocaleString("ko-KR")}원`}</span>
+
+                                <div className={`close ${open ? `block` : ''}`}>
+                                
+
+                                    {/* 주문 건당 상품 리스트 */}
+                                {order.ProductInfo.map((product, index) => (
+                                <tbody style={{width: '900px', margin: 'auto'}}>
+                        
+                                                
+                                                <tr className="purchased-row" key={index} style={{height: '120px'}}>
+                                                <td style={{borderBottom: 'none'}}><Checkbox style={{marginLeft: '10px'}}/></td>  
+                                                <td>
+                                                    {/* 썸네일 이미지 */}
+                                                    <img
+                                                        style={{ width: "142px", height: "80px", borderRadius: "8px" }}
+                                                        alt="product"
+                                                        src={product.s3thumbnail}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    {/* 상품 이름, 올린 사람 */}
+                                                <div className="purchased-title">{product.title}</div>
+                                                <div className="purchased-uploader">{product.writer}</div>
+                                                </td>
+                                                <td>
+                                                    {/* 상품 가격 */}
+                                                    <div className="purchased-price">{product.price}원</div>
+                                                </td>
+                                                <td>
+                                                    {/* 다운로드, 재구매 버튼 */}
+                                                    <button className="single-download-button" onClick={e => { e.preventDefault(); handleClick(product.id)} }>다운로드</button>
+                                                    <br/>
+                                                    <button className="rebuy-button">재구매</button>
+                                                </td>
+                                                </tr>
+                                </tbody>
+                                ))}
+
+                                </div>
+                                </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </table>     
+                </div>
             </div>
-            </div>
-            </Col>
-        </div>
+        </Col>
+    </div>
     )
 }
 

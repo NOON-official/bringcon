@@ -3,6 +3,9 @@ import axios from "axios";
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 
 function HistoryPage(props) {
+    if(props.user.userData) {
+        console.log(props.user.userData.history)
+    }
     const handleClick = (item) => {
         const data = {product_id: item}
         //다운로드 할 product id를 백엔드로 보내줌
@@ -15,6 +18,18 @@ function HistoryPage(props) {
                 alert("다운로드에 실패하였습니다.")
             }
         })
+    }
+
+    const getDateOfPurchase = (dateOfPurchase) => {
+        let date = new Date(dateOfPurchase)
+        
+        const year = String(date.getFullYear())
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+
+        date = `${year}.${month}.${day}`
+
+        return date
     }
 
     return (
@@ -43,12 +58,12 @@ function HistoryPage(props) {
                     {props.user.userData && props.user.userData.history &&
                         props.user.userData.history.map((item, index) => (
                             <tr key={index}>
-                                <td>{item.name}</td>
-                                <td>{item.merchantUid}</td>
-                                <td>{item.price}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.dateOfPurchase}</td>
-                                <td><button onClick={e => { e.preventDefault(); handleClick(item.id)} }>click here :)</button></td>
+                                {/* <td>{item.title}</td> */}
+                                {/* <td>{item.merchantUid}</td> Order _id */}
+                                {/* <td>{item.price}</td> */}
+                                {/* <td>{item.quantity}</td> */}
+                                {/* <td>{getDateOfPurchase(item.dateOfPurchase)}</td> */}
+                                {/* <td><button onClick={e => { e.preventDefault(); handleClick(item.id)} }>click here :)</button></td> */}
                             </tr>
                         ))}
 

@@ -117,9 +117,9 @@ router.post("/thumbnail", (req, res) => {
   //비디오 duration 가져오기
   ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
     fileDuration = metadata.format.duration;
-    fileWidth = metadata.streams[0].width;
-    fileHeight = metadata.streams[0].height;
-    fileFormat = metadata.format.format_name;
+    fileWidth = metadata.streams[1].width;
+    fileHeight = metadata.streams[1].height;
+    fileFormat = metadata.format.filename.split('.')[1].toUpperCase();
   });
 
   // 썸네일 생성
@@ -188,9 +188,9 @@ router.post("/", (req, res) => {
   const product = new Product(req.body);
   
   ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
-    product.width = metadata.streams[0].width;
-    product.height = metadata.streams[0].height;
-    product.format = metadata.format.format_name;
+    fileWidth = metadata.streams[1].width;
+    fileHeight = metadata.streams[1].height;
+    fileFormat = metadata.format.filename.split('.')[1].toUpperCase()
   });
  
   product.save((err) => {

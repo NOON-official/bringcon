@@ -106,6 +106,19 @@ function uploadVideoToS3(source, target, mimetype) {
   });
 }
 
+function getVideoInfo (filePath) {
+  let width = 0;
+  let height = 0;
+  let format = "";
+  
+  ffmpeg.ffprobe(filePath, function(err, metadata) {
+    width = metadata.streams[0].width === undefined ? metadata.streams[1].width : metadata.streams[0].width;
+    height = metadata.streams[0].height === undefined ? metadata.streams[1].height : metadata.streams[0].height;
+    format = metadata.format.filename.split('.')[1].toUpperCase();
+  }
+  return { width : width, height : height, format : format}  
+}
+
 router.post("/thumbnail", (req, res) => {
   let filePath = "";
   let fileDuration = "";
@@ -117,11 +130,14 @@ router.post("/thumbnail", (req, res) => {
   //비디오 duration 가져오기
   ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
     fileDuration = metadata.format.duration;
-    fileWidth = metadata.streams[1].width;
-    fileHeight = metadata.streams[1].height;
-    fileFormat = metadata.format.filename.split('.')[1].toUpperCase();
   });
 
+  //Get Video Resolution and Extension
+  let vinfo = getVideoInfo(req.body.filePath);
+  fileWidth = vinfo.width;
+  fileHeight = vinfo.height;
+  fileFormat = vinfo.format;
+  
   // 썸네일 생성
   ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
     .on("filenames", function (filenames) {
@@ -187,12 +203,11 @@ router.post("/", (req, res) => {
   //받아온 정보들을 DB에 넣어 준다.
   const product = new Product(req.body);
   
-  ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
-    fileWidth = metadata.streams[1].width;
-    fileHeight = metadata.streams[1].height;
-    fileFormat = metadata.format.filename.split('.')[1].toUpperCase()
-  });
- 
+  let vinfo = getVideoInfo(req.body.filePath);
+  product.width = vinfo.width;
+  product.height = vinfo.height;
+  product.format = vinfo.format;
+  
   product.save((err) => {
     if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });

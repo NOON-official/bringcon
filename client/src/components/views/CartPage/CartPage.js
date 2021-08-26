@@ -35,6 +35,7 @@ function CartPage(props) {
         let total = 0;
 
         cartDetail.map(item => {
+            if( item.product.target.value === true )
             total += parseInt(item.price, 10) * item.quantity
         })
 

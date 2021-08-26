@@ -119,7 +119,7 @@ router.post("/thumbnail", (req, res) => {
     fileDuration = metadata.format.duration;
     fileWidth = metadata.streams[0].width;
     fileHeight = metadata.streams[0].height;
-    fileExt = metadata.format.format_name;
+    fileFormat = metadata.format.format_name;
   });
 
   // 썸네일 생성

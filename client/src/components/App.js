@@ -18,6 +18,7 @@ import BodyPage from "./views/Board/BodyPage";
 import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
 import AddAccount from "./views/MyPage/Sections/AddAccount";
+import AddInterests from "./views/MyPage/Sections/AddInterests";
 import MyPage from "./views/MyPage/MyPage";
 import WelcomePage from "./views/LoginPage/WelcomePage";
 import AdminLandingPage from "./admin/AdminLandingPage/AdminLandingPage";
@@ -90,6 +91,11 @@ function App() {
                   exact
                   path="/user/account"
                   component={Auth(AddAccount, true)}
+                />
+                <Route
+                  exact
+                  path="/user/interests"
+                  component={Auth(AddInterests, true)}
                 />
                 <Route
                   exact

@@ -1,11 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import axios from "axios";
+import {Col, Checkbox} from'antd'; 
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
+// import {CaretRightOutlined} from '@ant-design/icons';
+// import HistorySearchFeature from './HistorySearchFeature';
+import './History.css';
 
 function HistoryPage(props) {
     if(props.user.userData) {
         console.log(props.user.userData.history)
     }
+    
+    const [toggleState, setToggleState] = useState(1);
+    const [open, setOpen] = useState(false);
+ 
     const handleClick = (item) => {
         const data = {product_id: item}
         //다운로드 할 product id를 백엔드로 보내줌
@@ -18,6 +26,14 @@ function HistoryPage(props) {
                 alert("다운로드에 실패하였습니다.")
             }
         })
+    }
+
+    const toggleTab = (index) => {
+        setToggleState(index);
+      };
+
+    const handleToggle = () => {
+        setOpen(!open);
     }
 
     const getDateOfPurchase = (dateOfPurchase) => {
@@ -33,43 +49,66 @@ function HistoryPage(props) {
     }
 
     return (
-        <div style={{ width: '80%', margin: '3rem auto' }}>
+    <div id="body" style={{paddingTop: '50px', maxWidth: '100vw', margin: 'auto'}}>
+        <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
             <VerticalMenu/>
-            <div style={{ textAlign: 'center' }}>
-                <h1>History</h1>
-            </div>
-            <br />
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Payment Id</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Date of Purchase</th>
-                        <th>Download</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
+        </Col>
+        <Col style={{float: 'right', width: '1150px'}}>
+            <div className="history-container">
+                <div className="mypage-bloc-tabs">
+                    <button className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
+                    onClick={() => toggleTab(1)}>
+                        구매 내역
+                    </button>
+                    {/* <HistorySearchFeature/> */}
+                </div>
+                <div className="purchased-list">
                     {/* userData와 history가 있으면 */}
-                    {props.user.userData && props.user.userData.history &&
-                        props.user.userData.history.map((item, index) => (
-                            <tr key={index}>
-                                {/* <td>{item.title}</td> */}
-                                {/* <td>{item.merchantUid}</td> Order _id */}
-                                {/* <td>{item.price}</td> */}
-                                {/* <td>{item.quantity}</td> */}
-                                {/* <td>{getDateOfPurchase(item.dateOfPurchase)}</td> */}
-                                {/* <td><button onClick={e => { e.preventDefault(); handleClick(item.id)} }>click here :)</button></td> */}
-                            </tr>
-                        ))}
-
-
-                </tbody>
-            </table>
+                            <table style={{width: '900px', margin: 'auto'}}>
+                                <thead style={{height: '68px'}}>
+                                    <tr>
+                                        <th className="history-checkall" colSpan='4'><Checkbox style={{marginRight: '5px', marginLeft: '10px'}}/>전체 선택</th>
+                                        <th><button style={{float:'right'}} className="single-download-button">선택 다운로드</button></th>
+                                    </tr>
+                                </thead>
+                                {props.user.userData && props.user.userData.history &&
+                                props.user.userData.history.map((item, index) => (
+                                <tbody style={{width: '900px', margin: 'auto'}}>
+                                    <tr className="purchased-row" key={index} style={{height: '120px'}}>
+                                        <td style={{borderBottom: 'none'}}><Checkbox style={{marginLeft: '10px'}}/></td>  
+                                        {/* 여기 썸네일 이미지 들어가야 함 */}
+                                    {/* <td>{item.merchantUid}</td> */}
+                                    <td>
+                                    {/* <div className="purchased-title">{item.name}</div> */}
+                                    {/* 여기는 올린 사람 이름 들어가야 함 */}
+                                    {/* <div className="purchased-uploader">{item.name}</div> */}
+                                    </td>
+                                    <td>
+                                        {/* <div className="purchased-price">{item.price}원</div> */}
+                                    </td>
+                                    <td>
+                                        {/* <button className="single-download-button" onClick={e => { e.preventDefault(); handleClick(item.id)} }>다운로드</button> */}
+                                        <br/>
+                                        <button className="rebuy-button">재구매</button>
+                                    </td>
+                                    </tr>
+                                    <tr className="toggle-box">
+                                        <td colSpan="5">
+                                            <div className="purchase-info" onClick={e => { e.preventDefault(); handleToggle()}}>
+                                                구매 내역
+                                                <div className={`close ${open ? `block` : ''}`}>
+                                                {/* {item.name} */}
+                                            </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            ))}
+                        </table>
+                        
+            </div>
+            </div>
+            </Col>
         </div>
     )
 }

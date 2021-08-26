@@ -53,6 +53,9 @@ const userSchema = mongoose.Schema({
   channelId: {
     type: Array,
   },
+  interests: {
+    type: Array,
+  },
 });
 
 userSchema.pre("save", function (next) {

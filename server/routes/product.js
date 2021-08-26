@@ -110,10 +110,16 @@ router.post("/thumbnail", (req, res) => {
   let filePath = "";
   let fileDuration = "";
   let fileName = "";
+  let fileWidth = 0;
+  let fileHeight = 0;
+  let fileFormat = "";
 
   //비디오 duration 가져오기
   ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
     fileDuration = metadata.format.duration;
+    fileWidth = metadata.streams[0].width;
+    fileHeight = metadata.streams[0].height;
+    fileExt = metadata.format.format_name;
   });
 
   // 썸네일 생성
@@ -135,6 +141,9 @@ router.post("/thumbnail", (req, res) => {
         filePath: filePath,
         s3FilePath: s3FilePath,
         fileDuration: fileDuration,
+        fileWidth: fileWidth,
+        fileHeight: fileHeight,
+        fileFormat: fileFormat
       });
     })
     .screenshots({
@@ -177,7 +186,13 @@ function uploadThumbnail(source, target) {
 router.post("/", (req, res) => {
   //받아온 정보들을 DB에 넣어 준다.
   const product = new Product(req.body);
-
+  
+  ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
+    product.width = metadata.streams[0].width;
+    product.height = metadata.streams[0].height;
+    product.format = metadata.format.format_name;
+  });
+ 
   product.save((err) => {
     if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });

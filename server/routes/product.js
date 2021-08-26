@@ -141,9 +141,9 @@ router.post("/thumbnail", (req, res) => {
         filePath: filePath,
         s3FilePath: s3FilePath,
         fileDuration: fileDuration,
-        fileWidth: fileWidth;
-        fileHeight: fileHeight;
-        fileFormat: fileFormat;
+        fileWidth: fileWidth,
+        fileHeight: fileHeight,
+        fileFormat: fileFormat
       });
     })
     .screenshots({

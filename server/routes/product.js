@@ -119,7 +119,7 @@ router.post("/thumbnail", (req, res) => {
     fileDuration = metadata.format.duration;
     fileWidth = metadata.streams[0].width;
     fileHeight = metadata.streams[0].height;
-    fileExt = metadata.format.format_name;
+    fileFormat = metadata.format.format_name;
   });
 
   // 썸네일 생성
@@ -187,7 +187,7 @@ router.post("/", (req, res) => {
   //받아온 정보들을 DB에 넣어 준다.
   const product = new Product(req.body);
   
-  ffmpeg.ffprobe(req.body.filePath, function (err, metadata) 
+  ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
     product.width = metadata.streams[0].width;
     product.height = metadata.streams[0].height;
     product.format = metadata.format.format_name;

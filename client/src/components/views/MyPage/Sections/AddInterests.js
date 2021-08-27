@@ -2,18 +2,6 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { Checkbox, Row, Col, Form } from "antd";
-const Options = [
-  "동물",
-  "음식",
-  "클립영상",
-  "유머",
-  "게임",
-  "애니메이션",
-  "일상",
-  "음악",
-  "뉴스",
-  "영화 및 TV",
-];
 
 function AddInterests(props) {
   const user = useSelector((state) => state.user);

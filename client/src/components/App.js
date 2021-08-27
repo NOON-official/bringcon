@@ -27,6 +27,7 @@ import UserVideoPage from "./views/LandingPage/UserVideoPage";
 import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
+import MyContentsPage from "./views/MyContentsPage/MyContentPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -129,6 +130,11 @@ function App() {
                   exact
                   path="/payments/complete"
                   component={Auth(Payment, true, true)}
+                />
+                <Route
+                  exact
+                  path="/user/mycontents"
+                  component={Auth(MyContentsPage, true)}
                 />
               </Switch>
             </CSSTransition>

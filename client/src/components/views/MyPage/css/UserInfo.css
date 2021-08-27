@@ -1,0 +1,55 @@
+.nickname {
+    margin-bottom: 77px;
+}
+
+.update-info{
+    width: 112px;
+    height: 32px;
+    background-color: transparent;
+    color: #B3E220;
+    border: 2px solid #B3E220;
+    border-radius: 6px;
+    float:right;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.update-info:hover{
+    cursor: pointer;
+    color: #B3E220;
+}
+
+.account-notice{
+    max-width: 675px;
+    min-height: 32px;
+    font-size: 12px;
+    color: #ffcb39;
+    font-weight: 400;
+}
+
+.mypage-label{
+    color: #ffcb39;
+    font-size: 12px;
+    margin-right:40px;
+}
+
+.mypage-input{
+    width: 391px;
+    height: 31px;
+    border-radius: 39px;
+}
+
+.holder{
+    margin-bottom: 76px;
+}
+
+.account-number{
+    margin-bottom: 66px;
+}
+
+.select-bank{
+    background-color: #ffcb39;
+    width: 132px;
+    height: 31px;
+    border-radius: 39px;
+}

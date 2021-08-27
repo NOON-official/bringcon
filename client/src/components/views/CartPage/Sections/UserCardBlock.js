@@ -55,6 +55,9 @@ function UserCardBlock(props) {
               })}
           </div>
         </td>
+        <td>
+        <span className="cart-quantity">{product.quantity}개</span>
+        </td>
       </tr>
     ));
 

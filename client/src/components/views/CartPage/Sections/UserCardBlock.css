@@ -20,7 +20,7 @@ table {
     background-color: #dddddd;
   }
 
-  .cart-title, .cart-price{
+  .cart-title, .cart-price .cart-quantity {
     font-size: 16px;
     font-weight: 700;
   }

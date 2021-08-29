@@ -10,10 +10,9 @@ function MyContentsPage(props) {
     const [Products, setProducts] = useState([]);
     const [Skip, setSkip] = useState(0);
     const [toggleState, setToggleState] = useState(1);
-    const [open, setOpen] = useState(false);
+    const [Fee, setFee] = useState(15)
 
     if(props.user.userData && UserId === "") {
-        console.log(props.user.userData._id)
         setUserId(props.user.userData._id)
     }
 
@@ -37,8 +36,6 @@ function MyContentsPage(props) {
             }
         });
     };
-
-    console.log(Products)
 
     const handleDelete = (id) => {
         const data = {product_id: id}
@@ -88,8 +85,7 @@ function MyContentsPage(props) {
     
     // 수수료 공제
     const deductFee = (price) => {
-        const fee = 15; // 수수료 15%
-        let result = Math.ceil(price - ( price * (fee / 100) )); // 반올림
+        let result = Math.ceil(price - ( price * (Fee / 100) )); // 반올림
         return result
     }
 
@@ -97,8 +93,17 @@ function MyContentsPage(props) {
         setToggleState(index);
     };
 
-    const handleToggle = () => {
-        setOpen(!open);
+    const handleToggle = (e) => {
+        let element = e.currentTarget.children[0].children[0]
+        let _element =  element.children[1]
+
+        if(_element.classList.contains('block')){
+            _element.classList.remove('block')
+            element.children[0].innerHTML = '▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역'
+        } else {
+            _element.classList.add('block')
+            element.children[0].innerHTML = '▼&nbsp;&nbsp;&nbsp;&nbsp;판매 내역'
+        }
     }
 
     return (
@@ -136,7 +141,7 @@ function MyContentsPage(props) {
                             </td>
                             <td>
                                 {/* 총 판매 금액 */}
-                                <div className="product-total-price">{`총 판매 금액 : ${product.sold ? deductFee(product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
+                                <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
                             </td>
                             <td>
                                 <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
@@ -144,12 +149,19 @@ function MyContentsPage(props) {
                                 <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>
                             </td>
                             </tr>
-                            <tr className="toggle-box">
-                                <td colSpan="5">
-                                    <div className="product-info" onClick={e => { e.preventDefault(); handleToggle()}}>
-                                        판매 내역
-                                        <div className={`close ${open ? `block` : ''}`}>
-                                            {product.name}
+                            <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>
+                                <td colSpan="4">
+                                    <div className="product-info">
+                                        <span>▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역</span>
+                                        <div className='close'>
+                                            <div>
+                                                <span style={{paddingRight: '111px'}}>판매 횟수</span>
+                                                <span>{`${product.sold}회`}</span>
+                                            </div>
+                                            <div>
+                                                <span style={{paddingRight: '111px'}}>정산 금액</span>
+                                                <span>{`${product.sold ? deductFee(product.sold * product.price).toLocaleString("ko-KR") : 0}원 (수수료 ${Fee}%)`}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>

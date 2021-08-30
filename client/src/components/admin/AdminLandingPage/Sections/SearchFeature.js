@@ -16,8 +16,7 @@ function SearchFeature(props) {
     <div>
       <Search
         placeholder="관리자 전용 페이지입니다.!"
-        onfocus="this.placeholder = ''"
-        onblur="this.placeholder = 'enter your text'"
+        // onFocus="this.placeholder = ''"
         onChange={searchHandler}
         style={{ width: 720, height: "40px", borderRadius: "200px" }}
         value={SearchTerm}

@@ -42,8 +42,7 @@ function SearchFeature(props) {
       </select>
       <Search
         placeholder="브링콘과 함께 콘텐츠 여행을 떠나보세요!"
-        onfocus="this.placeholder = ''"
-        onblur="this.placeholder = 'enter your text'"
+        // onFocus="this.placeholder = ''"
         onChange={searchHandler}
         style={{ width: 720, height: "40px", borderRadius: "200px" }}
         value={SearchTerm}

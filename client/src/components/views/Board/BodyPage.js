@@ -6,7 +6,7 @@ import {} from 'jquery.cookie';
 class BodyPage extends Component {
     render() {
         return (
-            <div id="#body" style={{backgroundColor:"#1C1C1C", height: '90vh'}}>
+            <div id="body" style={{width: 'auto', backgroundColor:"#1C1C1C", minHeight: '90vh', overflow: 'auto'}}>
                 <BoardForm/>
             </div>
         );

@@ -35,24 +35,28 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
-        {/* 회사 및 서비스 소개 페이지 만들기 */}
-        <Menu.Item key="about">
-          <a href="#" style={{ color: "#ffcb39" }}>
-            About
-          </a>
-        </Menu.Item>
-
-        <Menu.Item key="history">
-          <a href="/user/history" style={{ color: "#ffcb39" }}>
-            History
-          </a>
-        </Menu.Item>
-
+        {/* 업로드 페이지 */}
         <Menu.Item key="upload">
           <a href="/product/upload" style={{ color: "#ffcb39" }}>
             Upload
           </a>
         </Menu.Item>
+
+        {/* 랜딩페이지 */}
+        <Menu.Item key="contents">
+          <a href="/" style={{ color: "#ffcb39" }}>
+            Contents
+          </a>
+        </Menu.Item>
+
+        {/* 마이페이지 */}
+        <Menu.Item key="mypage">
+          <a href="/user/history" style={{ color: "#ffcb39" }}>
+            My Page
+          </a>
+        </Menu.Item>
+
+        {/* 장바구니 */}
         <Menu.Item id="cart" key="cart">
           <Badge 
             count={user.userData && user.userData.cart.length}
@@ -64,9 +68,10 @@ function RightMenu(props) {
           </Badge>
         </Menu.Item>
 
+        {/* 로그아웃 */}
         <Menu.Item key="logout">
           <a onClick={logoutHandler} style={{ color: "#ffcb39" }}>
-            Log out
+            Logout
           </a>
         </Menu.Item>
       </Menu>

@@ -59,14 +59,15 @@ input[type='radio']{
     display: none;
 }
 
-.form-check label {
+.pay-box {
     color: #B3E220;
     border: 2px solid #B3E220;
     border-top: none;
     padding: 8px 16px;
     margin-right: -1px;
     line-height: 16px;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
     border-bottom-left-radius: 6px;
@@ -77,9 +78,9 @@ input[type='radio']{
     cursor: pointer;
 }
 
-.form-check input:checked label {
+.form-check input:checked ~ .pay-box{
     background-color: #B3E220;
-    color: #1C1C1C;
+    color: #fff;
 }
 
 .ant-result-title {

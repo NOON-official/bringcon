@@ -47,9 +47,19 @@ table {
   height: 32px;
   font-size: 14px;
   font-weight: 900;
+  color: #B3E220;
 }
 
 .single-remove-button:hover{
   color: #B3E220;
   cursor: pointer;
+}
+
+.cart-price{
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.cart-seller span{
+  margin-right: 73px;
 }

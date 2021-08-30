@@ -110,12 +110,18 @@ router.post("/thumbnail", (req, res) => {
   let filePath = "";
   let fileDuration = "";
   let fileName = "";
+  let fileWidth = 0;
+  let fileHeight = 0;
+  let fileFormat = "";
 
   //비디오 duration 가져오기
   ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
     fileDuration = metadata.format.duration;
+    fileWidth = metadata.streams[0].width === undefined ? metadata.streams[1].width : metadata.streams[0].width;
+    fileHeight = metadata.streams[0].height === undefined ? metadata.streams[1].height : metadata.streams[0].height;
+    fileFormat = metadata.format.filename.split('.')[1].toUpperCase();
   });
-
+  
   // 썸네일 생성
   ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
     .on("filenames", function (filenames) {
@@ -135,6 +141,9 @@ router.post("/thumbnail", (req, res) => {
         filePath: filePath,
         s3FilePath: s3FilePath,
         fileDuration: fileDuration,
+        fileWidth: fileWidth,
+        fileHeight: fileHeight,
+        fileFormat: fileFormat
       });
     })
     .screenshots({
@@ -177,7 +186,14 @@ function uploadThumbnail(source, target) {
 router.post("/", (req, res) => {
   //받아온 정보들을 DB에 넣어 준다.
   const product = new Product(req.body);
-
+  
+  //Get Video Resolution and Extension
+  ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
+    product.width = metadata.streams[0].width === undefined ? metadata.streams[1].width : metadata.streams[0].width;
+    product.height = metadata.streams[0].height === undefined ? metadata.streams[1].height : metadata.streams[0].height;
+    product.format = metadata.format.filename.split('.')[1].toUpperCase();
+  });
+  
   product.save((err) => {
     if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });

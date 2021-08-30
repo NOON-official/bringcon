@@ -37,6 +37,9 @@ function UploadProductPage(props) {
   const [Tags, setTags] = useState([]);
   const [progress, setProgress] = useState(0);
   const [hasAccount, setAccount] = useState(false);
+  const [Width, setWidth] = useState(0);
+  const [Height, setHeight] = useState(0);
+  const [Format, setFormat] = useState("");
 
   const removeTags = (indexToRemove) => {
     setTags(Tags.filter((_, index) => index !== indexToRemove));
@@ -115,6 +118,9 @@ function UploadProductPage(props) {
             setThumbnailPath(response.data.filePath);
             setS3thumbnailPath(response.data.s3FilePath);
             setImages((Images) => [...Images, response.data.filePath]);
+            setWidth(response.data.fileWidth);
+            setHeight(response.data.fileHeight);
+            setFormat(response.data.fileFormat);
           } else {
             setProgress(0);
             alert("썸네일 생성에 실패했습니다.");
@@ -302,6 +308,13 @@ function UploadProductPage(props) {
             </div>
           )} */}
             </div>
+            
+            /* 해상도 확장자 테스트 */
+
+            <span style={{ backgroundColor: "#1C1C1C", color: "#FFF"}}>
+            해상도 {Width}x{Height}  확장자 {Format}
+            </span>
+
             <br />
             <br />
             <Input

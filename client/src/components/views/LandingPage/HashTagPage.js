@@ -220,7 +220,7 @@ function HashTagPage(props) {
         }}
       >
         <SearchFeature
-          placeholder={`#${Tag}`}
+          placeholder={`# ${Tag} page`}
           refreshFunction={updateSearchTerm}
         />
         <br />

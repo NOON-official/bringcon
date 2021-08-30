@@ -6,7 +6,6 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 // pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
-import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import UploadProductPage from "./views/UploadProductPage/UploadProductPage.js";
 import DetailProductPage from "./views/DetailProductPage/DetailProductPage";
@@ -27,6 +26,7 @@ import UserVideoPage from "./views/LandingPage/UserVideoPage";
 import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
+import MyContentsPage from "./views/MyContentsPage/MyContentPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -52,87 +52,81 @@ function App() {
                   component={Auth(WelcomePage, null)}
                 />
                 <Route exact path="/login" component={Auth(LoginPage, false)} />
-                <Route
-                  exact
-                  path="/register"
-                  component={Auth(RegisterPage, false)}
-                />
-                <Route
-                  exact
-                  path="/product/upload"
-                  component={Auth(UploadProductPage, true)}
-                />
-                <Route
-                  exact
-                  path="/product/:productId"
-                  component={Auth(DetailProductPage, null)}
-                />
-                <Route
-                  exact
-                  path="/hashtag/:tag"
-                  component={Auth(HashTagPage, null)}
-                />
-                <Route
-                  exact
-                  path="/videos/:userId"
-                  component={Auth(UserVideoPage, null)}
-                />
-                <Route
-                  exact
-                  path="/user/cart"
-                  component={Auth(CartPage, true)}
-                />
-                <Route
-                  exact
-                  path="/user/history"
-                  component={Auth(HistoryPage, true)}
-                />
-                <Route
-                  exact
-                  path="/user/account"
-                  component={Auth(AddAccount, true)}
-                />
-                <Route
-                  exact
-                  path="/user/interests"
-                  component={Auth(AddInterests, true)}
-                />
-                <Route
-                  exact
-                  path="/user/info"
-                  component={Auth(UpdateUserInfo, true)}
-                />
-                <Route
-                  exact
-                  path="/user/mypage"
-                  component={Auth(MyPage, true)}
-                />
-                <Route exact path="/board" component={Auth(BodyPage, null)} />
-                <Route
-                  exact
-                  path="/board/write"
-                  component={Auth(BoardWriteForm, true)}
-                ></Route>
-                <Route path="/board/detail" component={BoardDetail}></Route>
-                // admin pages
-                <Route
-                  exact
-                  path="/adminpage"
-                  component={Auth(AdminLandingPage, true, true)}
-                />
-                <Route
-                  exact
-                  path="/product_admin/:productId"
-                  component={Auth(AdminDetailProductPage, true, true)}
-                />
-                <Route
-                  exact
-                  path="/payments/complete"
-                  component={Auth(Payment, true, true)}
-                />
               </Switch>
             </CSSTransition>
           </TransitionGroup>
+          <Switch>
+            <Route
+              exact
+              path="/product/upload"
+              component={Auth(UploadProductPage, true)}
+            />
+            <Route
+              exact
+              path="/product/:productId"
+              component={Auth(DetailProductPage, null)}
+            />
+            <Route
+              exact
+              path="/hashtag/:tag"
+              component={Auth(HashTagPage, null)}
+            />
+            <Route
+              exact
+              path="/videos/:userId"
+              component={Auth(UserVideoPage, null)}
+            />
+            <Route exact path="/user/cart" component={Auth(CartPage, true)} />
+            <Route
+              exact
+              path="/user/history"
+              component={Auth(HistoryPage, true)}
+            />
+            <Route
+              exact
+              path="/user/account"
+              component={Auth(AddAccount, true)}
+            />
+            <Route
+              exact
+              path="/user/interests"
+              component={Auth(AddInterests, true)}
+            />
+            <Route
+              exact
+              path="/user/info"
+              component={Auth(UpdateUserInfo, true)}
+            />
+            <Route exact path="/user/mypage" component={Auth(MyPage, true)} />
+            <Route exact path="/board" component={Auth(BodyPage, null)} />
+            <Route
+              exact
+              path="/board/write"
+              component={Auth(BoardWriteForm, true)}
+            ></Route>
+            <Route path="/board/detail" component={BoardDetail}></Route>
+            // admin pages
+            <Route
+              exact
+              path="/adminpage"
+              component={Auth(AdminLandingPage, true, true)}
+            />
+            <Route
+              exact
+              path="/product_admin/:productId"
+              component={Auth(AdminDetailProductPage, true, true)}
+            />
+            <Route
+              exact
+              path="/payments/complete"
+              component={Auth(Payment, true, true)}
+            />
+            <Route
+              exact
+              path="/user/mycontents"
+              component={Auth(MyContentsPage, true)}
+            />
+          </Switch>
         </Route>
         <CommunicationChat />
       </div>

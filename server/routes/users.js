@@ -50,6 +50,7 @@ router.post("/login", (req, res) => {
       res.cookie("w_auth", user.token).status(200).json({
         loginSuccess: true,
         userId: user._id,
+        interests: user.interests,
       });
     });
   });
@@ -172,6 +173,7 @@ router.post("/successBuy", auth, (req, res) => {
   let history = [];
   let transactionData = {};
   let productInfo = [];
+
   req.body.cartDetail.forEach((item) => 
     productInfo.push({
       title: item.title,
@@ -220,7 +222,7 @@ router.post("/successBuy", auth, (req, res) => {
           //상품 당 몇개의 quantity를 샀는지
 
           let products = [];
-          doc.product.forEach((item) => {
+          doc.product[0].ProductInfo.forEach((item) => {
             products.push({ id: item.id, quantity: item.quantity });
           });
 

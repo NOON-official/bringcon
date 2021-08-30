@@ -18,7 +18,6 @@
 }
 
 .block{
-    /* background-color: #ffcb39; */
     color: #1C1C1C;
 }
 
@@ -104,6 +103,7 @@
     border-radius: 12px;
     border: 2px solid #ffcb39;
     margin-top: 12px;
+    background-color: transparent !important;
 }
 
 .history-checkall{

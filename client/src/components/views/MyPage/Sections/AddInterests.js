@@ -58,61 +58,61 @@ function AddInterests(props) {
       <Form onSubmit={submitHandler}>
         <div className="interest-row" style={{width: '80%', margin: 'auto'}}>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="동물"/>
+          <input type="checkbox" className="interest-check" value="동물" onChange={onChange}/>
           <div className="interest-box">
             <span>동물</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="음식"/>
+          <input type="checkbox" className="interest-check" value="음식" onChange={onChange}/>
           <div className="interest-box">
             <span>음식</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="애니메이션"/>
+          <input type="checkbox" className="interest-check" value="애니메이션" onChange={onChange}/>
           <div className="interest-box">
             <span>애니메이션</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="일상"/>
+          <input type="checkbox" className="interest-check" value="일상" onChange={onChange}/>
           <div className="interest-box">
             <span>일상</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="게임"/>
+          <input type="checkbox" className="interest-check" value="게임" onChange={onChange}/>
           <div className="interest-box">
             <span>게임</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="클립영상"/>
+          <input type="checkbox" className="interest-check" value="클립영상" onChange={onChange}/>
           <div className="interest-box">
             <span>클립영상</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="음악"/>
+          <input type="checkbox" className="interest-check" value="음악" onChange={onChange}/>
           <div className="interest-box">
             <span>음악</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="유머"/>
+          <input type="checkbox" className="interest-check" value="유머" onChange={onChange}/>
           <div className="interest-box">
             <span>유머</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="뉴스"/>
+          <input type="checkbox" className="interest-check" value="뉴스" onChange={onChange}/>
           <div className="interest-box">
             <span>뉴스</span>
           </div>
         </label>
         <label className="interest-label">
-          <input type="checkbox" className="interest-check" value="영화 및 TV"/>
+          <input type="checkbox" className="interest-check" value="영화 및 TV" onChange={onChange}/>
           <div className="interest-box">
             <span>영화 및 TV</span>
           </div>

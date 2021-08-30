@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Avatar, Icon, Col, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
+import { useSelector } from "react-redux";
 import Checkbox from "./Sections/CheckBox";
 import Radiobox from "./Sections/RadioBox";
 import SearchFeature from "./Sections/SearchFeature";
@@ -9,6 +10,7 @@ import { genres, price } from "./Sections/Datas";
 import ScrollHorizontal from "react-scroll-horizontal";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
+import uniqueRandomArray from "unique-random-array";
 
 const Categories = [
   { key: 0, value: "전체" },
@@ -32,6 +34,7 @@ function HashTagPage(props) {
   });
   const [SearchTerm, setSearchTerm] = useState("");
   const Tag = props.match.params.tag;
+  const user = useSelector((state) => state.user);
   //처음 실행시 getProducts 작동!
   useEffect(() => {
     let body = {
@@ -62,6 +65,37 @@ function HashTagPage(props) {
     e.currentTarget.pause();
     e.currentTarget.currentTime = 0;
   }
+
+  const Interests =
+    user.userData && user.userData.interests
+      ? user.userData.interests
+      : [
+          "test_tag1",
+          "test_tag2",
+          "test_tag3",
+          "test_tag4",
+          "test_tag5",
+          "test_tag6",
+          "test_tag7",
+        ];
+
+  const renderInterests = () =>
+    Interests.map((interest, index) => {
+      return (
+        <a href={`/hashtag/${interest}`} target="_blank" key={index}>
+          <span id="hash">{interest}</span>
+        </a>
+      );
+    });
+  const random = uniqueRandomArray(Interests);
+  const renderRandomInterests = () =>
+    [random(), random(), random(), random()].map((interests, index) => {
+      return (
+        <a href={`/hashtag/${interests}`} target="_blank" key={index}>
+          <span id="hash">{interests}</span>
+        </a>
+      );
+    });
 
   const renderCards = Products.map((product, index) => {
     return (
@@ -186,7 +220,7 @@ function HashTagPage(props) {
         }}
       >
         <SearchFeature
-          placeholder={`#${Tag}`}
+          placeholder={`# ${Tag} page`}
           refreshFunction={updateSearchTerm}
         />
         <br />
@@ -200,10 +234,8 @@ function HashTagPage(props) {
             backgroundColor: "#1C1C1C",
           }}
         >
-          <span id="hash">동물</span>
-          <span id="hash">서버</span>
-          <span id="hash">수강신청</span>
-          <span id="hash">감자</span>
+          {/* 선호 태그 */}
+          {Interests.length > 5 ? renderRandomInterests() : renderInterests()}
         </div>
         <div
           id="drops"

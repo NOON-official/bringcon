@@ -32,7 +32,8 @@ function HistoryPage(props) {
         setToggleState(index);
       };
 
-    const handleToggle = () => {
+    const handleToggle = (index) => {
+        console.log(index)
         setOpen(!open);
     }
 
@@ -69,36 +70,36 @@ function HistoryPage(props) {
                         {/* 주문 건당 토글바 */}
                         {props.user.userData && props.user.userData.history &&
                         props.user.userData.history.map((order, index) => (
-                            <tr className="toggle-box">
+                            <tbody key={index} style={{width: '900px', margin: 'auto'}} onClick={e => { e.preventDefault(); handleToggle(index)}}>
+                           <tr className="toggle-box">
                             <td colSpan="5">
-                            <div className="purchase-info" onClick={e => { e.preventDefault(); handleToggle()}}>
+                            <div className="purchase-info">
                                 {/* 결제 일시 */}
                                 <span style={{float: 'left', paddingLeft: '15px'}}>{`${getDateOfPurchase(order.OrderInfo.dateOfPurchase)}`}</span>
                                 
                                 {/* 결제 수단 */}
                                 <span style={{paddingLeft: '90px'}}>
+                                  
                                     {(() => {
-                                    switch(order.OrderInfo.payMethod) {
-                                        case "card":
-                                            // 카카오페이, 페이코 등으로 결제한 경우
-                                            if(order.OrderInfo.embPgProvider){
-                                                if(order.OrderInfo.embPgProvider === "kakaopay") return "카카오페이"
-                                                else if(order.OrderInfo.embPgProvider === "payco") return "페이코"
-                                                else return order.OrderInfo.embPgProvider
-                                            } else { // 일반 카드로 결제한 경우
-                                                return `카드결제 (${order.OrderInfo.cardName} ${order.OrderInfo.cardNumber})`
-                                            }
+                                        // 카카오페이, 페이코 등으로 결제한 경우 (간편 결제)
+                                        if(order.OrderInfo.embPgProvider) {
+                                            return `간편결제 (${order.OrderInfo.embPgProvider})`
+                                        } else {
+                                            switch(order.OrderInfo.payMethod) {
+                                                case "card":
+                                                    return `카드결제 (${order.OrderInfo.cardName} ${order.OrderInfo.cardNumber})`
 
-                                        case "trans":
-                                            return "실시간계좌이체"
-                                    
-                                        case "phone":
-                                            return "휴대폰결제"
+                                                case "trans":
+                                                    return "실시간계좌이체"
+                                            
+                                                case "phone":
+                                                    return "휴대폰결제"
 
-                                        default:
-                                            return "결제완료"
-                                    }
-                                })()}
+                                                default:
+                                                    return "결제완료"
+                                        }}
+                                    })()}
+                                
                                 </span>
 
                                 {/* 결제 총금액 */}
@@ -149,6 +150,7 @@ function HistoryPage(props) {
                             </div>
                                 </td>
                             </tr>
+                            </tbody>
                         ))}
                     </table>     
                 </div>

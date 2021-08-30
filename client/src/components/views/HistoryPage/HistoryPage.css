@@ -1,0 +1,120 @@
+.history-container{
+    max-width: 1092px;
+    max-width: 506px;
+}
+
+.purchased-list{
+    border: 3px solid #ffcb39;
+    width: 1050px;
+    height: 506px;
+    overflow: auto;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.close{
+    display: none;
+}
+
+.block{
+    color: #1C1C1C;
+}
+
+.history-checkall{
+    font-size: 14px !important;
+    color: #B3E220 !important;
+    font-weight: 900 !important;
+}
+
+.download-button, .single-download-button{
+    width: 112px;
+    height: 32px;
+    color: #fff;
+    background-color: #B3E220;
+    font-size: 14px;
+    font-weight: 900;
+    float:right;
+}
+
+.download-button:hover{
+    color: #fff;
+    cursor: pointer;
+}
+
+.purchased-title{
+    font-weight:700;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.purchased-uploader{
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.purchased-price{
+    padding-top: 14px;
+    font-size: 16px;
+    font-weight:700;
+}
+
+.rebuy-button{
+    background-color: transparent;
+    width: 112px;
+    height: 32px;
+    color: #B3E220;
+    border: 2px solid #B3E220;
+    border-radius: 6px;
+    margin-top: 10px;
+    float: right;
+}
+
+.single-download-button:hover{
+    color: #fff;
+    cursor: pointer;
+}
+
+.rebuy-button:hover{
+    color: #B3E220;
+    cursor: pointer;
+}
+.toggle-box td, .purchased-row td{
+    border-bottom: none !important;
+}
+.purchase-info{
+    background-color: #ffcb39;
+    min-height: 32px;
+    border-radius: 8px;
+    color: #1C1C1C;
+    font-size: 16px;
+    font-weight: 700;
+    max-height: 200px;
+}
+
+.purchase-info:hover{
+    cursor: pointer;
+}
+
+.block{
+    display: block;
+    width: 100%;
+    color: #1C1C1C;
+    border-radius: 12px;
+    border: 2px solid #ffcb39;
+    margin-top: 12px;
+    background-color: transparent !important;
+}
+
+.history-checkall{
+    width: 800px;
+    border-top-left-radius: 12px;
+}
+
+.checkall-info{
+    height: 68px;
+}
+
+.download{
+    border-top-right-radius: 12px;
+}

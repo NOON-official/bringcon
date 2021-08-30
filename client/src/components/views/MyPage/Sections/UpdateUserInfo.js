@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Form, Input, Col } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
-import VerticalMenu from '../../VerticalMenu/VerticalMenu';
+import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import Swal from 'sweetalert2';
-import '../css/UserInfo.css';
+import './UserInfo.css';
 
 const { TextArea } = Input;
 

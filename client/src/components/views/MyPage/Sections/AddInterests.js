@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { Form } from "antd";
-import '../css/UserInfo.css';
+import './UserInfo.css';
 import Swal from 'sweetalert2';
 
 const Options = [

@@ -68,8 +68,6 @@ function HistoryPage(props) {
                 </div>
                 <div className="purchased-list">
                     <table style={{width: '900px', margin: 'auto', marginTop: '41px'}}>
-                        
-                        
                         {/* 주문 건당 토글바 */}
                         {props.user.userData && props.user.userData.history &&
                         props.user.userData.history.map((order, index) => (

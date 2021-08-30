@@ -67,8 +67,9 @@ input[type='radio']{
     margin-right: -1px;
     line-height: 16px;
     font-size: 18px;
+    width: 157px;
     font-weight: 800;
-    cursor: pointer;
+    text-align: center;
     transition: all 0.1s ease-in-out;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
@@ -91,4 +92,8 @@ input[type='radio']{
     color: #B3E220;
     width: 1em;
     height: 1em;
+}
+
+.form-group{
+    float:right;
 }

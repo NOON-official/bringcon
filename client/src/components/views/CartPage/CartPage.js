@@ -120,7 +120,10 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            카드 결제</label>
+                            <div className="pay-box">
+                                카드
+                            </div>
+                            </label>
                             <label>
                             <input
                                 type="radio"
@@ -130,7 +133,10 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            실시간 계좌이체</label>
+                            <div className="pay-box">
+                                실시간 계좌이체
+                            </div>
+                            </label>
                             <label>
                             <input
                                 type="radio"
@@ -140,7 +146,10 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            휴대폰 결제</label>           
+                            <div className="pay-box">
+                                모바일 결제
+                            </div>
+                            </label>           
                         </div>
 
                         <div className="form-group">

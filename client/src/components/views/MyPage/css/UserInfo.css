@@ -76,6 +76,10 @@
     border-radius: 32px;
 }
 
+.interest-box span{
+    line-height: 44px;
+}
+
 .interest-box:hover{
     cursor: pointer;
 }
@@ -83,4 +87,33 @@
 .interest-check:checked ~ .interest-box{
     background: #ffcb39;
     color:#1C1C1C;
+}
+
+.preference{
+    font-weight: 800;
+    color: #fff;
+    font-size: 36px;
+    margin-bottom: 125px !important;
+    margin-top: 40px !important;
+}
+
+.set-tags-button{
+    color: #fff;
+    width: 252px;
+    height: 63px;
+    border-radius: 12px;
+    background: #B3E220;
+    font-size: 28px;
+    font-weight: 700;
+    float:right !important;
+}
+
+.set-tags-button:hover{
+    color: #fff;
+    cursor: pointer;
+}
+
+.button-cell{
+    width: 95%;
+    margin-top: 100px;
 }

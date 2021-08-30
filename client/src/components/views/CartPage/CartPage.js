@@ -79,7 +79,7 @@ function CartPage(props) {
 
 
     return (
-        <div style={{ width: 'auto', height: '100vh', backgroundColor: "#1C1C1C", margin: 'auto', overflow: 'hidden'}}>
+        <div id="body" style={{ width: 'auto', height: '100vh', backgroundColor: "#1C1C1C", margin: 'auto'}}>
             <div className="my-cart" style={{width: '1092px', margin:'auto', marginBottom: '16px', paddingTop: '50px'}}>장바구니</div>
             <div className="cart-page" style={{width: '1092px', height: '411px', overflow: 'auto', margin: 'auto'}}>
                 {ShowTotal ?
@@ -103,7 +103,7 @@ function CartPage(props) {
                 즉 카트에 상품이 없으면 총 금액과 결제 버튼도 안보임 */}
             {ShowTotal &&
             <div style={{width: '1092px', marginLeft:'218px', marginBottom: '16px'}}>
-                <Col style={{width: '700px', float: 'left'}}>
+                <Col style={{width: '500px', float: 'left'}}>
                     <div className="total-price" style={{width: '378px', marginBottom: '16px'}}>
                         <h2 className="number-price">총 {props.user.userData.cart.length}개의 상품 {Total}원</h2>
                     </div>
@@ -120,7 +120,10 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            카드 결제</label>
+                            <div className="pay-box">
+                                카드
+                            </div>
+                            </label>
                             <label>
                             <input
                                 type="radio"
@@ -130,7 +133,10 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            실시간 계좌이체</label>
+                            <div className="pay-box">
+                                실시간 계좌이체
+                            </div>
+                            </label>
                             <label>
                             <input
                                 type="radio"
@@ -140,7 +146,10 @@ function CartPage(props) {
                                 onChange={handleOptionChange}
                                 className="form-check-input"
                             />
-                            휴대폰 결제</label>           
+                            <div className="pay-box">
+                                모바일 결제
+                            </div>
+                            </label>           
                         </div>
 
                         <div className="form-group">

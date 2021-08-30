@@ -27,7 +27,7 @@ function UserCardBlock(props) {
         <td>
           <Checkbox value={product} onChange={handleChange} />
         </td>
-        <td>
+        <td style={{width: '200px'}}>
           <img
             style={{ width: "142px", height: "80px" }}
             alt="product"
@@ -35,28 +35,20 @@ function UserCardBlock(props) {
             src={product.s3thumbnail}
           />
         </td>
-        <td style={{ width: "200px", marginLeft: "26px" }}>
+        <td style={{ width: "300px", marginLeft: "26px" }}  colSpan="2">
           <div className="cart-title">{product.title}</div>
           <br />
-          <div className="cart-seller">{product.writer.name}</div>
-        </td>
-        <td>
-          <span className="cart-price">{product.price}원</span>
-          <br />
-          <div style={{ marginTop: "8px" }}>
-            {product.tags &&
-              product.tags.map((tag) => {
-                return (
-                  <a href={`/hashtag/${tag}`} className="link-tags">
-                    {" "}
-                    <li className="content-tags">{tag}</li>{" "}
-                  </a>
-                );
-              })}
+          <div className="cart-seller">
+            <span>{product.writer.name}</span>
+            
+            <span className="cart-price" >{product.price}원</span>
           </div>
         </td>
         <td>
-        <span className="cart-quantity">{product.quantity}개</span>
+        <span>{product.quantity}개</span>
+        <button style={{ float: "right" }} className="single-remove-button">
+              삭제
+            </button>
         </td>
       </tr>
     ));
@@ -65,7 +57,7 @@ function UserCardBlock(props) {
     <div>
       <table style={{ marginLeft: "63px", width: "1000px" }}>
         <tbody>
-          <td className="remove-info" colSpan="3">
+          <td className="remove-info" colSpan="4">
             <div className="check-all-text" style={{ width: "100px" }}>
               <Checkbox
                 indeterminate={indeterminate}

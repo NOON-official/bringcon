@@ -211,8 +211,8 @@ function UploadProductPage(props) {
 
   return (
     <div
-      style={{ width: "100vw", height: "90vh", margin: "auto" }}
-      className="upload-body"
+      style={{ width: "auto", minHeight: "90vh", margin: "auto" }}
+      id="body"
     >
       <div
         style={{ width: "90%", margin: "auto", paddingTop: "50px" }}

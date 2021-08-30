@@ -79,7 +79,7 @@ function CartPage(props) {
 
 
     return (
-        <div style={{ width: 'auto', height: '100vh', backgroundColor: "#1C1C1C", margin: 'auto', overflow: 'hidden'}}>
+        <div id="body" style={{ width: 'auto', height: '100vh', backgroundColor: "#1C1C1C", margin: 'auto'}}>
             <div className="my-cart" style={{width: '1092px', margin:'auto', marginBottom: '16px', paddingTop: '50px'}}>장바구니</div>
             <div className="cart-page" style={{width: '1092px', height: '411px', overflow: 'auto', margin: 'auto'}}>
                 {ShowTotal ?

@@ -148,7 +148,7 @@ function ProfilePage(props) {
                         {Tags &&
                           Tags.map((tag, index) => (
                             <li key={index} className="interest-tag">
-                              <span>{tag}</span>
+                              {/* <span>{tag}</span> */}
                               <span
                                 className="interest-tag-close-icon"
                                 onClick={() => removeTags(index)}

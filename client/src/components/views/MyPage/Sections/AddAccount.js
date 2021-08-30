@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Form, Input } from "antd";
+import { Form, Input, Col } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
+import VerticalMenu from '../../VerticalMenu/VerticalMenu';
+import Swal from 'sweetalert2';
 const { TextArea } = Input;
 
 const Banks = [
@@ -44,6 +46,7 @@ function AddAccount(props) {
   const [Bank, setBank] = useState(1);
   const [Number, setNumber] = useState();
   const [Holder, setHolder] = useState("");
+  const [toggleState, setToggleState] = useState(1);
 
   const BankChangeHandler = (event) => {
     setBank(event.currentTarget.value);
@@ -60,7 +63,12 @@ function AddAccount(props) {
   const submitHandler = (event) => {
     event.preventDefault();
     if (!Bank || !Holder || !Number) {
-      return alert(" 모든 값을 넣어주셔야 합니다.");
+      Swal.fire(
+        'Data?',
+        '모든 값을 넣어주셔야 합니다.',
+        'question'
+      );
+      // return alert(" 모든 값을 넣어주셔야 합니다.");
     }
 
     //서버에 채운 값들을 request로 보낸다.
@@ -75,32 +83,61 @@ function AddAccount(props) {
 
     Axios.post("/api/users/account", body).then((response) => {
       if (response.data.success) {
-        alert("계좌 업로드에 성공 했습니다.");
+        Swal.fire(
+          'Success!',
+          '계좌 업로드에 성공했습니다!',
+          'success'
+        );
         props.history.push("/product/upload");
       } else {
-        alert("계좌 업로드에 실패 했습니다.");
+        Swal.fire(
+          'Oops...',
+          '계좌 업로드에 실패했습니다.',
+          'error'
+        );
       }
     });
   };
 
-  return (
-    <div style={{ maxWidth: "1000px", margin: "2rem auto" }}>
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <h2> 판매자 정보 입력 </h2>
-      </div>
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
 
+  return (
+    <div id="body" style={{paddingTop: '50px', width: 'auto', margin: 'auto'}}>
+      <Col style={{float: 'left', marginLeft: '84px', marginRight: '50px'}}>
+        <VerticalMenu/>
+      </Col>
+      <Col style={{float: 'right', width: '1150px'}}>
+      <div className="mypage-container" style={{maxWidth:'1092px'}}>
+      <div className="mypage-bloc-tabs">
+          <button
+            className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
+            onClick={() => toggleTab(1)}
+          >
+            기본 정보
+          </button>
+        </div>
+        <div className="mypage-content-tabs">
+        <div
+          className={toggleState === 1 ? "mypage-content  active-content" : "mypage-content"}
+        >
       <Form onSubmit={submitHandler}>
+        <div className="nickname">
+          <label style={{color: '#ffcb39', fontSize: '12px', lineHeight: '32px'}}>판매자 정보 수정</label>
+          <button type="submit" className="update-info">저장</button>
+        </div>
         <div style={{ justifyContent: "space-between" }}>
-          <label>예금주</label>
-          <Input onChange={HolderChangeHandler} value={Holder} />
-          <br />
-          <br />
-          <label>계좌번호</label>
-          <Input type="number" onChange={NumberChangeHandler} value={Number} />
-          <br />
-          <br />
-          <label>은행 : </label>
-          <select onChange={BankChangeHandler} value={Bank}>
+          <div className="holder">
+          <label className="mypage-label">예금주</label>
+          <Input className="mypage-input" onChange={HolderChangeHandler} value={Holder} />
+          </div>
+          <div className="account-number">
+          <label className="mypage-label" style={{marginRight: '31px'}}>계좌번호</label>
+          <Input type="number"  className="mypage-input" onChange={NumberChangeHandler} value={Number} />
+          </div>
+          <label className="mypage-label" style={{marginRight: '50px'}}>은행</label>
+          <select className="select-bank" onChange={BankChangeHandler} value={Bank}>
             {Banks.map((item) => (
               <option key={item.key} value={item.key}>
                 {" "}
@@ -111,17 +148,22 @@ function AddAccount(props) {
           <br />
           <br />
         </div>
-        <button type="submit">제출</button>
+        
 
         <br />
-        <div>
+        <div className="account-notice">
           [이용약관 13조 2항] 회원의 컴퓨터 오류, 신상정보의 부정확한 기재,
           비밀번호 관리의 소홀, 일치하지 않는 계좌번호 입력, 가입 시 계좌번호
           미확인 등 회원의 귀책사유로 인해 손해가 발생한 경우에 대하여 회사는
           책임을 지지 않습니다.
         </div>
       </Form>
+      </div>
+      </div>
+      </div>
+      </Col>
     </div>
+    
   );
 }
 

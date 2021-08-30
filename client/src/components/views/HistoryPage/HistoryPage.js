@@ -4,15 +4,10 @@ import {Col, Checkbox} from'antd';
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 // import {CaretRightOutlined} from '@ant-design/icons';
 // import HistorySearchFeature from './HistorySearchFeature';
-import './History.css';
+import './HistoryPage.css';
 
 function HistoryPage(props) {
-    if(props.user.userData) {
-        console.log(props.user.userData.history)
-    }
-    
     const [toggleState, setToggleState] = useState(1);
-    const [open, setOpen] = useState(false);
  
     const handleClick = (item) => {
         const data = {product_id: item}
@@ -32,9 +27,17 @@ function HistoryPage(props) {
         setToggleState(index);
       };
 
-    const handleToggle = (index) => {
-        console.log(index)
-        setOpen(!open);
+    const handleToggle = (e) => {
+        let element = e.currentTarget.children[0]
+        let _element =  element.children[1]
+
+        if(_element.classList.contains('block')){
+            _element.classList.remove('block')
+            element.children[0].children[0].innerHTML = '▶&nbsp;&nbsp;&nbsp;&nbsp;'
+        } else {
+            _element.classList.add('block')
+            element.children[0].children[0].innerHTML = '▼&nbsp;&nbsp;&nbsp;&nbsp;'
+        }
     }
 
     const getDateOfPurchase = (dateOfPurchase) => {
@@ -70,12 +73,13 @@ function HistoryPage(props) {
                         {/* 주문 건당 토글바 */}
                         {props.user.userData && props.user.userData.history &&
                         props.user.userData.history.map((order, index) => (
-                            <tbody key={index} style={{width: '900px', margin: 'auto'}} onClick={e => { e.preventDefault(); handleToggle(index)}}>
-                           <tr className="toggle-box">
+                            <tbody key={index} style={{width: '900px', margin: 'auto'}}>
+                           <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>
                             <td colSpan="5">
                             <div className="purchase-info">
                                 {/* 결제 일시 */}
-                                <span style={{float: 'left', paddingLeft: '15px'}}>{`${getDateOfPurchase(order.OrderInfo.dateOfPurchase)}`}</span>
+                                <span style={{float: 'left', paddingLeft: '15px'}}>▶&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span>{`${getDateOfPurchase(order.OrderInfo.dateOfPurchase)}`}</span>
                                 
                                 {/* 결제 수단 */}
                                 <span style={{paddingLeft: '90px'}}>
@@ -107,7 +111,7 @@ function HistoryPage(props) {
 
 
                                 </div>
-                                <div className={`close ${open ? `block` : ''}`}>
+                                <div className='close'>
                                 
 
                                 {/* 주문 건당 상품 리스트 */}
@@ -116,9 +120,9 @@ function HistoryPage(props) {
                                 <th className="download"><button style={{float:'right'}} className="download-button">선택 다운로드</button></th>
                             </tr>
                             {order.ProductInfo.map((product, index) => (
-                            <table>
+                            <table key={index}>
                             <tbody>
-                            <tr className="purchased-row" key={index} style={{height: '120px'}}>
+                            <tr className="purchased-row" style={{height: '120px'}}>
                                             <td style={{borderBottom: 'none', borderRadius: '12px'}}><Checkbox/></td>  
                                             <td style={{width: '200px'}}>
                                                 {/* 썸네일 이미지 */}

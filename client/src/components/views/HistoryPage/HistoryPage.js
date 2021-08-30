@@ -64,13 +64,8 @@ function HistoryPage(props) {
                     {/* <HistorySearchFeature/> */}
                 </div>
                 <div className="purchased-list">
-                    <table style={{width: '900px', margin: 'auto'}}>
-                        <thead style={{height: '68px'}}>
-                            <tr>
-                                <th className="history-checkall" colSpan='4'><Checkbox style={{marginRight: '5px', marginLeft: '10px'}}/>전체 선택</th>
-                                <th><button style={{float:'right'}} className="single-download-button">선택 다운로드</button></th>
-                            </tr>
-                        </thead>
+                    <table style={{width: '900px', margin: 'auto', marginTop: '41px'}}>
+                        
                         
                         {/* 주문 건당 토글바 */}
                         {props.user.userData && props.user.userData.history &&
@@ -110,45 +105,49 @@ function HistoryPage(props) {
                                 {/* 결제 총금액 */}
                                 <span style={{float: 'right', paddingRight: '15px'}}>{`${order.OrderInfo.amount.toLocaleString("ko-KR")}원`}</span>
 
+
+                                </div>
                                 <div className={`close ${open ? `block` : ''}`}>
                                 
 
-                                    {/* 주문 건당 상품 리스트 */}
-                                {order.ProductInfo.map((product, index) => (
-                                // <tbody style={{width: '900px', margin: 'auto'}}>
-                        
-                                                
-                                                <tr className="purchased-row" key={index} style={{height: '120px'}}>
-                                                <td style={{borderBottom: 'none'}}><Checkbox style={{marginLeft: '10px'}}/></td>  
-                                                <td>
-                                                    {/* 썸네일 이미지 */}
-                                                    <img
-                                                        style={{ width: "142px", height: "80px", borderRadius: "8px" }}
-                                                        alt="product"
-                                                        src={product.s3thumbnail}
-                                                    />
-                                                </td>
-                                                <td>
-                                                    {/* 상품 이름, 올린 사람 */}
-                                                <div className="purchased-title">{product.title}</div>
-                                                <div className="purchased-uploader">{product.writer}</div>
-                                                </td>
-                                                <td>
-                                                    {/* 상품 가격 */}
-                                                    <div className="purchased-price">{product.price}원</div>
-                                                </td>
-                                                <td>
-                                                    {/* 다운로드, 재구매 버튼 */}
-                                                    <button className="single-download-button" onClick={e => { e.preventDefault(); handleClick(product.id)} }>다운로드</button>
-                                                    <br/>
-                                                    <button className="rebuy-button">재구매</button>
-                                                </td>
-                                                </tr>
-                                // </tbody>
-                                ))}
-
-                                </div>
-                                </div>
+                                {/* 주문 건당 상품 리스트 */}
+                                <tr className="checkall-info">
+                                <th className="history-checkall" colSpan='4'><Checkbox style={{marginRight: '5px'}}/>전체 선택</th>
+                                <th className="download"><button style={{float:'right'}} className="download-button">선택 다운로드</button></th>
+                            </tr>
+                            {order.ProductInfo.map((product, index) => (
+                            <table>
+                            <tbody>
+                            <tr className="purchased-row" key={index} style={{height: '120px'}}>
+                                            <td style={{borderBottom: 'none', borderRadius: '12px'}}><Checkbox/></td>  
+                                            <td style={{width: '200px'}}>
+                                                {/* 썸네일 이미지 */}
+                                                <img
+                                                    style={{ width: "142px", height: "80px", borderRadius: "8px" }}
+                                                    alt="product"
+                                                    src={product.s3thumbnail}
+                                                />
+                                            </td>
+                                            <td style={{width: '300px'}}>
+                                                {/* 상품 이름, 올린 사람 */}
+                                            <div className="purchased-title">{product.title}</div>
+                                            <div className="purchased-uploader">{product.writer}</div>
+                                            </td>
+                                            <td style={{width: '200px'}}>
+                                                {/* 상품 가격 */}
+                                                <div className="purchased-price">{product.price}원</div>
+                                            </td>
+                                            <td style={{borderRadius: '12px'}}>
+                                                {/* 다운로드, 재구매 버튼 */}
+                                                <button className="single-download-button" onClick={e => { e.preventDefault(); handleClick(product.id)} }>다운로드</button>
+                                                <br/>
+                                                <button className="rebuy-button">재구매</button>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                            </table>
+                            ))}
+                            </div>
                                 </td>
                             </tr>
                             </tbody>

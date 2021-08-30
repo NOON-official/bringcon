@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { Checkbox, Row, Col, Form } from "antd";
+import '../css/UserInfo.css';
 const Options = [
   "동물",
   "음식",
@@ -49,49 +50,77 @@ function AddInterests(props) {
   };
 
   return (
-    <div style={{ maxWidth: "1000px", margin: "2rem auto" }}>
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+    <div id="body">
+    <div style={{width: '90%', backgroundColor: '#1C1C1C', margin: 'auto', paddingTop: '50px'}}>
+      <div style={{textAlign: "center", marginBottom: "2rem", margin: 'auto'}}>
         <h2> 선호하는 키워드를 모두 선택하세요! </h2>
       </div>
       <Form onSubmit={submitHandler}>
-        <Checkbox.Group onChange={onChange}>
-          <Row>
-            <Col span={4}>
-              <Checkbox value="동물">동물</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="음식">음식</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="클립영상">클립영상</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="유머">유머</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="게임">게임</Checkbox>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={4}>
-              <Checkbox value="애니메이션">애니메이션</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="일상">일상</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="음악">음악</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="뉴스">뉴스</Checkbox>
-            </Col>
-            <Col span={4}>
-              <Checkbox value="영화 및 TV">영화 및 TV</Checkbox>
-            </Col>
-          </Row>
-        </Checkbox.Group>
+        <div className="interest-row" style={{width: '80%', margin: 'auto'}}>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="동물" onChange={onChange}/>
+          <div className="interest-box">
+            <span>동물</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="음식" onChange={onChange}/>
+          <div className="interest-box">
+            <span>음식</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="애니메이션" onChange={onChange}/>
+          <div className="interest-box">
+            <span>애니메이션</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="일상" onChange={onChange}/>
+          <div className="interest-box">
+            <span>일상</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="게임" onChange={onChange}/>
+          <div className="interest-box">
+            <span>게임</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="클립영상" onChange={onChange}/>
+          <div className="interest-box">
+            <span>클립영상</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="음악" onChange={onChange}/>
+          <div className="interest-box">
+            <span>음악</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="유머" onChange={onChange}/>
+          <div className="interest-box">
+            <span>유머</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="뉴스" onChange={onChange}/>
+          <div className="interest-box">
+            <span>뉴스</span>
+          </div>
+        </label>
+        <label className="interest-label">
+          <input type="checkbox" className="interest-check" value="영화 및 TV" onChange={onChange}/>
+          <div className="interest-box">
+            <span>영화 및 TV</span>
+          </div>
+        </label>
+        </div>
         <button type="submit">여행 시작하기</button>
       </Form>
+    </div>
     </div>
   );
 }

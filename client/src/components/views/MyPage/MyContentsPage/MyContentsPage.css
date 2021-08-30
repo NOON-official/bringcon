@@ -17,11 +17,6 @@
     display: none;
 }
 
-.block{
-    background-color: #ffcb39;
-    color: #1C1C1C;
-}
-
 .delete-button{
     width: 112px;
     height: 32px;
@@ -98,6 +93,7 @@
     color: #1C1C1C;
     border-radius: 12px;
     font-weight: 400;
-    padding-top: 10px;
+    padding-top: 0px;
     padding-left: 31px;
+    margin-bottom: 3px;
 }

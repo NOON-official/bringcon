@@ -11,14 +11,14 @@ import UploadProductPage from "./views/UploadProductPage/UploadProductPage.js";
 import DetailProductPage from "./views/DetailProductPage/DetailProductPage";
 import HashTagPage from "./views/LandingPage/HashTagPage";
 import CartPage from "./views/CartPage/CartPage";
-import HistoryPage from "./views/HistoryPage/HistoryPage";
+import HistoryPage from "./views/MyPage/HistoryPage/HistoryPage";
 import CommunicationChat from "./views/Chatbot/Chat";
 import BodyPage from "./views/Board/BodyPage";
 import BoardWriteForm from "./views/Board/BoardWriteForm";
 import BoardDetail from "./views/Board/BoardDetail";
 import AddAccount from "./views/MyPage/Sections/AddAccount";
 import AddInterests from "./views/MyPage/Sections/AddInterests";
-import MyPage from "./views/MyPage/MyPage";
+import ProfilePage from "./views/MyPage/ProfilePage/ProfilePage"
 import WelcomePage from "./views/LoginPage/WelcomePage";
 import AdminLandingPage from "./admin/AdminLandingPage/AdminLandingPage";
 import "./App.css";
@@ -26,7 +26,7 @@ import UserVideoPage from "./views/LandingPage/UserVideoPage";
 import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
-import MyContentsPage from "./views/MyContentsPage/MyContentPage";
+import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -97,7 +97,7 @@ function App() {
               path="/user/info"
               component={Auth(UpdateUserInfo, true)}
             />
-            <Route exact path="/user/mypage" component={Auth(MyPage, true)} />
+            <Route exact path="/user/profile" component={Auth(ProfilePage, true)} />
             <Route exact path="/board" component={Auth(BodyPage, null)} />
             <Route
               exact
@@ -105,7 +105,7 @@ function App() {
               component={Auth(BoardWriteForm, true)}
             ></Route>
             <Route path="/board/detail" component={BoardDetail}></Route>
-            // admin pages
+             {/* admin pages */}
             <Route
               exact
               path="/adminpage"

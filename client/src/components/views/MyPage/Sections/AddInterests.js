@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { Checkbox, Row, Col, Form } from "antd";
-import '../css/UserInfo.css';
+import './UserInfo.css';
 const Options = [
   "동물",
   "음식",

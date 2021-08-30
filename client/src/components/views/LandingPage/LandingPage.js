@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Avatar, Icon, Col, Row } from "antd";
+import { Avatar } from "antd";
 import Meta from "antd/lib/card/Meta";
-import Checkbox from "./Sections/CheckBox";
-import Radiobox from "./Sections/RadioBox";
 import SearchFeature from "./Sections/SearchFeature";
-import { genres, price } from "./Sections/Datas";
-import ScrollHorizontal from "react-scroll-horizontal";
+import { price } from "./Sections/Datas";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
+
 const Categories = [
   { key: 0, value: "전체" },
   { key: 1, value: "Clips" },
@@ -129,7 +127,7 @@ function LandingPage() {
             }
             title={product.title}
           />
-          <a href={`/videos/${product.writer._id}`} target="_blank">
+          <a href={`/videos/${product.writer._id}`} target="_blank" style={{color: "#fff"}}>
             <span>{product.writer.name}</span>
           </a>
           <span id="card-price">{`${product.price.toLocaleString(
@@ -200,7 +198,7 @@ function LandingPage() {
 
   return (
     <div
-      id="filters"
+      id="body"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
     >
       {/* Filter */}

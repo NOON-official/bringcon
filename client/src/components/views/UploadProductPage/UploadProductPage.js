@@ -309,7 +309,7 @@ function UploadProductPage(props) {
           )} */}
             </div>
             
-            /* 해상도 확장자 테스트 */
+            {/* /* 해상도 확장자 테스트 */}
 
             <span style={{ backgroundColor: "#1C1C1C", color: "#FFF"}}>
             해상도 {Width}x{Height}  확장자 {Format}

@@ -70,22 +70,11 @@ function DetailProductPage(props) {
             <span id="sold">sold: {Product.sold}</span>
             <span id="view">view: {Product.views}</span>
           </div>
-          <Button
-            className="addtocart"
-            size="large"
-            shape="round"
-            onClick={clickHandler}
-          >
+
+          <button className="cart-button" onClick={clickHandler}>
             여행 목록에 담기
-          </Button>
-          <Button
-            className="addtocart"
-            size="large"
-            shape="round"
-            onClick={clickHandler}
-          >
-            Add to Cart
-          </Button>
+          </button>
+          
         </Col>
         {/* <Col lg={12} sm={24}> */}
         {/* ProductInfo */}

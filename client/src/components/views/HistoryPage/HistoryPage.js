@@ -4,7 +4,7 @@ import {Col, Checkbox} from'antd';
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 // import {CaretRightOutlined} from '@ant-design/icons';
 // import HistorySearchFeature from './HistorySearchFeature';
-import './History.css';
+import './HistoryPage.css';
 
 function HistoryPage(props) {
     if(props.user.userData) {

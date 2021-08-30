@@ -71,7 +71,7 @@ function CommentTab(props) {
                 </React.Fragment>
             ))}
         </div>
-        <form style={{display: 'flex'}} onSubmit={onSubmit}>
+        <form style={{display: 'flex', paddingLeft: '8px'}} onSubmit={onSubmit}>
             <Avatar
                 className="comment-writer-image"
                 style={{width:"42px", height:"42px", marginRight:"15px"}}

@@ -7,9 +7,9 @@ import { Descriptions } from "antd";
 import Axios from "axios";
 import Swal from "sweetalert2";
 import VerticalMenu from "../VerticalMenu/VerticalMenu";
-import "./ProfilePage.css"
+import "./ProfilePage.css";
 
-function ProfilePage(props) {  
+function ProfilePage(props) {
   const user = useSelector((state) => state.user);
   const [toggleState, setToggleState] = useState(1);
   const [Tags, setTags] = useState([]);
@@ -19,7 +19,7 @@ function ProfilePage(props) {
     const interests = user.userData && user.userData.interests;
     return interests;
   };
-  
+
   let interests = GetUserInterests();
 
   useEffect(() => {
@@ -69,6 +69,7 @@ function ProfilePage(props) {
 
   console.log("Tags", Tags);
   return (
+
     <div id="body" style={{ paddingTop: "50px", width: "auto", margin: "auto" }}>
       <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
         <VerticalMenu />

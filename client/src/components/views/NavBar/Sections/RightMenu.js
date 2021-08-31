@@ -70,8 +70,8 @@ function RightMenu(props) {
 
         {/* 업로드 페이지 */}
         <Menu.Item key="upload">
-        <button>
-          <a href="/product/upload" style={{ color: "white" }}>
+        <button className="upload-button">
+          <a className="upload-button-text" href="/product/upload">
             Upload
           </a>
         </button>

@@ -69,14 +69,12 @@ function ProfilePage(props) {
 
   console.log("Tags", Tags);
   return (
-    <div
-      id="body"
-      style={{ paddingTop: "50px", width: "auto", margin: "auto" }}
-    >
-      <Col style={{ float: "left", marginLeft: "84px", marginRight: "84px" }}>
+
+    <div id="body" style={{ paddingTop: "50px", width: "auto", margin: "auto" }}>
+      <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
         <VerticalMenu />
       </Col>
-      <Col>
+      <Col style={{float: 'right', width: '1150px'}}>
         <div className="mypage-container">
           <div className="mypage-bloc-tabs">
             <button

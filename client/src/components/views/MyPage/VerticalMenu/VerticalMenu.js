@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './VerticalMenu.css';
-import Flag from './flag.png';
+import Flag from './flag.svg';
 import $ from 'jquery';
 
 export const VerticalMenu = () => {

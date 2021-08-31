@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import { error } from "jquery";
+import './Login.css';
 
 function LoginGoogle(props) {
   const dispatch = useDispatch();
@@ -57,8 +58,9 @@ function LoginGoogle(props) {
   };
 
   return (
-    <div>
+    <div className="google-login-container">
       <GoogleLogin
+        className="google-button"
         clientId={clientId}
         buttonText="Login with Google"
         onSuccess={onSuccess}

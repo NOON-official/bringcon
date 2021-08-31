@@ -35,13 +35,6 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
-        {/* 업로드 페이지 */}
-        <Menu.Item key="upload">
-          <a href="/product/upload" style={{ color: "#ffcb39" }}>
-            Upload
-          </a>
-        </Menu.Item>
-
         {/* 랜딩페이지 */}
         <Menu.Item key="contents">
           <a href="/" style={{ color: "#ffcb39" }}>
@@ -73,6 +66,15 @@ function RightMenu(props) {
           <a onClick={logoutHandler} style={{ color: "#ffcb39" }}>
             Logout
           </a>
+        </Menu.Item>
+
+        {/* 업로드 페이지 */}
+        <Menu.Item key="upload">
+        <button>
+          <a href="/product/upload" style={{ color: "white" }}>
+            Upload
+          </a>
+        </button>
         </Menu.Item>
       </Menu>
     );

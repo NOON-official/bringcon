@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './VerticalMenu.css';
 import Flag from './flag.svg';
 import $ from 'jquery';

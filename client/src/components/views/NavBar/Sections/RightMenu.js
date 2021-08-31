@@ -26,8 +26,8 @@ function RightMenu(props) {
     return (
       <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
         <Menu.Item key="mail">
-          <button>
-            <a href="/login">Login</a>
+          <button className="upload-button">
+            <a href="/login" className="upload-button-text">Login</a>
           </button>
         </Menu.Item>
       </Menu>

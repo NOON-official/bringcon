@@ -1,0 +1,36 @@
+.footer-info{
+    padding-top: 180px;
+    color: #ffcb39;
+    margin-left: 166px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.company-name{
+    margin-bottom: 50px !important;
+}
+
+.company-location{
+    margin-bottom: 30px !important;
+}
+
+.footer-info div{
+    margin-bottom: 16.8px;
+}
+
+.info-links{
+    color: #ffcb39;
+    font-size: 14px;
+    font-weight: 900;
+    max-width: 700px;
+    float: right; 
+}
+
+.info-links span{
+    margin-right: 156px;
+}
+
+.info-links span a{
+    text-decoration: none;
+    color: #ffcb39;
+}

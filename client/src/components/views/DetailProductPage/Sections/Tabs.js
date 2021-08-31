@@ -99,10 +99,6 @@ function Tabs(props) {
           <div>
             <Collection writer={props.detail.writer} />
           </div>
-          {/* <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-            voluptatum qui adipisci.
-          </p> */}
         </div>
 
         <div

@@ -60,21 +60,10 @@ function LandingPage() {
     e.currentTarget.currentTime = 0;
   }
   
-  console.log(user.userData && user.userData.interests)
-  // const Interests =
-  //   user.userData && user.userData.interests
-  //     ? user.userData.interests
-  //     : [
-  //         "test_tag1",
-  //         "test_tag2",
-  //         "test_tag3",
-  //         "test_tag4",
-  //         "test_tag5",
-  //         "test_tag6",
-  //         "test_tag7",
-  //       ];
-
-  const Interests = [
+  const Interests =
+    user.userData && user.userData.interests
+      ? user.userData.interests
+      : [
           "test_tag1",
           "test_tag2",
           "test_tag3",

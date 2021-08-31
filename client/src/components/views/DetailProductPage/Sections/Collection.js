@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {Col} from 'antd';
 import '../css/UserVideo.css';
 
 function Collection(props) {
@@ -30,7 +31,7 @@ function Collection(props) {
         if (response.data.success) {
           setProducts(response.data.productInfo);
         } else {
-          alert("상품들을 가져오는데 실패 했습니다.");
+          alert("상품들을 가져오는데 실패했습니다.");
         }
       });
   };
@@ -50,11 +51,12 @@ function Collection(props) {
         <div className="description-box"
           style={{
             overflow: "hidden",
-            width: "70%",
+            // width: "70%",
             height: "100%",
             position: "relative",
           }}
         >
+          <Col style={{float: 'left', width: '200px', height: '200px'}}>
           <a href={`/product/${product._id}`}>
             <video
               style={{
@@ -72,10 +74,13 @@ function Collection(props) {
               muted
             />
           </a>
+          </Col>
+          <Col style={{float:'left'}}>
           <div className="uservideo-info" style={{color: '#ffcb39'}}>
             <h2>{product.title}</h2>
             <span className="info">조회: {product.views}, 판매: {product.sold}</span>
         </div>
+        </Col>
         </div>
         
       </div>

@@ -24,4 +24,13 @@ router.post("/getComments", (req, res) => {
     });
 });
 
+router.post("/myReview", (req, res) => {
+  Comment.find({ writer: req.body.userId })
+    .populate("writer")
+    .exec((err, reviews) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, reviews });
+    });
+});
+
 module.exports = router;

@@ -654,6 +654,17 @@ router.post("/permission", (req, res) => {
   );
 });
 
+router.get("/product_by_id", (req, res) => {
+  let productId = req.query.id;
+
+  Product.find({ _id: productId })
+    .populate("writer")
+    .exec((err, product) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).json({ success: true, product });
+    });
+})
+
 router.post("/delete", (req, res) => {
   const productId = req.body.product_id;
   
@@ -662,14 +673,15 @@ router.post("/delete", (req, res) => {
     {
       $set: {
         deleted: true,
+        judged: false
       },
     },
     { new: true },
     (err, doc) => {
       if (err) return res.json({ success: false, err });
-      res.status(200),json({ success: true});
+      res.status(200).json({ success: true});
     }
   );
-});
+})
 
 module.exports = router;

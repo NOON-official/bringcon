@@ -29,6 +29,7 @@ import Payment from "./utils/Payment";
 import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
 import ReviewPage from "./views/MyPage/ReviewPage/ReviewPage"
 import Footer from "./views/Footer/Footer";
+import About from "./views/About/About";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -101,6 +102,7 @@ function App() {
             />
             <Route exact path="/user/profile" component={Auth(ProfilePage, true)} />
             <Route exact path="/board" component={Auth(BodyPage, null)} />
+            
             <Route
               exact
               path="/board/write"
@@ -134,6 +136,7 @@ function App() {
               path="/user/review"
               component={Auth(ReviewPage, true)}
             />
+            <Route exact path="/about" component={Auth(About, null)} />
           </Switch>
         </Route>
         <CommunicationChat />

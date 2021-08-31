@@ -28,6 +28,7 @@ import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
 import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
 import ReviewPage from "./views/MyPage/ReviewPage/ReviewPage"
+import Footer from "./views/Footer/Footer";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -106,6 +107,7 @@ function App() {
               component={Auth(BoardWriteForm, true)}
             ></Route>
             <Route path="/board/detail" component={BoardDetail}></Route>
+            <Route path="/footer" component={Footer}></Route>
              {/* admin pages */}
             <Route
               exact

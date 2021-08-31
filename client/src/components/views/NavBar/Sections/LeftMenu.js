@@ -8,7 +8,7 @@ function LeftMenu(props) {
     <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
       {/* 어바웃 페이지 */}
       <Menu.Item key="about">
-        <a href="#" style={{ color: "#ffcb39" }}>
+        <a href="/about" style={{ color: "#ffcb39" }}>
           About
         </a>
       </Menu.Item>

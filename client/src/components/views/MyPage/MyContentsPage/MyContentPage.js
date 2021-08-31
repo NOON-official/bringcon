@@ -144,11 +144,13 @@ function MyContentsPage(props) {
                                 <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
                             </td>
                             <td>
+                                <div>
                                 ${ product.deleted ? 삭제됨 : 
                                 <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
                                 <br/>
                                 <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>
                                 }
+                                </div>
                             </td>
                             </tr>
                             <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>

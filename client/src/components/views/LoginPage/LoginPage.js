@@ -1,18 +1,29 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import {Col} from 'antd';
 import LoginGoogle from "./sections/LoginGoogle";
+import zzerby from '../LoginPage/sections/zzerby.svg';
+import planet from '../LoginPage/sections/planet.svg';
+import './sections/Login.css';
 
 function LoginPage() {
   return (
     //네브바가 내려와서 위에 문구가 안 보임. 수정필요
-    <div>
-      <h2>
-        쾌적한 우주여행을 위해서는 활성화된 유튜브 채널이 필요합니다!
-        <br />
-        유튜브채널을 운영중인 구글 계정으로 로그인해주십시오!
-      </h2>
-
-      <LoginGoogle />
+    <div id="body" style={{paddingTop: '100px', width: 'auto'}}>
+      <div className="login-form">
+      <div className="login-announcement">
+        <Col style={{float: 'left'}}>
+        <img src={zzerby} className="zzerby"/>
+        </Col>
+        <Col style={{float: 'right', marginRight: '50px'}}>
+        <p>원활한 우주여행을 위해<br/>구글 로그인을 해주세요!</p>
+        <LoginGoogle />
+        </Col>
+      </div>
+      </div>
+      <div className="decorations">
+        <img src={planet} className="planet"/>
+      </div>
     </div>
   );
 }

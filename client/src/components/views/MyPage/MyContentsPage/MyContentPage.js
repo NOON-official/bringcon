@@ -52,18 +52,18 @@ function MyContentsPage(props) {
         }).then((result => {
             if (result.value) {
                 console.log(data)
-                // axios.post('/api/product/delete', data)
-                // .then(response => {
-                //     if (response.data.success) {
-                //         Swal.fire({
-                //             title: 'Success',
-                //             text: '삭제되었습니다!',
-                //             icon: 'success'
-                //          })
-                //     } else {
-                //         alert("상품을 삭제할 수 없습니다.")
-                //     }
-                // })
+                axios.post('/api/product/delete', data)
+                .then(response => {
+                     if (response.data.success) {
+                         Swal.fire({
+                             title: 'Success',
+                             text: '삭제되었습니다!',
+                             icon: 'success'
+                          })
+                     } else {
+                         alert("상품을 삭제할 수 없습니다.")
+                     }
+                 });
             }
         }))
     }
@@ -144,9 +144,11 @@ function MyContentsPage(props) {
                                 <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
                             </td>
                             <td>
+                                ${ product.deleted ? 삭제됨 : 
                                 <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
                                 <br/>
                                 <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>
+                                }
                             </td>
                             </tr>
                             <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>

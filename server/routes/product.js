@@ -654,4 +654,22 @@ router.post("/permission", (req, res) => {
   );
 });
 
+router.post("/delete", (req, res) => {
+  const productId = req.body.product_id;
+  
+  Product.findOneAndUpdate(
+    { _id: productId },
+    {
+      $set: {
+        deleted: true,
+      },
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      res.status(200),json({ success: true});
+    }
+  );
+});
+
 module.exports = router;

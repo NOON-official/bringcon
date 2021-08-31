@@ -52,7 +52,7 @@ function RightMenu(props) {
         {/* 마이페이지 */}
         <Menu.Item key="mypage">
           <a href="/user/history" style={{ color: "#ffcb39" }}>
-            MyPage
+            My Page
           </a>
         </Menu.Item>
 

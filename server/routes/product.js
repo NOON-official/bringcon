@@ -648,4 +648,15 @@ router.post("/permission", (req, res) => {
   );
 });
 
+router.get("/product_by_id", (req, res) => {
+  let productId = req.query.id;
+
+  Product.find({ _id: productId })
+    .populate("writer")
+    .exec((err, product) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).json({ success: true, product });
+    });
+});
+
 module.exports = router;

@@ -27,6 +27,7 @@ import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
 import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
+import ReviewPage from "./views/MyPage/ReviewPage/ReviewPage"
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -125,6 +126,11 @@ function App() {
               exact
               path="/user/mycontents"
               component={Auth(MyContentsPage, true)}
+            />
+            <Route
+              exact
+              path="/user/review"
+              component={Auth(ReviewPage, true)}
             />
           </Switch>
         </Route>

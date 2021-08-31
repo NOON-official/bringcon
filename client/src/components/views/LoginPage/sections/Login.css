@@ -42,5 +42,14 @@ g{
 .planet{
     width: 200px !important;
     margin-left: 50px;
+    /* padding-bottom: 100px; */
+    transform: rotate(20deg);
+}
+
+.ufo{
+    width: 200px !important;
+    float: right;
+    margin-right: 50px;
     margin-bottom: 50px;
+    transform: rotate(340deg);
 }

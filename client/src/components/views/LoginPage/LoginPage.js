@@ -4,12 +4,16 @@ import {Col} from 'antd';
 import LoginGoogle from "./sections/LoginGoogle";
 import zzerby from '../LoginPage/sections/zzerby.svg';
 import planet from '../LoginPage/sections/planet.svg';
+import ufo from '../LoginPage/sections/ufo.svg';
 import './sections/Login.css';
 
 function LoginPage() {
   return (
     //네브바가 내려와서 위에 문구가 안 보임. 수정필요
     <div id="body" style={{paddingTop: '100px', width: 'auto'}}>
+      <div className="decorations">
+        <img src={ufo} className="ufo"/>
+      </div>
       <div className="login-form">
       <div className="login-announcement">
         <Col style={{float: 'left'}}>

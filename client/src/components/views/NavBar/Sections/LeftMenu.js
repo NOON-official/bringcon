@@ -1,34 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+import { useSelector } from "react-redux";
+import $ from 'jquery'
 
 function LeftMenu(props) {
+  const user = useSelector((state) => state.user);
+  const [Selected, setSelected] = useState([])
+
+  // 선택된 메뉴 bold 처리
+  $(".ant-menu-item a").each(
+    function() {
+      // 현재 위치에 해당하는 NavBar key 설정하기   
+      if(window.location.href === this.href && Selected.length === 0) {
+        console.log(this.selected)
+        setSelected([this.selected])
+      }
+    }
+  );
+
   return (
-    <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
+    <Menu selectedKeys={Selected} mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
       {/* 어바웃 페이지 */}
       <Menu.Item key="about">
-        <a href="/about" style={{ color: "#ffcb39" }}>
+        <a selected="about" href="/about" style={{ color: "#ffcb39" }}>
           About
         </a>
       </Menu.Item>
 
       {/* 공지사항 */}
-
-      {/* <Menu.Item key="notice">
-        <a href="/board" style={{ color: "#ffcb39" }}>
+      <Menu.Item key="notice">
+        <a selected="notice" href="/board" style={{ color: "#ffcb39" }}>
           Notice
         </a>
-      </Menu.Item> */}
+      </Menu.Item>
 
-      <SubMenu title={<span>Notice</span>} style={{ border: 0 }}>
-        <Menu.Item key="setting:1">
-          <a href="/board">공지사항</a>
+      {/* 컨텐츠 페이지 */}
+      <Menu.Item key="contents">
+        <a selected="contents" href="/" style={{ color: "#ffcb39" }}>
+          Contents
+        </a>
+      </Menu.Item>
+
+      {/* 공지사항 글쓰기(관리자만 보임) */}
+      {user.userData && user.userData.isAuth && user.userData.isAdmin &&
+        <Menu.Item key="write">
+          <a selected="write" href="/board/write" style={{ color: "#ffcb39" }}>
+            Write
+          </a>
         </Menu.Item>
-        <Menu.Item key="setting:2">
-          <a href="/board/write">글쓰기</a>
-        </Menu.Item>
-      </SubMenu>
+      }
     </Menu>
   );
 }

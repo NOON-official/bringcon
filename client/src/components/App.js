@@ -38,7 +38,7 @@ function App() {
   const location = useLocation();
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <NavBar />
+      <NavBar/>
       <div style={{ paddingTop: "69px", minHeight: "calc(100vh - 80px)" }}>
         <Route>
           <TransitionGroup className="transition-group">
@@ -106,11 +106,12 @@ function App() {
             <Route
               exact
               path="/board/write"
-              component={Auth(BoardWriteForm, true)}
+              component={Auth(BoardWriteForm, true, true)}
             ></Route>
             <Route path="/board/detail" component={BoardDetail}></Route>
-            <Route path="/footer" component={Footer}></Route>
-             {/* admin pages */}
+            <Route path="/footer" component={Auth(Footer, null)}></Route>
+            
+            {/* admin pages */}
             <Route
               exact
               path="/adminpage"

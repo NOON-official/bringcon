@@ -28,7 +28,7 @@ import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
 import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
 import ReviewPage from "./views/MyPage/ReviewPage/ReviewPage"
-import Main from "./views/Footer/Main";
+import Main from "./views/Main/Main";
 import About from "./views/About/About";
 //null   Anyone Can go inside
 //true   only logged in user can go inside

@@ -86,3 +86,14 @@
 .upload-submit:hover, .upload-reset:hover{
     color: #fff;
 }
+
+.video-setting{
+    color: #ffcb39;
+    border-radius: 24px;
+    width: 94px;
+    height: 21px;
+    border: 2px solid #ffcb39;
+    font-size: 12px;
+    font-weight: 900;
+    margin-left: 32px;
+}

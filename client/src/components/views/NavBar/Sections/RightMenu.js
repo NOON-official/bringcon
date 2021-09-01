@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, {useState} from "react";
 import { Menu, Icon, Badge } from "antd";
 import axios from "axios";
 import { USER_SERVER } from "../../../Config";
@@ -7,10 +6,11 @@ import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import "./Navbar.css"
-// import GoogleLogin from "../../LoginPage/LoginPage";
+import $ from 'jquery'
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
+  const [Selected, setSelected] = useState([])
 
   const logoutHandler = () => {
     axios.get(`${USER_SERVER}/logout`).then((response) => {
@@ -21,30 +21,37 @@ function RightMenu(props) {
       }
     });
   };
+  
+  // 선택된 메뉴 bold 처리
+  $(".ant-menu-item a").each(
+    function() {
+      // 마이페이지 - 프로필 외 다른 탭에 있는 경우
+      if((window.location.pathname === "/user/history" ||
+          window.location.pathname === "/user/mycontents" ||
+          window.location.pathname === "/user/review") && Selected.length === 0) {
+            setSelected(["mypage"])
+      } else if(window.location.href === this.href && Selected.length === 0) { // 현재 위치에 해당하는 NavBar key 설정하기   
+        setSelected([this.selected])
+      }
+    }
+  );
 
   if (user.userData && !user.userData.isAuth) {
     return (
-      <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
-        <Menu.Item key="mail">
-          <button className="upload-button">
-            <a href="/login" className="upload-button-text">Login</a>
+      <Menu selectedKeys={Selected} mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
+        <Menu.Item key="login">
+          <button className="right-button" style={{marginTop: '8px'}}>
+            <a selected="login" href="/login" className="right-button-text">Sign In</a>
           </button>
         </Menu.Item>
       </Menu>
     );
   } else {
     return (
-      <Menu mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
-        {/* 랜딩페이지 */}
-        <Menu.Item key="contents">
-          <a href="/" style={{ color: "#ffcb39" }}>
-            Contents
-          </a>
-        </Menu.Item>
-
+      <Menu selectedKeys={Selected} mode={props.mode} style={{ backgroundColor: "#1C1C1C" }}>
         {/* 마이페이지 */}
         <Menu.Item key="mypage">
-          <a href="/user/history" style={{ color: "#ffcb39" }}>
+          <a selected="mypage" href="/user/profile" style={{ color: "#ffcb39" }}>
             My Page
           </a>
         </Menu.Item>
@@ -55,7 +62,7 @@ function RightMenu(props) {
             count={user.userData && user.userData.cart.length}
             style={{ zIndex: 1,  }}
           >
-            <a href="/user/cart" style={{ color: "#ffcb39" }}>
+            <a selected="cart" href="/user/cart" style={{ color: "#ffcb39" }}>
               Cart
             </a>
           </Badge>
@@ -63,15 +70,15 @@ function RightMenu(props) {
 
         {/* 로그아웃 */}
         <Menu.Item key="logout">
-          <a onClick={logoutHandler} style={{ color: "#ffcb39" }}>
-            Logout
+          <a selected="logout" onClick={logoutHandler} style={{ color: "#ffcb39" }}>
+            Sign Out
           </a>
         </Menu.Item>
 
         {/* 업로드 페이지 */}
         <Menu.Item key="upload">
-        <button className="upload-button">
-          <a className="upload-button-text" href="/product/upload">
+        <button className="right-button">
+          <a selected="upload" className="right-button-text" href="/product/upload">
             Upload
           </a>
         </button>

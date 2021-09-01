@@ -43,7 +43,7 @@ class BoardDetail extends Component {
                     text: '삭제되었습니다!',
                     icon: 'success'
                 })
-                window.location.href="/";
+                window.location.href="/board";
             }
         }))
 

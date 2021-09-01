@@ -146,7 +146,7 @@ button a:hover{
   height: 56px;
 }
 
-.upload-button {
+.right-button {
   margin-bottom: 12px;
   margin-left: 17px;
   margin-right: 20px;
@@ -154,8 +154,19 @@ button a:hover{
   height: 44px;
 }
 
-.upload-button-text {
+.right-button-text {
   color: white;
   margin-left: 15px;
   margin-right: 15px;
+  font-weight: 600;
+}
+
+.ant-menu-item-active {
+  font-weight: 1000;
+  letter-spacing: -0.4px;
+}
+
+.ant-menu-item-selected {
+  font-weight: 1000;
+  letter-spacing: -0.4px;
 }

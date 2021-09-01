@@ -1,3 +1,11 @@
+#horizontal-relative .scroll-horizontal > div {
+    position: relative !important;
+  }
+
+#body{
+    background-image: url('./background.svg');
+}
+
 .footer-info{
     padding-top: 180px;
     color: #ffcb39;
@@ -24,6 +32,7 @@
     font-weight: 900;
     max-width: 700px;
     float: right; 
+    margin-top: 100px;
 }
 
 .info-links span{
@@ -33,4 +42,29 @@
 .info-links span a{
     text-decoration: none;
     color: #ffcb39;
+}
+
+.main-info{
+    padding-top: 200px;
+    width: 80%;
+    margin: auto;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 900;
+    margin: auto;
+
+}
+
+.main-info h2{
+    color: #fff;
+    margin-bottom: 76px;
+}
+
+.main-info > .search-wrapper{
+    width: 60% !important;
+    margin: auto;
+}
+
+.main-info > .search-wrapper select{
+    display: none;
 }

@@ -4,7 +4,7 @@ import './Footer.css';
 
 function Footer() {
     return (
-        <div id="body" style={{width: 'auto'}}>
+        <div id="body" style={{width: '100vw'}}>
             <div className="footer-info">
             <Col style={{float: 'left', marginRight: '178px'}}>
                 <div className="col-1">

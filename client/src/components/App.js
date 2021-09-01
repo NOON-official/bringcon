@@ -28,7 +28,7 @@ import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
 import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
 import ReviewPage from "./views/MyPage/ReviewPage/ReviewPage"
-import Footer from "./views/Footer/Footer";
+import Main from "./views/Footer/Main";
 import About from "./views/About/About";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -48,7 +48,7 @@ function App() {
               timeout={{ enter: 1000, exit: 1000 }}
             >
               <Switch>
-                <Route exact path="/" component={Auth(LandingPage, null)} />
+                <Route exact path="/contents" component={Auth(LandingPage, null)} />
                 <Route
                   exact
                   path="/welcome"
@@ -108,8 +108,9 @@ function App() {
               path="/board/write"
               component={Auth(BoardWriteForm, true, true)}
             ></Route>
-            <Route path="/board/detail" component={BoardDetail}></Route>
-            <Route path="/footer" component={Auth(Footer, null)}></Route>
+            <Route exact path="/board/detail" component={BoardDetail}></Route>
+            
+            <Route exact path="/" component={Auth(Main, null)}></Route>
             
             {/* admin pages */}
             <Route

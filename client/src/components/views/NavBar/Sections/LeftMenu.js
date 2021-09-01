@@ -36,7 +36,7 @@ function LeftMenu(props) {
 
       {/* 컨텐츠 페이지 */}
       <Menu.Item key="contents">
-        <a selected="contents" href="/" style={{ color: "#ffcb39" }}>
+        <a selected="contents" href="/contents" style={{ color: "#ffcb39" }}>
           Contents
         </a>
       </Menu.Item>

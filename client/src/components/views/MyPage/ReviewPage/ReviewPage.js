@@ -99,7 +99,7 @@ function ReviewPage(props) {
             <VerticalMenu/>
         </Col>
         <Col style={{float: 'right', width: '1150px'}}>
-            <div className="mycontents-container">
+            <div className="reviews-container">
                 <div className="mypage-bloc-tabs">
                     <button className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
                     onClick={() => toggleTab(1)}>
@@ -110,56 +110,55 @@ function ReviewPage(props) {
                 <div className="review-list">
                     <table style={{width: '900px', margin: 'auto'}}>
                         {props.user.userData && Reviews.map((review, index) => (
-                        <tbody className="review-tbody" key={index} style={{width: '900px', margin: 'auto'}}>
-                            <tr className="review-row" style={{height: '120px'}}>
-                            <td>
-                                {/* 상품 썸네일 */}
-                                <img
-                                    style={{ width: "142px", height: "80px", borderRadius: "8px" }}
-                                    alt="review"
-                                    src={review.product.s3thumbnail}
-                                />
-                            </td>
-                            <td>
-                                {/* 상품 제목 */}
-                                <div className="review-title">{review.product.title}</div>
-                                {/* 상품 올린 사람 */}
-                                <div className="review-price">{review.product.writer.name}</div>
-                            </td>
-                            <td>
-                                {/* 후기 */}
-                                <div className="comment">
-                                    <Comment
-                                        author={review.review.writer.name}
-                                        avatar = {
-                                            <Avatar
-                                                style={{width:"42px", height:"42px"}}
-                                                src={review.review.writer && review.review.writer.image}
-                                                alt="image"/>
-                                        }
-                                        content = {
-                                            <p className="comment-content">
-                                                {review.review.content}
-                                            </p>
-                                        }
-                                    />
-                                </div>
-                            </td>
-                            <td>
-                                {/* 삭제 & 수정 버튼 */}
-                                <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(review.review._id)} }>삭제</button>
-                                <br/>
-                                <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(review.review._id)} }>수정</button>
-                            </td>
-                            </tr>
-                        </tbody>
-                    ))}
-                </table>
-
+                            <tbody className="review-tbody" key={index} style={{width: '900px', margin: 'auto'}}>
+                                <tr className="review-row" style={{height: '120px'}}>
+                                    <td style={{width: '200px'}}>
+                                        {/* 상품 썸네일 */}
+                                        <img
+                                            style={{ width: "142px", height: "80px", borderRadius: "8px" }}
+                                            alt="review"
+                                            src={review.product.s3thumbnail}
+                                        />
+                                    </td>
+                                    <td style={{width: '145px'}}>
+                                        {/* 상품 제목 */}
+                                        <div className="review-title">{review.product.title}</div>
+                                        {/* 상품 올린 사람 */}
+                                        <div className="review-writer">{review.product.writer.name}</div>
+                                    </td>
+                                    <td>
+                                        {/* 후기 */}
+                                        <div className="comment">
+                                            <Comment
+                                                author={review.review.writer.name}
+                                                avatar = {
+                                                    <Avatar
+                                                        style={{width:"42px", height:"42px"}}
+                                                        src={review.review.writer && review.review.writer.image}
+                                                        alt="image"/>
+                                                }
+                                                content = {
+                                                    <p id="review-content" className="comment-content">
+                                                        {review.review.content}
+                                                    </p>
+                                                }
+                                            />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* 삭제 & 수정 버튼 */}
+                                        <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(review.review._id)} }>삭제</button>
+                                        <br/>
+                                        <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(review.review._id)} }>수정</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        ))}
+                    </table>
+                </div>
             </div>
-            </div>
-            </Col>
-        </div>
+        </Col>
+    </div>
     )
 }
 

@@ -72,8 +72,6 @@ function AdminTabs(props) {
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
-          <h2>Content 3</h2>
-          <hr />
         </div>
       </div>
     </div>

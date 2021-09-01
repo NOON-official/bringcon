@@ -1,6 +1,6 @@
 import React from 'react';
 import {Col} from 'antd';
-import './Footer.css';
+import './Main.css';
 
 function Footer() {
     return (

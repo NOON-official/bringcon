@@ -396,6 +396,7 @@ function UploadProductPage(props) {
                 </option>
               ))}
             </select>
+            <span className="video-setting"> 확장자 {Format}</span>
             <TextArea
               onChange={descriptionChangeHandler}
               value={Description}

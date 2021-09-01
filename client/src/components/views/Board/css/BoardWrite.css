@@ -1,3 +1,35 @@
 #cke_1_path {
     display: none;
 }
+
+.form-container{
+    width: 70%;
+    margin: auto;
+    padding-top: 50px;
+}
+
+.title-input{
+    background: transparent;
+    border: 2px solid #ffcb39;
+    border-radius: 24px;
+    width: 500px;
+    height: 40px;
+}
+
+.title-input input::placeholder{
+    color: #ffcb39;
+}
+
+.board-write-button{
+    width: 112px;
+    height: 32px;
+    color: #b3e220;
+    border: 2px solid #b3e220;
+    background-color: transparent;
+    margin-top: 30px;
+}
+
+.board-write-button:hover{
+    color: #b3e220;
+    cursor: pointer;
+}

@@ -104,8 +104,6 @@ function Tabs(props) {
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
-          <h2>Content 3</h2>
-          <hr />
           <CommentTab
             refreshFunction={refreshFunction}
             commentLists={Comments}

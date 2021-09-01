@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchFeature from '../LandingPage/Sections/SearchFeature';
-import './Footer.css';
+import './Main.css';
 import ufo from '../LoginPage/sections/ufo.svg';
 
 function MainPage(){

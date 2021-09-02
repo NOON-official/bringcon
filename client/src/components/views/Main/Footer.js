@@ -8,7 +8,7 @@ function Footer() {
             <div className="footer-info">
             <Col style={{float: 'left', marginRight: '178px'}}>
                 <div className="col-1">
-                    <div className="company-name">Bringcon</div>
+                    <div className="company-name">BRINGCON</div>
                     <div>대표자</div>
                     <div>개인정보보호책임자</div>
                     <div>이메일</div>

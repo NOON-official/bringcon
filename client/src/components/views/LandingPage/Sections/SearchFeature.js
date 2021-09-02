@@ -18,8 +18,10 @@ function SearchFeature(props) {
   const [Genre, setGenre] = useState(1);
 
   const searchHandler = (event) => {
-    setSearchTerm(event.currentTarget.value);
-    props.refreshFunction(event.currentTarget.value);
+    if( widnow.location.pathname === "/contents" ){
+      setSearchTerm(event.currentTarget.value);
+      props.refreshFunction(event.currentTarget.value);
+    }
   };
 
   const genreChangeHandler = (event) => {
@@ -29,8 +31,8 @@ function SearchFeature(props) {
   /* when user types 'ENTER' */
   const submitHandler = (event) => {
     if(event.key == 'Enter') {
-      /* Uncomment below line when the error fixed in a Main Page Search bar */
-      //searchHandler(event); 
+      setSearchTerm(event.currentTarget.value);
+      props.refreshFunction(event.currentTarget.value);
     }
   }
 

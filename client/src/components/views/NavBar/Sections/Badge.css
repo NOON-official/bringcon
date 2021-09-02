@@ -5,3 +5,8 @@
     line-height: 18px !important;
     padding: 0 3px !important;
 }
+
+.ant-scroll-number-only-unit{
+    padding-right: 3px !important;
+    padding-left: 3px !important;
+}

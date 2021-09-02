@@ -1,0 +1,7 @@
+.ant-badge-count{
+    min-width: 18px !important;
+    height: 18px !important;
+    box-shadow: none !important;
+    line-height: 18px !important;
+    padding: 0 3px !important;
+}

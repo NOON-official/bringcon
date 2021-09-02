@@ -80,8 +80,8 @@ function Tabs(props) {
           </div>
           <hr />
           {/* ㅎㅐㅅㅏㅇㄷㅗ ㅎㅗㄱㅈㅏㅇㅈㅏ ㅇㅏㅇㅣㅍㅐㄷㅡ ㅎㅏㄴㄱㅡㄹ ㅇㅗㅐㅇㅣㄹㅐ */}
-          {props.detail.width && <span> {props.detail.width}X{props.detail.height} </span>}
-          {props.detail.format && <span> {props.detail.format} </span>}
+          <span> {props.detail.width}X{props.detail.height} </span>
+          <span> {props.detail.format} </span>
           <div>
             <Meta
               avatar={

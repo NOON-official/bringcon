@@ -25,6 +25,13 @@ function SearchFeature(props) {
   const genreChangeHandler = (event) => {
     setGenre(event.currentTarget.value);
   };
+  
+  /* when user types 'ENTER' */
+  const submitHandler = (event) => {
+    if(event.key == 'Enter') {
+      searchHandler(event); 
+    }
+  }
 
   return (
     <div className="search-wrapper">
@@ -44,6 +51,7 @@ function SearchFeature(props) {
         placeholder="브링콘과 함께 콘텐츠 여행을 떠나보세요!"
         // onFocus="this.placeholder = ''"
         onChange={searchHandler}
+        onKeyPress={submitHandler}
         style={{ width: 720, height: "40px", borderRadius: "200px" }}
         value={SearchTerm}
       />

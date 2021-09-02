@@ -9,6 +9,7 @@ function ReviewPage(props) {
     const [UserId, setUserId] = useState("")
     const [Reviews, setReviews] = useState([]);
     const [toggleState, setToggleState] = useState(1);
+    const [Deleted, setDeleted] = useState(false)
 
     if(props.user.userData && UserId === "") {
         setUserId(props.user.userData._id)
@@ -23,6 +24,14 @@ function ReviewPage(props) {
             getReviews(body);
         }
     }, [UserId]);
+
+    useEffect(() => {
+        if(Deleted === true) {
+            setReviews([])
+            getReviews({ userId: UserId })
+            setDeleted(false)
+        }
+    }, [Deleted]);
 
     const getReviews = (body) => {
         axios.post('/api/comment/myReview', body)
@@ -45,8 +54,7 @@ function ReviewPage(props) {
     }
 
     const handleDelete = (id) => {
-        const data = {review_id: id}
-        // console.log(data)
+        const data = {reviewId: id}
 
         Swal.fire({
             title: '정말 삭제하시겠습니까?',
@@ -57,19 +65,19 @@ function ReviewPage(props) {
             confirmButtonText: '예'
         }).then((result => {
             if (result.value) {
-                console.log(data)
-                // axios.post('/api/comment/delete', data)
-                // .then(response => {
-                //     if (response.data.success) {
-                //         Swal.fire({
-                //             title: 'Success',
-                //             text: '삭제되었습니다!',
-                //             icon: 'success'
-                //          })
-                //     } else {
-                //         alert("후기를 삭제할 수 없습니다.")
-                //     }
-                // })
+                axios.post('/api/comment/delete', data)
+                .then(response => {
+                    if (response.data.success) {
+                        setDeleted(true)
+                        Swal.fire({
+                            title: 'Success',
+                            text: '삭제되었습니다!',
+                            icon: 'success'
+                        })
+                    } else {
+                        alert("후기를 삭제할 수 없습니다.")
+                    }
+                })
             }
         }))
     }

@@ -18,7 +18,7 @@ function SearchFeature(props) {
   const [Genre, setGenre] = useState(1);
 
   const searchHandler = (event) => {
-    if( widnow.location.pathname === "/contents" ){
+    if( window.location.pathname === "/contents" ){
       setSearchTerm(event.currentTarget.value);
       props.refreshFunction(event.currentTarget.value);
     }

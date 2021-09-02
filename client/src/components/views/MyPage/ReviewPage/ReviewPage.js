@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from "axios";
 import {Col, Comment, Avatar} from'antd'; 
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
@@ -9,7 +9,8 @@ function ReviewPage(props) {
     const [UserId, setUserId] = useState("")
     const [Reviews, setReviews] = useState([]);
     const [toggleState, setToggleState] = useState(1);
-    const [Deleted, setDeleted] = useState(false)
+    const [Deleted, setDeleted] = useState(false);
+    const [OnEdit, setOnEdit] = useState(false);
 
     if(props.user.userData && UserId === "") {
         setUserId(props.user.userData._id)
@@ -81,11 +82,22 @@ function ReviewPage(props) {
             }
         }))
     }
+    
+    const endEdit = (id) => {
+        setOnEdit(false);
+    }
 
     const handleEdit = (id) => {
         const data = {review_id: id}
         console.log(data)
        
+        setOnEdit(true);
+        const reviewRef = useRef(null);
+        if( reviewRef && reviewRef.current )
+            const reviewText = reviewRef.current.innerText;
+        
+        console.log(reviewText);
+        
         //수정 할 review id를 백엔드로 보내줌
         // axios.post('/api/comment/update', data)
         // .then(response => {
@@ -146,7 +158,7 @@ function ReviewPage(props) {
                                                         alt="image"/>
                                                 }
                                                 content = {
-                                                    <p id="review-content" className="comment-content">
+                                                    <p ref={reviewText} id="review-content" className="comment-content">
                                                         {review.review.content}
                                                     </p>
                                                 }
@@ -155,9 +167,12 @@ function ReviewPage(props) {
                                     </td>
                                     <td>
                                         {/* 삭제 & 수정 버튼 */}
+
+                                        { OnEdit ? 
+                                        <button className="edit-button" onClick={e => { e.preventDefault(); endEdit(review.review._id)} }>완료</button> :
                                         <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(review.review._id)} }>삭제</button>
                                         <br/>
-                                        <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(review.review._id)} }>수정</button>
+                                        <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(review.review._id)} }>수정</button> }
                                     </td>
                                 </tr>
                             </tbody>

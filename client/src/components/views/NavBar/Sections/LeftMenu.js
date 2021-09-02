@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import { useSelector } from "react-redux";
-import $ from 'jquery'
+import $ from 'jquery';
+import './Badge.css';
 
 function LeftMenu(props) {
   const user = useSelector((state) => state.user);

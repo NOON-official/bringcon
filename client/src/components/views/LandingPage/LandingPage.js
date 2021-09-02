@@ -59,19 +59,11 @@ function LandingPage() {
     e.currentTarget.pause();
     e.currentTarget.currentTime = 0;
   }
-  
+
   const Interests =
     user.userData && user.userData.interests
       ? user.userData.interests
-      : [
-          "test_tag1",
-          "test_tag2",
-          "test_tag3",
-          "test_tag4",
-          "test_tag5",
-          "test_tag6",
-          "test_tag7",
-        ];
+      : ["동물", "클립영상", "유머", "일상"];
 
   const renderInterests = () =>
     Interests.map((interest, index) => {
@@ -81,6 +73,7 @@ function LandingPage() {
         </a>
       );
     });
+
   const random = uniqueRandomArray(Interests);
   const renderRandomInterests = () =>
     [random(), random(), random(), random()].map((interests, index) => {
@@ -116,7 +109,11 @@ function LandingPage() {
             }
             title={product.title}
           />
-          <a href={`/videos/${product.writer._id}`} target="_blank" style={{color: "#fff"}}>
+          <a
+            href={`/videos/${product.writer._id}`}
+            target="_blank"
+            style={{ color: "#fff" }}
+          >
             <span>{product.writer.name}</span>
           </a>
           <span id="card-price">{`${product.price.toLocaleString(

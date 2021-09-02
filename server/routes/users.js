@@ -174,7 +174,7 @@ router.post("/successBuy", auth, (req, res) => {
   let transactionData = {};
   let productInfo = [];
 
-  req.body.cartDetail.forEach((item) => 
+  req.body.cartDetail.forEach((item) =>
     productInfo.push({
       title: item.title,
       price: item.price,
@@ -182,9 +182,11 @@ router.post("/successBuy", auth, (req, res) => {
       price: item.price,
       quantity: item.quantity,
       writer: item.writer.name,
-      s3thumbnail: item.s3thumbnail
+      s3thumbnail: item.s3thumbnail,
     })
-  )
+  );
+
+  const deleteCartItems = req.body.cartDetail.map((item) => item._id);
 
   history.push({
     OrderInfo: {
@@ -197,15 +199,20 @@ router.post("/successBuy", auth, (req, res) => {
       cardName: req.body.paymentData.card_name,
       cardNumber: req.body.paymentData.card_number,
     },
-    ProductInfo: productInfo
-  })
+    ProductInfo: productInfo,
+  });
 
   transactionData.product = history;
+
+  console.log(deleteCartItems);
 
   //history 정보 저장
   User.findOneAndUpdate(
     { _id: req.user._id },
-    { $push: { history: history }, $set: { cart: [] } }, //카트 비워줌
+    {
+      $push: { history: history },
+      $pull: { cart: { id: { $in: deleteCartItems } } },
+    }, //카트 비워줌
     { new: true }, //업데이트 후 새로운 document 가져올 수 있도록
     (err, user) => {
       if (err) return res.json({ success: false, err });

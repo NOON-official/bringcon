@@ -37,9 +37,6 @@ function CartPage(props) {
     setCheckAll(e.target.checked);
   };
 
-  console.log("checked List : ", CheckedList);
-  console.log("Total", Total);
-
   useEffect(() => {
     let cartItems = [];
     //리덕스 User state안에 cart 안에 상품이 들어있는지 확인
@@ -66,8 +63,6 @@ function CartPage(props) {
     );
   }, [CheckedList]);
 
-  console.log("props.user.cartDetail", props.user.cartDetail);
-
   let calculateTotal = (CheckedList) => {
     let total = 0;
     CheckedList.map((item) => {
@@ -89,11 +84,7 @@ function CartPage(props) {
     //선택 삭제할 때
     CheckedList.map((product, index) => {
       dispatch(removeCartItem(product._id)).then((response) => {
-        console.log("response", response);
-        console.log("here user cartDetail", props.user.cartDetail);
         if (response.payload.productInfo.length <= 0) {
-          console.log("response", response);
-          console.log("here user cartDetail", props.user.cartDetail);
           setShowTotal(false);
         }
       });

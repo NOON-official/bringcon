@@ -9,18 +9,24 @@ import "../../utils/Hashtag.css";
 const { TextArea } = Input;
 
 const Genres = [
-  { key: 1, value: "Emotions" },
-  { key: 2, value: "Foods and Drinks" },
-  { key: 3, value: "Animals" },
-  { key: 4, value: "Gaming" },
-  { key: 5, value: "Animations" },
-  { key: 6, value: "Sports" },
+  { key: 1, value: "Animals" },
+  { key: 2, value: "Animations" },
+  { key: 3, value: "Arts" },
+  { key: 4, value: "Broadcasting" },
+  { key: 5, value: "Business" },
+  { key: 6, value: "Cartoon" },
+  { key: 7, value: "Character" },
+  { key: 8, value: "Land-marks" },
+  { key: 9, value: "Music" },
+  { key: 10, value: "Nature" },
+  { key: 11, value: "Sports" },
+  { key: 12, value: "Etc.." }
 ];
 
-const Categories = [
-  { key: 1, value: "Clips" },
-  { key: 2, value: "Memes" },
-];
+// const Categories = [
+//   { key: 1, value: "Clips" },
+//   { key: 2, value: "Memes" },
+// ];
 
 function UploadProductPage(props) {
   const user = useSelector((state) => state.user);
@@ -28,7 +34,7 @@ function UploadProductPage(props) {
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState(0);
   const [Genre, setGenre] = useState(1);
-  const [Category, setCategory] = useState(1);
+  // const [Category, setCategory] = useState(1);
   const [Images, setImages] = useState([]);
   const [FilePath, setFilePath] = useState("");
   const [Duration, setDuration] = useState("");
@@ -67,9 +73,9 @@ function UploadProductPage(props) {
     setGenre(event.currentTarget.value);
   };
 
-  const CategoryChangeHandler = (event) => {
-    setCategory(event.currentTarget.value);
-  };
+  // const CategoryChangeHandler = (event) => {
+  //   setCategory(event.currentTarget.value);
+  // };
 
   const updateImages = (newImages) => {
     setImages(newImages);
@@ -145,7 +151,7 @@ function UploadProductPage(props) {
       !Description ||
       !Price ||
       !Genre ||
-      !Category ||
+      // !Category ||
       Images.length === 0
     ) {
       return alert(" 모든 값을 넣어주셔야 합니다.");
@@ -161,7 +167,7 @@ function UploadProductPage(props) {
       price: Price,
       images: Images,
       genres: Genre,
-      categories: Category,
+      // categories: Category,
       filePath: FilePath,
       duration: Duration,
       thumbnail: ThumbnailPath,
@@ -336,11 +342,11 @@ function UploadProductPage(props) {
             />
             <br />
             <br />
-            <button type="submit" className="upload-submit">
-              업로드하기
-            </button>
             <button onClick={resetHandler} className="upload-reset">
               초기화
+            </button>
+            <button type="submit" className="upload-submit">
+              업로드하기
             </button>
           </Col>
           <Col lg={12} sm={24} className="upload-info">
@@ -387,7 +393,7 @@ function UploadProductPage(props) {
                 </option>
               ))}
             </select>
-            <select
+            {/* <select
               onChange={CategoryChangeHandler}
               value={Category}
               className="catogories-dropdown"
@@ -398,7 +404,7 @@ function UploadProductPage(props) {
                   {item.value}
                 </option>
               ))}
-            </select>
+            </select> */}
             <button className="video-setting" disabled> 확장자 {Format}</button>
             <button className="video-setting" disabled> {Width} x {Height}</button>
             <TextArea

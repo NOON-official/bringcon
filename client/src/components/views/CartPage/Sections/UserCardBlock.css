@@ -26,10 +26,27 @@ table {
   }
 
 .ant-checkbox-inner{
-    background-color: #B3E220 !important;
+    background-color: transparent !important;
     width: 24px !important;
     height: 24px !important;
-    border: none;
+    border: 2px solid #B3E220;
+}
+
+/* .ant-checkbox-checked .ant-checkbox-inner{
+  border-color: #B3E220;
+}
+
+.ant-checkbox-inner::after{
+  border: 2px solid #B3E220 !important;
+} */
+
+.ant-checkbox-checked .ant-checkbox-inner{
+  border-color: #B3E220 !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner::after{
+  margin-left: 1.5px !important;
+  border-color: #B3E220 !important;
 }
 
 .remove-info{

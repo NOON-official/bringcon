@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Redirect } from 'react';
 import SearchFeature from '../LandingPage/Sections/SearchFeature';
 import './Main.css';
 import ufo from '../LoginPage/sections/ufo.svg';
 
 function MainPage(){
     
-    /*const submitSearchTerm = (newSearchTerm) => {
+    const submitSearchTerm = (newSearchTerm) => {
         return ( <Redirect to={{
             pathname: '/contents',
             state: { SearchTerm: newSearchTerm }
         }}/> );
-    }*/
+    }
     
     return(
         <div id="body" style={{width: '100vw'}}>

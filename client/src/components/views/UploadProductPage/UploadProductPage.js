@@ -167,6 +167,9 @@ function UploadProductPage(props) {
       thumbnail: ThumbnailPath,
       s3thumbnail: S3thumbnailPath,
       tags: Tags,
+      width: Width,
+      height: Height,
+      format: Format
     };
 
     Axios.post("/api/product", body).then((response) => {

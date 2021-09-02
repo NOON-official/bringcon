@@ -172,7 +172,7 @@ function UploadProductPage(props) {
     Axios.post("/api/product", body).then((response) => {
       if (response.data.success) {
         alert("상품 업로드에 성공 했습니다.");
-        props.history.push("/");
+        props.history.push("/contents");
       } else {
         alert("상품 업로드에 실패 했습니다.");
       }

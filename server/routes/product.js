@@ -57,7 +57,7 @@ router.post("/video", (req, res) => {
   ffmpeg()
     .input(res.req.file.path)
     .input("watermark(trans70).svg")
-    .addOption('-filter_complex', 'overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2';
+    .addOption('-filter_complex', 'overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2');
     .save("testwatermark.mp4");
   //비디오를 서버에 저장
   uploadVideo(req, res, (err) => {

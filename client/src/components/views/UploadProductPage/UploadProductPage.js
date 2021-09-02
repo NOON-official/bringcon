@@ -312,7 +312,7 @@ function UploadProductPage(props) {
             {/* /* 해상도 확장자 테스트 */}
 
             <span style={{ backgroundColor: "#1C1C1C", color: "#FFF"}}>
-            해상도 {Width}x{Height}  확장자 {Format}
+            {/* 해상도 {Width}x{Height}  확장자 {Format} */}
             </span>
 
             <br />
@@ -396,7 +396,8 @@ function UploadProductPage(props) {
                 </option>
               ))}
             </select>
-            <span className="video-setting"> 확장자 {Format}</span>
+            <button className="video-setting" disabled> 확장자 {Format}</button>
+            <button className="video-setting" disabled> {Width} x {Height}</button>
             <TextArea
               onChange={descriptionChangeHandler}
               value={Description}

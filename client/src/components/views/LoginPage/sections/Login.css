@@ -27,6 +27,8 @@
 
 .google-button > div{
     background-color: transparent !important;
+    margin-right: 0px !important;
+    padding-right: 0 !important;
 }
 
 .zzerby{
@@ -52,4 +54,9 @@ g{
     margin-right: 50px;
     margin-bottom: 50px;
     transform: rotate(340deg);
+}
+
+.google-button > div > svg{
+    padding-top: 0.5em;
+    padding-left: 0.5em;
 }

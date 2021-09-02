@@ -34,7 +34,31 @@ function DetailProductPage(props) {
   const clickHandler = () => {
     //필요한 정보를 Cart 필드에다가 넣어 준다.
     dispatch(addToCart(productId));
-    Swal.fire("Success!", "카트에 상품이 추가되었습니다.", "success");
+    Swal.fire({
+      title: "Success!",
+      text: "우주 여행지 목록을 추가하였습니다. 여행 목록을 점검하러 가시겠어요?",
+      imageUrl:
+        "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T023013Z&X-Amz-Expires=86400&X-Amz-Signature=4c72f76745dc6f27ed587421dfa5a6d2eb023d8d6869f9455ccad93d3824f035&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+      imageWidth: 200,
+      imageHeight: 176,
+      imageAlt: "Custom image",
+      showCancelButton: true,
+      confirmButtonText: '목록 보기',
+      cancelButtonText: '계속 탐색하기',
+      background:
+        "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T044712Z&X-Amz-Expires=86400&X-Amz-Signature=6664bf9459c6e1d4115105918d83a1312ecb9ac22d9e751bc8c2b4b63321ee20&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        props.history.push("/user/cart");
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel){
+          Swal.fire(
+            'success',
+            '상품이 카트에 추가되었습니다.',
+            'success'
+          )
+      }
+    });
   };
 
   return (

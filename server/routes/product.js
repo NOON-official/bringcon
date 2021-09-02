@@ -285,6 +285,7 @@ router.post("/products", (req, res) => {
 
       Product.find(findArgs)
         .find({ judged: true })
+        .fine({ deleted: false })
         .find({ tags: term })
         .populate("writer")
         .sort([[sortBy, order]])
@@ -301,7 +302,8 @@ router.post("/products", (req, res) => {
       //문자열 검색
       Product.find(findArgs)
         .find({ judged: true })
-
+        .find({ deleted: false })
+      
         //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
         //Product 컬렉션 안에 있는 데이터 중 term과 일치하는 자료 가져옴
         .find({ $text: { $search: term } })
@@ -321,6 +323,7 @@ router.post("/products", (req, res) => {
     //검색어가 없으면, 원래대로 프로세스 수행
     Product.find(findArgs)
       .find({ judged: true })
+      .find({ deleted: false })
       .populate("writer")
       .sort([[sortBy, order]])
       .skip(skip)
@@ -486,6 +489,7 @@ router.post("/products_by_hashtag", (req, res) => {
 
       Product.find(findArgs)
         .find({ judged: true })
+        .find({ deleted: false })
         .find({ tags: tag })
         .find({ tags: term })
         .populate("writer")
@@ -504,6 +508,7 @@ router.post("/products_by_hashtag", (req, res) => {
       //문자열 검색
       Product.find(findArgs)
         .find({ judged: true })
+        .find({ deleted: false })
         .find({ tags: tag })
 
         //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
@@ -526,6 +531,7 @@ router.post("/products_by_hashtag", (req, res) => {
     //검색어가 없으면, 원래대로 프로세스 수행
     Product.find(findArgs)
       .find({ judged: true })
+      .find({ deleted: false })
       .find({ tags: tag })
       .populate("writer")
       .sort([[sortBy, order]])
@@ -647,5 +653,35 @@ router.post("/permission", (req, res) => {
     }
   );
 });
+
+router.get("/product_by_id", (req, res) => {
+  let productId = req.query.id;
+
+  Product.find({ _id: productId })
+    .populate("writer")
+    .exec((err, product) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).json({ success: true, product });
+    });
+})
+
+router.post("/delete", (req, res) => {
+  const productId = req.body.product_id;
+  
+  Product.findOneAndUpdate(
+    { _id: productId },
+    {
+      $set: {
+        deleted: true,
+        judged: false
+      },
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ success: false, err });
+      res.status(200).json({ success: true});
+    }
+  );
+})
 
 module.exports = router;

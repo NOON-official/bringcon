@@ -22,7 +22,7 @@ function NoInterests(props) {
 }
 
 function YesInterests(props) {
-  setTimeout(() => props.history.push("/"), 3000);
+  setTimeout(() => props.history.push("/contents"), 3000);
 
   return (
     <div>

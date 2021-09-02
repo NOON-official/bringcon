@@ -51,7 +51,7 @@ function AddInterests(props) {
           title: "Success!",
           text: "내 콘텐츠 행성에 여행객을 맞을 준비를 마쳤습니다.",
           imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T042501Z&X-Amz-Expires=86400&X-Amz-Signature=d6ee907acc00966b5abb379254efde0cac3f69d3c195346958e3d497874740c2&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T061142Z&X-Amz-Expires=86400&X-Amz-Signature=aac7bc2fb470604a84f81b7e34466ece8e385bea773e8785bfa5a585875b5d31&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",

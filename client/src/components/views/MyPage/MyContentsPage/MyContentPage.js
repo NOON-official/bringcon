@@ -11,6 +11,7 @@ function MyContentsPage(props) {
     const [Skip, setSkip] = useState(0);
     const [toggleState, setToggleState] = useState(1);
     const [Fee, setFee] = useState(15)
+    const [Deleted, setDeleted] = useState(false)
 
     if(props.user.userData && UserId === "") {
         setUserId(props.user.userData._id)
@@ -24,7 +25,11 @@ function MyContentsPage(props) {
             };
             getProducts(body);
         }
-    }, [UserId]);
+
+        if(Deleted === true) {
+            setDeleted(false)
+        }
+    }, [UserId, Deleted]);
 
     const getProducts = (body) => {
         axios.post(`/api/product/products_by_userId?userId=${UserId}`, body)
@@ -52,18 +57,19 @@ function MyContentsPage(props) {
         }).then((result => {
             if (result.value) {
                 console.log(data)
-                // axios.post('/api/product/delete', data)
-                // .then(response => {
-                //     if (response.data.success) {
-                //         Swal.fire({
-                //             title: 'Success',
-                //             text: '삭제되었습니다!',
-                //             icon: 'success'
-                //          })
-                //     } else {
-                //         alert("상품을 삭제할 수 없습니다.")
-                //     }
-                // })
+                axios.post('/api/product/delete', data)
+                .then(response => {
+                     if (response.data.success) {
+                        setDeleted(true)
+                         Swal.fire({
+                             title: 'Success',
+                             text: '삭제되었습니다!',
+                             icon: 'success'
+                          })
+                     } else {
+                         alert("상품을 삭제할 수 없습니다.")
+                     }
+                 });
             }
         }))
     }

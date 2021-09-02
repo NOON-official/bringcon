@@ -79,6 +79,9 @@ function Tabs(props) {
               })}
           </div>
           <hr />
+          {/* ㅎㅐㅅㅏㅇㄷㅗ ㅎㅗㄱㅈㅏㅇㅈㅏ ㅇㅏㅇㅣㅍㅐㄷㅡ ㅎㅏㄴㄱㅡㄹ ㅇㅗㅐㅇㅣㄹㅐ */}
+          {props.detail.width && <span> {props.detail.width}X{props.detail.height} </span>}
+          {props.detail.format && <span> {props.detail.format} </span>}
           <div>
             <Meta
               avatar={
@@ -99,17 +102,11 @@ function Tabs(props) {
           <div>
             <Collection writer={props.detail.writer} />
           </div>
-          {/* <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-            voluptatum qui adipisci.
-          </p> */}
         </div>
 
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
-          <h2>Content 3</h2>
-          <hr />
           <CommentTab
             refreshFunction={refreshFunction}
             commentLists={Comments}

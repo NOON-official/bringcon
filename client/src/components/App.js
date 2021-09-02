@@ -27,6 +27,9 @@ import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
 import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
+import ReviewPage from "./views/MyPage/ReviewPage/ReviewPage"
+import Main from "./views/Main/Main";
+import About from "./views/About/About";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -35,7 +38,7 @@ function App() {
   const location = useLocation();
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <NavBar />
+      <NavBar/>
       <div style={{ paddingTop: "69px", minHeight: "calc(100vh - 80px)" }}>
         <Route>
           <TransitionGroup className="transition-group">
@@ -45,7 +48,7 @@ function App() {
               timeout={{ enter: 1000, exit: 1000 }}
             >
               <Switch>
-                <Route exact path="/" component={Auth(LandingPage, null)} />
+                <Route exact path="/contents" component={Auth(LandingPage, null)} />
                 <Route
                   exact
                   path="/welcome"
@@ -99,13 +102,17 @@ function App() {
             />
             <Route exact path="/user/profile" component={Auth(ProfilePage, true)} />
             <Route exact path="/board" component={Auth(BodyPage, null)} />
+            
             <Route
               exact
               path="/board/write"
-              component={Auth(BoardWriteForm, true)}
+              component={Auth(BoardWriteForm, true, true)}
             ></Route>
-            <Route path="/board/detail" component={BoardDetail}></Route>
-             {/* admin pages */}
+            <Route exact path="/board/detail" component={BoardDetail}></Route>
+            
+            <Route exact path="/" component={Auth(Main, null)}></Route>
+            
+            {/* admin pages */}
             <Route
               exact
               path="/adminpage"
@@ -126,6 +133,12 @@ function App() {
               path="/user/mycontents"
               component={Auth(MyContentsPage, true)}
             />
+            <Route
+              exact
+              path="/user/review"
+              component={Auth(ReviewPage, true)}
+            />
+            <Route exact path="/about" component={Auth(About, null)} />
           </Switch>
         </Route>
         <CommunicationChat />

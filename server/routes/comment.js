@@ -33,4 +33,12 @@ router.post("/myReview", (req, res) => {
     });
 });
 
+router.post("/delete", (req, res) => {
+  Comment.deleteOne({ _id: req.body.reviewId })
+    .exec((err, result) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true });
+    });
+});
+
 module.exports = router;

@@ -29,7 +29,8 @@ function SearchFeature(props) {
   /* when user types 'ENTER' */
   const submitHandler = (event) => {
     if(event.key == 'Enter') {
-      searchHandler(event); 
+      /* Uncomment below line when the error fixed in a Main Page Search bar */
+      //searchHandler(event); 
     }
   }
 

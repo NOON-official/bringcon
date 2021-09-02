@@ -6,10 +6,10 @@ import ufo from '../LoginPage/sections/ufo.svg';
 function MainPage(){
     
     const submitSearchTerm = (newSearchTerm) => {
-        return <Redirect to={{
+        return ( <Redirect to={{
             pathname: '/contents',
             state: { SearchTerm: newSearchTerm }
-        }}/>
+        }}/> );
     }
     
     return(

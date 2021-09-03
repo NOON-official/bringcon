@@ -6,7 +6,7 @@ import HorizontalScroll from 'react-scroll-horizontal';
 function Main(){
     return (
         <div id = "horizontal-relative">
-        <HorizontalScroll >
+        <HorizontalScroll reverseScroll={true}>
             <MainPage/>
             <Footer/> 
         </HorizontalScroll>

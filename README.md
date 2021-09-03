@@ -10,7 +10,8 @@
 3. `s3.json` file을 `config` 폴더 안에 생성 후 정보를 입력해주세요.
 4. `iamport.json` file을 `config` 폴더 안에 생성 후 정보를 입력해주세요.
 5. root directory에 `uploads/thumbnails` 폴더를 생성해주세요.
-6. `npm install` 을 root directory에서 입력해주세요. (백엔드 종속성 다운받기)
-7. `npm install` 을 `client` directory에서 입력해주세요. (프론트엔드 종속성 다운받기)
+6. root directory에 `uploads/watermark` 폴더를 생성해주세요.
+7. `npm install` 을 root directory에서 입력해주세요. (백엔드 종속성 다운받기)
+8. `npm install` 을 `client` directory에서 입력해주세요. (프론트엔드 종속성 다운받기)
 
  2021.07.05에 제작을 시작하여 아직 제작중에 있습니다.

@@ -275,11 +275,11 @@ function HashTagPage(props) {
       {/* Cards */}
       {renderCards.length <= 10 ? (
         <div id="scroll-horizontal-fixed" style={{ height: `43em` }}>
-          <HorizontalScroll>{renderCards}</HorizontalScroll>
+          <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
         </div>
       ) : (
         <div id="scroll-horizontal" style={{ height: `43em` }}>
-          <HorizontalScroll>{renderCards}</HorizontalScroll>
+          <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
         </div>
       )}
     </div>

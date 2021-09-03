@@ -40,7 +40,6 @@ function LoginGoogle(props) {
     dispatch(registerUser(dataToSubmit)).then((response) => {
       dispatch(loginUser(dataToSubmit))
         .then((response) => {
-          console.log(response);
           if (response.payload.loginSuccess) {
             props.history.push("/welcome");
           }

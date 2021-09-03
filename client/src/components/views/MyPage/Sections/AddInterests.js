@@ -21,7 +21,6 @@ const Options = [
 function AddInterests(props) {
   const user = useSelector((state) => state.user);
   const [CheckList, setCheckList] = useState([]);
-  console.log(CheckList);
   const onChangeEach = (e, id) => {
     // 체크할 시 CheckList에 id값 넣기
     if (e.target.checked) {

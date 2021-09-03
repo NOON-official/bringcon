@@ -26,8 +26,6 @@ function BoardWriteForm(props) {
         setTitle(props.location.query.title)
         setContent(props.location.query.content)
       }
-      console.log(props.location.hasOwnProperty('query'))
-      console.log(props.location.query)
     }, [])
 
   const writeBoardHandler = (event) => {
@@ -57,7 +55,6 @@ function BoardWriteForm(props) {
 
       axios.post("/api/board/update", body).then((response) => {
         if (response.data.success) {
-          console.log(response.data);
           Swal.fire({
             title: 'Success!',
             text: '게시글이 수정되었습니다.',
@@ -83,7 +80,6 @@ function BoardWriteForm(props) {
   
       axios.post("/api/board/upload", body).then((response) => {
         if (response.data.success) {
-          console.log(response.data);
           Swal.fire({
             title: 'Success!',
             text: '게시글 업로드에 성공했습니다.',

@@ -12,7 +12,6 @@ function Payment(props) {
   const query = queryString.parse(search);
   
   if(Object.keys(query).length === 3) {
-    console.log(query)
     axios.get('/api/payments/complete', {params: query})
     .then((response) => {
       switch(response.data.status) {

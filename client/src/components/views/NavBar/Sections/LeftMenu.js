@@ -14,7 +14,6 @@ function LeftMenu(props) {
     function() {
       // 현재 위치에 해당하는 NavBar key 설정하기   
       if(window.location.href === this.href && Selected.length === 0) {
-        console.log(this.selected)
         setSelected([this.selected])
       }
     }

@@ -62,7 +62,7 @@ router.post("/video", (req, res) => {
       ffmpeg()
         .input(res.req.file.path)
         .input("watermark/watermark(trans70)-01.png")
-        .addOption("-filter_complex", "[1:v][0:v]scale2ref=5*ih/3/sar:ih/3[wm][base];[base][wm]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2")
+        .addOption("-filter_complex", "[1:v][0:v]scale2ref=iw:iw*sar[wm][base];[base][wm]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2")
         .save("testwatermark.mp4");
       uploadVideoToS3(
         res.req.file.path,

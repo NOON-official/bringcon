@@ -59,11 +59,22 @@ router.post("/video", (req, res) => {
       return res.json({ success: false, err });
     } else {
       //Watermark
+      const wm_filename = `wm_${res.req.file.filename}`
+      const wm_filepath = `uploads/watermark/${wm_filename}`
+
       ffmpeg()
         .input(res.req.file.path)
-        .input("watermark/watermark(trans70)-01.png")
+        .input("resource/watermark(trans70)-01.png")
         .addOption("-filter_complex", "[1:v][0:v]scale2ref=iw:iw*sar[wm][base];[base][wm]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2")
-        .save("testwatermark.mp4");
+        .save(wm_filepath)
+        .on("end", function () {
+          uploadWatermarkToS3(
+            wm_filepath,
+            wm_filename,
+            req.file.mimetype
+          );
+        })
+      
       uploadVideoToS3(
         res.req.file.path,
         res.req.file.filename,
@@ -74,9 +85,14 @@ router.post("/video", (req, res) => {
         res.req.file.filename
       )}`;
 
+      let wm_s3VideoPath = `https://bringcon-bucket.s3.ap-northeast-2.amazonaws.com/uploads/watermark/${encodeURIComponent(
+        wm_filename
+      )}`;
+
       return res.json({
         success: true,
         s3VideoPath: s3VideoPath,
+        wm_s3VideoPath: wm_s3VideoPath,
         filePath: res.req.file.path,
         fileName: res.req.file.filename,
       });
@@ -86,10 +102,6 @@ router.post("/video", (req, res) => {
 
 function uploadVideoToS3(source, target, mimetype) {
   fs.readFile(source, function (err, data) {
-    // 파일 사이즈 가져오기
-    // const stats = fs.statSync(source)
-    // const fileSizeInBytes = stats.size;
-    // console.log(fileSizeInBytes)
     if (!err) {
       var params = {
         Bucket: "bringcon-bucket/uploads",
@@ -102,6 +114,30 @@ function uploadVideoToS3(source, target, mimetype) {
       s3.putObject(params, function (err, data) {
         if (!err) {
           console.log("[s3] video file uploaded:");
+        } else {
+          console.log(err);
+        }
+      });
+    } else {
+      console.log(err);
+    }
+  });
+}
+
+function uploadWatermarkToS3(source, target, mimetype) {
+  fs.readFile(source, function (err, data) {
+    if (!err) {
+      var params = {
+        Bucket: "bringcon-bucket/uploads/watermark",
+        Key: target,
+        Body: data,
+        ContentType: mimetype,
+        ACL: "public-read",
+      };
+
+      s3.putObject(params, function (err, data) {
+        if (!err) {
+          console.log("[s3] watermark file uploaded:");
         } else {
           console.log(err);
         }
@@ -207,13 +243,21 @@ router.post("/", (req, res) => {
 
   //로컬 파일 삭제
   const filename = decodeURIComponent(req.body.filePath.split("/uploads/")[1]);
+  const wm_filename = decodeURIComponent(req.body.wmFilePath.split("/uploads/watermark/")[1]);
   const videoSource = `uploads/${filename}`;
+  const wm_videoSource = `uploads/watermark/${wm_filename}`;
   const thumbnailSource = req.body.thumbnail;
 
   fs.unlink(videoSource, (err) => {
     if (err) console.log(err);
     else console.log("local video is successfully deleted");
   });
+
+  fs.unlink(wm_videoSource, (err) => {
+    if (err) console.log(err);
+    else console.log("local watermark video is successfully deleted");
+  });
+
   fs.unlink(thumbnailSource, (err) => {
     if (err) console.log(err);
     else console.log("local thumbnail is successfully deleted");

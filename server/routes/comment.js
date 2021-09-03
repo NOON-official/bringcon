@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Comment } = require("../models/Comment");
+const { User } = require("../models/User");
 
 router.post("/saveComment", (req, res) => {
   const comment = new Comment(req.body);
@@ -39,6 +40,36 @@ router.post("/delete", (req, res) => {
       if (err) return res.status(400).send(err);
       res.status(200).json({ success: true });
     });
+});
+
+router.post("/comment_by_id", (req, res) => {
+  Comment.find({ _id: req.body.reviewId })
+    .populate("writer")
+    .populate("postId")
+    .exec((err, comment) => {
+      if (err) return res.status(400).send(err);
+
+      User.find({_id: comment[0].postId.writer})
+      .exec((err, writer) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).json({ success: true, comment: comment, writer: writer});
+      })
+    });
+});
+
+router.post("/update", (req, res) => {
+  Comment.findOneAndUpdate(
+    { _id: req.body.reviewId },
+    {
+      $set: {
+        content: req.body.content
+      }
+    },
+    (err, result) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).json({ success: true });
+    }
+  );
 });
 
 module.exports = router;

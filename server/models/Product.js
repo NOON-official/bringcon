@@ -42,6 +42,9 @@ const productSchema = mongoose.Schema(
     filePath: {
       type: String,
     },
+    wmFilePath: {
+      type: String,
+    },
     duration: {
       type: String,
     },

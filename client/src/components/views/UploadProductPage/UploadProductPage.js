@@ -37,6 +37,7 @@ function UploadProductPage(props) {
   // const [Category, setCategory] = useState(1);
   const [Images, setImages] = useState([]);
   const [FilePath, setFilePath] = useState("");
+  const [WMfilePath, setWMfilePath] = useState("");
   const [Duration, setDuration] = useState("");
   const [ThumbnailPath, setThumbnailPath] = useState("");
   const [S3thumbnailPath, setS3thumbnailPath] = useState("");
@@ -117,6 +118,7 @@ function UploadProductPage(props) {
         };
 
         setFilePath(response.data.s3VideoPath);
+        setWMfilePath(response.data.wm_s3VideoPath);
 
         Axios.post("/api/product/thumbnail", variable).then((response) => {
           if (response.data.success) {
@@ -169,6 +171,7 @@ function UploadProductPage(props) {
       genres: Genre,
       // categories: Category,
       filePath: FilePath,
+      wmFilePath: WMfilePath,
       duration: Duration,
       thumbnail: ThumbnailPath,
       s3thumbnail: S3thumbnailPath,
@@ -187,13 +190,6 @@ function UploadProductPage(props) {
       }
     });
   };
-
-  // const deleteHandler = (image) => {
-  //   const currentIndex = Images.indexOf(image);
-  //   let newImages = [...Images];
-  //   newImages.splice(currentIndex, 1);
-  //   setImages(newImages);
-  // };
 
   if (hasAccount === false) {
     if (user.userData && user.userData.bank !== undefined) {
@@ -286,43 +282,8 @@ function UploadProductPage(props) {
                 }}>
                 <Progress percentage={progress} />
                 </div>
-             
               )}
-
-              {/* <div
-            style={{
-              display: "flex",
-              width: "350px",
-              height: "240px",
-              overflowX: "scroll",
-            }}
-          >
-            {Images.map((image, index) => (
-              <div onClick={() => deleteHandler(image)} key={index}>
-                <img
-                  style={{ minWidth: "300px", width: "300px", height: "240px" }}
-                  src={`http://localhost:5000/${image}`}
-                />
-              </div>
-            ))}
-          </div> */}
-
-              {/* 배포용 ( 삭제 X ) */}
-              {/* {S3thumbnailPath && ( //ThumbnailPath가 있을 때만 렌더링
-            <div>
-              <img
-                src={`${S3thumbnailPath}`}
-                alt="thumbnail"
-              />
             </div>
-          )} */}
-            </div>
-            
-            {/* /* 해상도 확장자 테스트 */}
-
-            <span style={{ backgroundColor: "#1C1C1C", color: "#FFF"}}>
-            {/* 해상도 {Width}x{Height}  확장자 {Format} */}
-            </span>
 
             <br />
             <br />

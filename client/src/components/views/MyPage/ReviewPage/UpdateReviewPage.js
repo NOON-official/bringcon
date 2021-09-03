@@ -118,8 +118,8 @@ function UpdateReviewPage(props) {
                                 </td>
                             </tr>
                         </tbody>
-                        ))
                     </table>
+                    <br/>
                     <div>
                         <TextArea
                             className="update-review-content"

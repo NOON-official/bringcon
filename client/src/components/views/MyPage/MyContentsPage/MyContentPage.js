@@ -44,7 +44,6 @@ function MyContentsPage(props) {
 
     const handleDelete = (id) => {
         const data = {product_id: id}
-        // console.log(data)
 
         Swal.fire({
             title: '정말 삭제하시겠습니까?',
@@ -56,7 +55,6 @@ function MyContentsPage(props) {
             confirmButtonText: '예'
         }).then((result => {
             if (result.value) {
-                console.log(data)
                 axios.post('/api/product/delete', data)
                 .then(response => {
                      if (response.data.success) {

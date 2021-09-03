@@ -48,7 +48,6 @@ function ProfilePage(props) {
   };
 
   function UpdateTags() {
-    console.log("update Tags", Tags);
     const body = {
       //로그인 된 사람의 ID
       _id: user.userData._id,
@@ -67,7 +66,6 @@ function ProfilePage(props) {
     setToggleState(index);
   };
 
-  console.log("Tags", Tags);
   return (
 
     <div id="body" style={{ paddingTop: "50px", width: "auto", margin: "auto" }}>

@@ -84,17 +84,11 @@ function ReviewPage(props) {
 
     const handleEdit = (id) => {
         const data = {review_id: id}
-        console.log(data)
-       
-        //수정 할 review id를 백엔드로 보내줌
-        // axios.post('/api/comment/update', data)
-        // .then(response => {
-        //     if (response.data.success) {
-        //         alert("후기가 수정되었습니다.")
-        //     } else {
-        //         alert("후기를 수정할 수 없습니다.")
-        //     }
-        // })
+        
+        props.history.push({
+            pathname: "/user/review/update",
+            state: data
+        })
     }
 
     const toggleTab = (index) => {

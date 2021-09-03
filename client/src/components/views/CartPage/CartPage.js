@@ -11,10 +11,8 @@ import "./Sections/CartPage.css";
 import { configConsumerProps } from "antd/lib/config-provider";
 import "./Sections/UserCardBlock.css";
 import { Checkbox } from "antd";
-import { useSelector } from "react-redux";
 
 function CartPage(props) {
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [Total, setTotal] = useState(0);
   const [ShowTotal, setShowTotal] = useState(false);
@@ -35,48 +33,42 @@ function CartPage(props) {
   };
 
   const onCheckAllChange = (e) => {
-    setCheckedList(e.target.checked ? user.cartDetail : []);
+    setCheckedList(e.target.checked ? props.user.cartDetail : []);
     setCheckAll(e.target.checked);
   };
-
-  console.log("checked List : ", CheckedList);
-  console.log("Total", Total);
 
   useEffect(() => {
     let cartItems = [];
     //리덕스 User state안에 cart 안에 상품이 들어있는지 확인
-    if (user.userData && user.userData.cart) {
-      if (user.userData.cart.length > 0) {
-        user.userData.cart.forEach((item) => {
+    if (props.user.userData && props.user.userData.cart) {
+      if (props.user.userData.cart.length >= 0) {
+        props.user.userData.cart.forEach((item) => {
           cartItems.push(item.id);
         });
-        dispatch(getCartItems(cartItems, user.userData.cart)).then(
+        dispatch(getCartItems(cartItems, props.user.userData.cart)).then(
           (response) => {
             setCheckedList(response.payload);
           }
         );
+        setShowTotal(true);
       }
     }
-  }, [user.userData, dispatch]);
+  }, [props.user.userData, dispatch]);
 
   useEffect(() => {
     calculateTotal(CheckedList);
     setCheckAll(
-      CheckedList.length === (user.cartDetail && user.cartDetail.length)
+      CheckedList.length ===
+        (props.user.cartDetail && props.user.cartDetail.length)
     );
   }, [CheckedList]);
 
-  console.log("user.cartDetail", user.cartDetail);
-
   let calculateTotal = (CheckedList) => {
     let total = 0;
-    if (CheckedList.length > 0) {
-      CheckedList.map((item) => {
-        total += parseInt(item.price, 10) * item.quantity;
-      });
-      setShowTotal(true);
-      setTotal(total);
-    }
+    CheckedList.map((item) => {
+      total += parseInt(item.price, 10) * item.quantity;
+    });
+    setTotal(total);
   };
 
   let removeFromCart = (productId) => {
@@ -93,7 +85,7 @@ function CartPage(props) {
     CheckedList.map((product, index) => {
       dispatch(removeCartItem(product._id)).then((response) => {
         if (response.payload.productInfo.length <= 0) {
-          props.history.push("/contents");
+          setShowTotal(false);
         }
       });
     });
@@ -122,8 +114,8 @@ function CartPage(props) {
   };
 
   const renderItems = () =>
-    user.cartDetail &&
-    user.cartDetail.map((product, index) => (
+    props.user.cartDetail &&
+    props.user.cartDetail.map((product, index) => (
       <tr key={index} className="rendered-card">
         <td>
           <Checkbox
@@ -291,7 +283,7 @@ function CartPage(props) {
                   pg={PG}
                   payMethod={PayMethod}
                   total={Total}
-                  userData={user.userData}
+                  userData={props.user.userData}
                   onSuccess={transactionSuccess}
                   history={props.history}
                 />

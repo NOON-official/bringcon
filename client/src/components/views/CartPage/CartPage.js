@@ -41,7 +41,7 @@ function CartPage(props) {
     let cartItems = [];
     //리덕스 User state안에 cart 안에 상품이 들어있는지 확인
     if (props.user.userData && props.user.userData.cart) {
-      if (props.user.userData.cart.length >= 0) {
+      if (props.user.userData.cart.length > 0) {
         props.user.userData.cart.forEach((item) => {
           cartItems.push(item.id);
         });
@@ -61,7 +61,7 @@ function CartPage(props) {
       CheckedList.length ===
         (props.user.cartDetail && props.user.cartDetail.length)
     );
-  }, [CheckedList]);
+  }, [CheckedList, ShowTotal]);
 
   let calculateTotal = (CheckedList) => {
     let total = 0;
@@ -112,6 +112,8 @@ function CartPage(props) {
   const handleOptionChange = (changeEvent) => {
     setPayMethod(changeEvent.target.value);
   };
+
+  console.log("props.user.cartDetail", props.user.cartDetail);
 
   const renderItems = () =>
     props.user.cartDetail &&

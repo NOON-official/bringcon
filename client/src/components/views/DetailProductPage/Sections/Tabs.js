@@ -78,10 +78,9 @@ function Tabs(props) {
                 );
               })}
           </div>
+          <button className="video-setting" disabled> {props.detail.format} </button>
+          <button className="video-setting" disabled> {props.detail.width}X{props.detail.height} </button>
           <hr />
-          {/* ㅎㅐㅅㅏㅇㄷㅗ ㅎㅗㄱㅈㅏㅇㅈㅏ ㅇㅏㅇㅣㅍㅐㄷㅡ ㅎㅏㄴㄱㅡㄹ ㅇㅗㅐㅇㅣㄹㅐ */}
-          <span> {props.detail.width}X{props.detail.height} </span>
-          <span> {props.detail.format} </span>
           <div>
             <Meta
               avatar={

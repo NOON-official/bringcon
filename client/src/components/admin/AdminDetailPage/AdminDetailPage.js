@@ -48,12 +48,22 @@ function AdminDetailPage(props) {
           {/* ProductVideo */}
           <DetailTemplate>
             <Ratio ratio={16 / 9}>
+            { Product.wmFilePath ?
+              <video
+                style={{ backgroundColor: "black", borderRadius: "12px" }}
+                src={`${Product.wmFilePath}`}
+                controls
+                controlsList="nodownload"
+              />
+              :
+              // DB 파일 최종 정리 후 삭제할 부분
               <video
                 style={{ backgroundColor: "black", borderRadius: "12px" }}
                 src={`${Product.filePath}`}
                 controls
                 controlsList="nodownload"
               />
+              }
             </Ratio>
           </DetailTemplate>
           <div

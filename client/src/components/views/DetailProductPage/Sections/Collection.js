@@ -4,7 +4,6 @@ import {Col} from 'antd';
 import '../css/UserVideo.css';
 
 function Collection(props) {
-  console.log(props)
   const [UserId, setUserId] = useState("");
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);

@@ -11,8 +11,6 @@ import "../css/Tabs.css";
 import "../css/UserVideo.css";
 
 function Tabs(props) {
-  console.log(props);
-
   const productId = props.detail._id;
   const variable = { productId: productId };
 

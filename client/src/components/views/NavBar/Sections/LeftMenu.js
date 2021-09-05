@@ -3,6 +3,7 @@ import { Menu } from "antd";
 import { useSelector } from "react-redux";
 import $ from 'jquery';
 import './Badge.css';
+const SubMenu = Menu.SubMenu;
 
 function LeftMenu(props) {
   const user = useSelector((state) => state.user);
@@ -13,7 +14,6 @@ function LeftMenu(props) {
     function() {
       // 현재 위치에 해당하는 NavBar key 설정하기   
       if(window.location.href === this.href && Selected.length === 0) {
-        console.log(this.selected)
         setSelected([this.selected])
       }
     }
@@ -42,13 +42,23 @@ function LeftMenu(props) {
         </a>
       </Menu.Item>
 
-      {/* 공지사항 글쓰기(관리자만 보임) */}
+      {/* 관리자 메뉴 */}
       {user.userData && user.userData.isAuth && user.userData.isAdmin &&
-        <Menu.Item key="write">
-          <a selected="write" href="/board/write" style={{ color: "#ffcb39" }}>
-            Write
-          </a>
-        </Menu.Item>
+        <SubMenu key="admin" title={<span>Admin</span>} style={{ border: 0 }}>
+          {/* 영상 승인 */}
+          <Menu.Item key="adminpage">
+            <a selected="adminpage" href="/adminpage" style={{ color: "gray", fontWeight: "400", letterSpacing: "0" }}>
+              콘텐츠 관리
+            </a>
+          </Menu.Item>
+
+          {/* 공지사항 글쓰기 */}
+          <Menu.Item key="write">
+            <a selected="write" href="/board/write" style={{ color: "gray", fontWeight: "400", letterSpacing: "0" }}>
+              글쓰기
+            </a>
+          </Menu.Item>
+        </SubMenu>
       }
     </Menu>
   );

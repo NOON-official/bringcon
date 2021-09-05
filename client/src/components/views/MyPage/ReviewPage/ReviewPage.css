@@ -71,3 +71,45 @@
 .comment {
     margin-top: 22px;
 }
+
+.save-button {
+    background-color: transparent;
+    width: 112px;
+    height: 32px;
+    color: #B3E220;
+    border: 2px solid #B3E220;
+    border-radius: 6px;
+    margin-top: 10px;
+    float: right;
+}
+
+.save-button:hover{
+    color: #B3E220;
+    cursor: pointer;
+}
+
+.ant-input.update-review-content{
+    border: none;
+}
+
+.ant-input.update-review-content::placeholder{
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700px;
+}
+
+.update-review-tbody {
+    border: none;
+    height: 150px;
+}
+
+.update-review-content {
+    width: 885px;
+    height: 265px !important;
+    margin-left: 78px;
+    background: transparent;
+    color: #ffcb39;
+    border: 2px solid #ffcb39 !important;
+    border-radius: 15px;
+    padding: 25px;
+}

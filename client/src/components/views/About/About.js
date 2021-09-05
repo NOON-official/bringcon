@@ -9,7 +9,7 @@ import './About.css';
 function About(){
     return(
         <div id="body" style={{width: 'auto'}}>
-            <HorizontalScroll>
+            <HorizontalScroll reverseScroll={true}>
                <div>
                    <img src={Img1} className="about-page"/>
                </div>

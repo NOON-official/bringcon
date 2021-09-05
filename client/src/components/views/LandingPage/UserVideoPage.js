@@ -67,19 +67,11 @@ function UserVideoPage(props) {
     e.currentTarget.pause();
     e.currentTarget.currentTime = 0;
   }
-  
+
   const Interests =
     user.userData && user.userData.interests
       ? user.userData.interests
-      : [
-          "test_tag1",
-          "test_tag2",
-          "test_tag3",
-          "test_tag4",
-          "test_tag5",
-          "test_tag6",
-          "test_tag7",
-        ];
+      : ["동물", "클립영상", "유머", "일상"];
 
   const renderInterests = () =>
     Interests.map((interest, index) => {
@@ -277,11 +269,15 @@ function UserVideoPage(props) {
       {/* Cards */}
       {renderCards.length <= 10 ? (
         <div id="scroll-horizontal-fixed" style={{ height: `43em` }}>
-          <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
+          <HorizontalScroll reverseScroll={true}>
+            {renderCards}
+          </HorizontalScroll>
         </div>
       ) : (
         <div id="scroll-horizontal" style={{ height: `43em` }}>
-          <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
+          <HorizontalScroll reverseScroll={true}>
+            {renderCards}
+          </HorizontalScroll>
         </div>
       )}
     </div>

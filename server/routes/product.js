@@ -734,4 +734,32 @@ router.post("/delete", (req, res) => {
   );
 })
 
+router.post("/content_by_id", (req, res) => {
+  let productId = req.body.productId;
+
+  Product.find({ _id: productId })
+    .exec((err, content) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).json({ success: true, content });
+    });
+})
+
+router.post("/update", (req, res) => {
+  Product.findOneAndUpdate(
+    { _id: req.body.productId },
+    {
+      $set: {
+        title: req.body.title,
+        description: req.body.description,
+        genres: req.body.genres,
+        tags: req.body.tags
+      }
+    },
+    (err, result) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).json({ success: true });
+    }
+  );
+});
+
 module.exports = router;

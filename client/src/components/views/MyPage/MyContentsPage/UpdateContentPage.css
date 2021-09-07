@@ -1,0 +1,119 @@
+.upload-box {
+    background-color: #1c1c1c;
+}
+
+.plus-icon svg {
+    color: #ffcb39 !important;
+    width: 44px !important;
+}
+
+.upload-zone {
+    background-color: #1c1c1c !important;
+    margin-right: 85px;
+}
+
+.upload-line hr {
+    background-color: #ffcb39 !important;
+    width: 498px;
+    border: none;
+    height: 3px;
+}
+
+.upload-body {
+    background-color: #1c1c1c !important;
+}
+
+.ant-input.upload-title::placeholder {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.ant-input.upload-price::placeholder {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.ant-col.upload-info {
+    border: 3px solid #ffcb39;
+    border-radius: 12px;
+    width: 546px;
+    height: 548px;
+}
+
+.genres-dropdown, .catogories-dropdown {
+    width: 94px;
+    height: 21px;
+    background-color: #ffcb39;
+    border: none;
+    border-radius: 24px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #000;
+    margin-top: 25px;
+    margin-bottom: 35px;
+}
+
+.genres-dropdown {
+    margin-left: 42px;
+    margin-right: 32px;
+}
+
+.ant-input.upload-description {
+    margin-left: 25px !important;
+    border: none;
+}
+
+.ant-input.upload-description::placeholder {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700px;
+}
+
+.upload-submit, .upload-reset {
+    height: 63px;
+    width: 252px;
+    background: #b3e220;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.upload-reset {
+    margin-right: 50px;
+}
+
+.upload-submit:hover, .upload-reset:hover {
+    color: #fff;
+}
+
+.video-setting {
+    color: #ffcb39;
+    border-radius: 24px;
+    background: transparent;
+    width: 94px;
+    height: 21px;
+    border: 2px solid #ffcb39;
+    font-size: 12px;
+    font-weight: 900;
+    margin-left: 32px;
+    line-height: 16px;
+}
+
+.upload-price {
+    background-color: #1C1C1C;
+    color: gray;
+    font-weight: 700;
+    margin-left: 30px;
+}
+
+.update-alert {
+    position: relative;
+    top: 555px;
+    right: 535px;
+    width: 1600px;
+    color: #ffcb39;
+    font-size: 13px;
+}

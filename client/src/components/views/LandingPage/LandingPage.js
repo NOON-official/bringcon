@@ -39,7 +39,7 @@ function LandingPage(props) {
     };
     if( props && props.location && props.location.state && props.location.state.SearchTerm){
       body.searchTerm = props.location.state.SearchTerm;
-      setSearchTerm(body.searchTerm);
+      //setSearchTerm(body.searchTerm);
     }
     getProducts(body);
   }, [Standard]);

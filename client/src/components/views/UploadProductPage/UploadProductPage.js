@@ -313,7 +313,15 @@ function UploadProductPage(props) {
           <Col lg={12} sm={24} className="upload-info">
             <div className="box">
               <div className="tags-input">
-                <ul>
+                <input
+                  className="upload-tags"
+                  type="text"
+                  placeholder="스페이스바를 눌러 해시태그를 입력하세요"
+                  onKeyUp={(e) => (e.keyCode === 32 ? addTags(e) : null)}
+                />
+              </div>
+              <div>
+              <ul>
                   {Tags.map((tag, index) => (
                     <li key={index} className="tag">
                       <span>{tag}</span>
@@ -326,13 +334,6 @@ function UploadProductPage(props) {
                     </li>
                   ))}
                 </ul>
-                <input
-                  className="upload-tags"
-                  type="text"
-                  placeholder="스페이스바를 눌러 해시태그를 입력하세요"
-                  onKeyUp={(e) => (e.keyCode === 32 ? addTags(e) : null)}
-                />
-              </div>
             </div>
             <hr
               className="upload-line"
@@ -381,6 +382,7 @@ function UploadProductPage(props) {
               className="upload-description"
               placeholder="영상에 대한 상세 설명을 작성하세요."
             />
+            </div>
           </Col>
         </Form>
       </div>

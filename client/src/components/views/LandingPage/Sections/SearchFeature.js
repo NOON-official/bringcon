@@ -18,8 +18,8 @@ function SearchFeature(props) {
   const [Genre, setGenre] = useState(1);
 
   const searchHandler = (event) => {
-    if( window.location.pathname === "/contents" ){
-      setSearchTerm(event.currentTarget.value);
+    setSearchTerm(event.currentTarget.value);
+    if( window.location.pathname === "/contents" || event.key === 'Enter') {
       props.refreshFunction(event.currentTarget.value);
     }
   };
@@ -27,14 +27,6 @@ function SearchFeature(props) {
   const genreChangeHandler = (event) => {
     setGenre(event.currentTarget.value);
   };
-  
-  /* when user types 'ENTER' */
-  const submitHandler = (event) => {
-    if(event.key == 'Enter') {
-      setSearchTerm(event.currentTarget.value);
-      props.refreshFunction(event.currentTarget.value);
-    }
-  }
 
   return (
     <div className="search-wrapper">
@@ -54,7 +46,7 @@ function SearchFeature(props) {
         placeholder="브링콘과 함께 콘텐츠 여행을 떠나보세요!"
         // onFocus="this.placeholder = ''"
         onChange={searchHandler}
-        onKeyPress={submitHandler}
+        onKeyPress={searchHandler}
         style={{ width: 720, height: "40px", borderRadius: "200px" }}
         value={SearchTerm}
       />

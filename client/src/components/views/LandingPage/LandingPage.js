@@ -20,7 +20,7 @@ const Standards = [
   { key: "_id", value: "최신순" },
 ];
 
-function LandingPage() {
+function LandingPage(props) {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
   const [Standard, setStandard] = useState("views");

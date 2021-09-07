@@ -27,6 +27,7 @@ import AdminDetailProductPage from "./admin/AdminDetailPage/AdminDetailPage";
 import UpdateUserInfo from "./views/MyPage/Sections/UpdateUserInfo";
 import Payment from "./utils/Payment";
 import MyContentsPage from "./views/MyPage/MyContentsPage/MyContentPage";
+import UpdateContentPage from "./views/MyPage/MyContentsPage/UpdateContentPage";
 import ReviewPage from "./views/MyPage/ReviewPage/ReviewPage"
 import UpdateReviewPage from "./views/MyPage/ReviewPage/UpdateReviewPage";
 import Main from "./views/Main/Main";
@@ -133,6 +134,11 @@ function App() {
               exact
               path="/user/mycontents"
               component={Auth(MyContentsPage, true)}
+            />
+            <Route
+              exact
+              path="/user/mycontents/update"
+              component={Auth(UpdateContentPage, true)}
             />
             <Route
               exact

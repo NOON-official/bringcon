@@ -20,7 +20,7 @@ const Standards = [
   { key: "_id", value: "최신순" },
 ];
 
-function LandingPage() {
+function LandingPage(props) {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
   const [Standard, setStandard] = useState("views");
@@ -37,6 +37,10 @@ function LandingPage() {
       skip: Skip,
       sortBy: Standard,
     };
+    if( props && props.location && props.location.search ){
+      //console.log(props.location.search);
+      body.searchTerm = props.location.search.split('=')[1];
+    }
     getProducts(body);
   }, [Standard]);
 

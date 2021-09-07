@@ -74,17 +74,11 @@ function MyContentsPage(props) {
 
     const handleEdit = (id) => {
         const data = {product_id: id}
-        console.log(data)
-       
-        //수정 할 product id를 백엔드로 보내줌
-        // axios.post('/api/product/update', data)
-        // .then(response => {
-        //     if (response.data.success) {
-        //         alert("상품 정보가 수정되었습니다.")
-        //     } else {
-        //         alert("상품 정보를 수정할 수 없습니다.")
-        //     }
-        // })
+            
+        props.history.push({
+            pathname: "/user/mycontents/update",
+            state: data
+        })
     }
     
     // 수수료 공제

@@ -6,11 +6,13 @@ import ufo from '../LoginPage/sections/ufo.svg';
 
 function MainPage(){
     
-    const [ Entered,setEntered ] = useState(0);
+    const [ Entered, setEntered ] = useState(0);
+    const [ newSearchTerm, setnewSearchTerm ] = useState("");
     
-    const submitSearchTerm = (newSearchTerm) => {
+    const submitSearchTerm = (searchTerm) => {
         //console.log(newSearchTerm);
         setEntered(1);
+        setnewSearchTerm(searchTerm);
     }
     
     return(

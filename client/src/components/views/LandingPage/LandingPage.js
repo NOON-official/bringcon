@@ -47,7 +47,8 @@ function LandingPage(props) {
       sortBy: Standard,
     };
     if( props && props.location && props.location.search ){
-      console.log(props.location.search);
+      //console.log(props.location.search);
+      body.searchTerm = props.location.search.split('=')[1];
     }
     getProducts(body);
   }, [Standard]);

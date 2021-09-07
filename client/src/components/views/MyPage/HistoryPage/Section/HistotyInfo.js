@@ -105,7 +105,10 @@ function HistoryInfo(props) {
                           "ko-KR"
                         )}원`}</span>
                       </div>
-                      <HistoryProductInfo order={order} />
+                      <HistoryProductInfo
+                        order={order}
+                        userId={props.user.userData._id}
+                      />
                     </td>
                   </tr>
                 </tbody>

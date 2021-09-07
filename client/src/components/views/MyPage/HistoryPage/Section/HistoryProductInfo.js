@@ -32,6 +32,9 @@ const handleDownloadClickSeleted = (CheckedList) => {
 function HistoryProductInfo(props) {
   const [CheckedList, setCheckedList] = useState(props.order.ProductInfo);
   const [checkAll, setCheckAll] = useState(true);
+  const crypto = require("crypto");
+
+  console.log("date", props.userId);
 
   useEffect(() => {
     setCheckAll(CheckedList.length === props.order.ProductInfo.length);
@@ -102,6 +105,7 @@ function HistoryProductInfo(props) {
                   checked={CheckedList.indexOf(product) >= 0 ? true : false}
                 />
               </td>
+
               <td style={{ width: "200px" }}>
                 {/* 썸네일 이미지 */}
                 <img
@@ -114,10 +118,22 @@ function HistoryProductInfo(props) {
                   src={product.s3thumbnail}
                 />
               </td>
+
               <td style={{ width: "300px" }}>
                 {/* 상품 이름, 올린 사람 */}
                 <div className="purchased-title">{product.title}</div>
                 <div className="purchased-uploader">{product.writer}</div>
+              </td>
+              {/* 저작권 코드 */}
+              <td>
+                {crypto
+                  .createHash("md5")
+                  .update(
+                    product.id +
+                      props.userId +
+                      props.order.OrderInfo.dateOfPurchase
+                  )
+                  .digest("base64")}
               </td>
               <td style={{ width: "200px" }}>
                 {/* 상품 가격 */}

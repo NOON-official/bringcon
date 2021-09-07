@@ -9,10 +9,19 @@ import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
 
-const Categories = [
-  { key: 0, value: "전체" },
-  { key: 1, value: "Clips" },
-  { key: 2, value: "Memes" },
+const Genres = [
+  { key: 1, value: "Animals" },
+  { key: 2, value: "Animations" },
+  { key: 3, value: "Arts" },
+  { key: 4, value: "Broadcasting" },
+  { key: 5, value: "Business" },
+  { key: 6, value: "Cartoon" },
+  { key: 7, value: "Character" },
+  { key: 8, value: "Land-marks" },
+  { key: 9, value: "Music" },
+  { key: 10, value: "Nature" },
+  { key: 11, value: "Sports" },
+  { key: 12, value: "Etc.." }
 ];
 
 const Standards = [
@@ -24,7 +33,7 @@ function LandingPage(props) {
   const [Products, setProducts] = useState([]);
   const [Skip, setSkip] = useState(0);
   const [Standard, setStandard] = useState("views");
-  const [Category, setCategory] = useState(1);
+  const [Genre, setGenre] = useState(1);
   const [Filters, setFilters] = useState({
     genres: [],
     price: [],
@@ -178,8 +187,8 @@ function LandingPage(props) {
     getProducts(body); //백엔드에 보내서 처리!
   };
 
-  const CategoryChangeHandler = (event) => {
-    setCategory(event.currentTarget.value);
+  const GenreChangeHandler = (event) => {
+    setGenre(event.currentTarget.value);
   };
 
   const standardChangeHandler = (event) => {
@@ -239,11 +248,11 @@ function LandingPage(props) {
           }}
         >
           <select
-            onChange={CategoryChangeHandler}
-            value={Category}
+            onChange={GenreChangeHandler}
+            value={Genre}
             className="landing-category-dropdown"
           >
-            {Categories.map((item) => (
+            {Genres.map((item) => (
               <option key={item.key} value={item.key}>
                 {" "}
                 {item.value}

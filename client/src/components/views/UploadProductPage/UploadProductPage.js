@@ -23,18 +23,12 @@ const Genres = [
   { key: 12, value: "Etc.." }
 ];
 
-// const Categories = [
-//   { key: 1, value: "Clips" },
-//   { key: 2, value: "Memes" },
-// ];
-
 function UploadProductPage(props) {
   const user = useSelector((state) => state.user);
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState(0);
   const [Genre, setGenre] = useState(1);
-  // const [Category, setCategory] = useState(1);
   const [Images, setImages] = useState([]);
   const [FilePath, setFilePath] = useState("");
   const [WMfilePath, setWMfilePath] = useState("");
@@ -73,10 +67,6 @@ function UploadProductPage(props) {
   const genreChangeHandler = (event) => {
     setGenre(event.currentTarget.value);
   };
-
-  // const CategoryChangeHandler = (event) => {
-  //   setCategory(event.currentTarget.value);
-  // };
 
   const updateImages = (newImages) => {
     setImages(newImages);
@@ -153,7 +143,6 @@ function UploadProductPage(props) {
       !Description ||
       !Price ||
       !Genre ||
-      // !Category ||
       Images.length === 0
     ) {
       return alert(" 모든 값을 넣어주셔야 합니다.");
@@ -169,7 +158,6 @@ function UploadProductPage(props) {
       price: Price,
       images: Images,
       genres: Genre,
-      // categories: Category,
       filePath: FilePath,
       wmFilePath: WMfilePath,
       duration: Duration,
@@ -355,18 +343,6 @@ function UploadProductPage(props) {
                 </option>
               ))}
             </select>
-            {/* <select
-              onChange={CategoryChangeHandler}
-              value={Category}
-              className="catogories-dropdown"
-            >
-              {Categories.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {" "}
-                  {item.value}
-                </option>
-              ))}
-            </select> */}
             <button className="video-setting" disabled> 확장자 {Format}</button>
             <button className="video-setting" disabled> {Width} x {Height}</button>
             <TextArea

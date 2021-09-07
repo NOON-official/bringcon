@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import SearchFeature from '../LandingPage/Sections/SearchFeature';
 import './Main.css';
@@ -6,11 +6,11 @@ import ufo from '../LoginPage/sections/ufo.svg';
 
 function MainPage(){
     
+    const [ Entered,setEntered ] = useState(0);
+    
     const submitSearchTerm = (newSearchTerm) => {
-        return ( <Redirect to={{
-            pathname: '/contents',
-            state: { SearchTerm: newSearchTerm }
-        }}/> );
+        //console.log(newSearchTerm);
+        setEntered(1);
     }
     
     return(
@@ -23,6 +23,7 @@ function MainPage(){
             <div className="decorations">
                 <img src={ufo} className="ufo"/>
             </div>
+            { Entered === 1 && <Redirect to={{ pathname: '/contents', state: { SearchTerm: newSearchTerm }}}/> }
         </div>
     )
 }

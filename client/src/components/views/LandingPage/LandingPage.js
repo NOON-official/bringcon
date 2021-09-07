@@ -37,7 +37,10 @@ function LandingPage(props) {
       skip: Skip,
       sortBy: Standard,
     };
-    if( props.location.state.SearchTerm !== undefined ) body.searchTerm = props.location.state.SearchTerm;
+    if( props && props.location && props.location.state && props.location.state.SearchTerm){
+      body.searchTerm = props.location.state.SearchTerm;
+      setSearchTerm(body.searchTerm);
+    }
     getProducts(body);
   }, [Standard]);
 

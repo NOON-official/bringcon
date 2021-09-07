@@ -335,7 +335,7 @@ router.post("/products", (req, res) => {
 
       Product.find(findArgs)
         .find({ judged: true })
-        .fine({ deleted: false })
+        .find({ deleted: false })
         .find({ tags: term })
         .populate("writer")
         .sort([[sortBy, order]])

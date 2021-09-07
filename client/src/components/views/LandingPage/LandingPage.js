@@ -37,6 +37,7 @@ function LandingPage() {
       skip: Skip,
       sortBy: Standard,
     };
+    if( props.location.state.referrer ) body.searchTerm = props.location.state.referrer;
     getProducts(body);
   }, [Standard]);
 

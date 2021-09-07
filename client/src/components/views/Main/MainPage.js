@@ -25,7 +25,7 @@ function MainPage(){
             <div className="decorations">
                 <img src={ufo} className="ufo"/>
             </div>
-            { Entered === 1 && <Redirect to={{ pathname: '/contents', search: `?q=${newSearchTerm}`}}}/> }
+            { Entered === 1 && <Redirect to={{ pathname: '/contents', search: `?q=${newSearchTerm}`}}/> }
         </div>
     )
 }

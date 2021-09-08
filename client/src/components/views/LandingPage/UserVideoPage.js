@@ -187,7 +187,7 @@ function UserVideoPage(props) {
 
   return (
     <div
-      id="filters"
+      id="body"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
     >
       {/* Filter */}
@@ -209,8 +209,7 @@ function UserVideoPage(props) {
           display: "flex",
           justifyContent: "center",
           paddingBottom: "1em",
-          margin: "1em auto",
-          backgroundColor: "#1C1C1C",
+          margin: "1em auto"
         }}
       >
         <SearchFeature
@@ -237,7 +236,7 @@ function UserVideoPage(props) {
             display: "flex",
             justifyContent: "flex-end",
             padding: "1em auto",
-            backgroundColor: "#1C1C1C",
+
           }}
         >
           <select

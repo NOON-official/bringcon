@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Avatar } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Descriptions } from "antd";
@@ -49,7 +48,7 @@ function Tabs(props) {
   };
 
   const refreshFunction = (newComment) => {
-    setComments(Comments.concat(newComment));
+    setComments(newComment.concat(Comments));
   };
 
   return (
@@ -61,6 +60,7 @@ function Tabs(props) {
         >
           여행지 정보
         </button>
+
         <button
           className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(2)}
@@ -80,6 +80,23 @@ function Tabs(props) {
           className={toggleState === 1 ? "content  active-content" : "content"}
         >
           {/* 해시태그 있어야 하는 부분 */}
+          <div style={{ marginBottom: "10px" }}>
+            <button className="video-setting" disabled>
+              {props.detail.genres && Genres[props.detail.genres - 1].value}
+            </button>
+            <button
+              className="video-setting"
+              disabled
+              style={{ marginLeft: 0 }}
+            >
+              {" "}
+              {props.detail.format}{" "}
+            </button>
+            <button className="video-setting" disabled>
+              {" "}
+              {props.detail.width}X{props.detail.height}{" "}
+            </button>
+          </div>
           <div>
             {props.detail.tags &&
               props.detail.tags.map((tag) => {
@@ -91,9 +108,6 @@ function Tabs(props) {
                 );
               })}
           </div>
-          <button className="video-setting" disabled> {props.detail.genres && Genres[props.detail.genres - 1].value} </button>
-          <button className="video-setting" disabled> {props.detail.format} </button>
-          <button className="video-setting" disabled> {props.detail.width}X{props.detail.height} </button>
           <hr />
           <div>
             <Meta
@@ -119,11 +133,13 @@ function Tabs(props) {
 
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
+          id="comment-content"
         >
           <CommentTab
             refreshFunction={refreshFunction}
             commentLists={Comments}
             postId={productId}
+            style={{ paddingTop: 0 }}
           />
         </div>
       </div>

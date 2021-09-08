@@ -52,11 +52,6 @@ function DetailProductPage(props) {
         props.history.push("/user/cart");
       } else if (
         result.dismiss === Swal.DismissReason.cancel){
-          Swal.fire(
-            'success',
-            '상품이 카트에 추가되었습니다.',
-            'success'
-          )
       }
     });
   };

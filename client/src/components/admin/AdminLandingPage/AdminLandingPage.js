@@ -69,7 +69,7 @@ function AdminLandingPage() {
             }
             title={product.title}
           />
-          <a href={`/videos/${product.writer._id}`}>
+          <a href={`/videos/${product.writer._id}`} className="writer-name">
             <span>{product.writer.name}</span>
           </a>
           <span id="card-price">{`${product.price.toLocaleString(

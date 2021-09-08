@@ -109,8 +109,8 @@ function AddAccount(props) {
         <VerticalMenu/>
       </Col>
       <Col style={{float: 'right', width: '1150px'}}>
-      <div className="mypage-container" style={{maxWidth:'1092px'}}>
-      <div className="mypage-bloc-tabs">
+      <div className="mypage-container" style={{width:'1092px'}}>
+      <div className="mypage-bloc-tabs" style={{width:'1092px'}}>
           <button
             className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
             onClick={() => toggleTab(1)}

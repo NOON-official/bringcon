@@ -5,19 +5,14 @@
   border-bottom: 0 !important;
 }
 
-/* a{
-  color: #ffcb39;
-} */
 .menu {
   color: #ffcb39;
   padding: 0 20px;
-  /* border-bottom: solid 1px #e8e8e8; */
-  overflow: auto;
   background-color: #1C1C1C;
   overflow: hidden;
   font-family: "Pretendard";
   font-weight: '16px';
-  height: 10%;
+  min-height: 80px;
 }
 
 .menu__logo {

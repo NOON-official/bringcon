@@ -1,7 +1,3 @@
-/* body {
-    overflow:hidden;
-} */
-
 .tabs-container{
     display:flex;
     flex-direction: column;
@@ -131,4 +127,9 @@ button{
 
 .content-details{
     height: 60% !important;
+}
+
+#comment-content{
+    padding: 0px !important;
+
 }

@@ -44,8 +44,28 @@ function CommentTab(props) {
 
     return (
         <div>
+            <div className="comment-form">
+        <form style={{display: 'flex', paddingLeft: '8px'}} onSubmit={onSubmit}>
+        <Avatar
+            className="comment-writer-image"
+            style={{width:"42px", height:"42px", marginRight:"15px"}}
+            src={user.userData && user.userData.image}
+            alt="image"/>
+    <TextArea
+        className="review-input"
+        style={{width:'336px'}}
+        onChange={handleClick}
+        value={commentValue}
+        placeholder="후기를 작성해주세요"
+    />
+    <br/>
+    <Button className="review-upload-button" style={{width: '84px', height: '42px'}}
+    onClick={onSubmit}>Submit</Button>
+</form>
+</div>
+        <div>
             <div className="total-comments" style={{color: "#ffcb39", float:'right', fontSize: '16px'}}>총 {props.commentLists.length}개의 후기가 있습니다.</div>
-        <div className="commentlist">
+            <div className="commentlist">
             <br/>
             
             {/* comment lists */}
@@ -70,28 +90,10 @@ function CommentTab(props) {
                     </div>
                 </React.Fragment>
             ))}
-        </div>
-        <form style={{display: 'flex', paddingLeft: '8px'}} onSubmit={onSubmit}>
-            <Avatar
-                className="comment-writer-image"
-                style={{width:"42px", height:"42px", marginRight:"15px"}}
-                src={user.userData && user.userData.image}
-                alt="image"/>
-        <TextArea
-            className="review-input"
-            style={{width:'336px'}}
-            onChange={handleClick}
-            value={commentValue}
-            placeholder="후기를 작성해주세요"
-        />
-        <br/>
-        <Button className="review-upload-button" style={{width: '84px', height: '42px'}}
-        onClick={onSubmit}>Submit</Button>
-    </form>
-        <div>
-       
     </div>
     </div>
+        
+</div>
     )
 }
 

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { Avatar, Icon, Col, Row } from "antd";
-import Meta from "antd/lib/card/Meta";
-import { Descriptions } from "antd";
+import { Avatar, Col} from "antd";
 import Axios from "axios";
 import Swal from "sweetalert2";
 import VerticalMenu from "../VerticalMenu/VerticalMenu";

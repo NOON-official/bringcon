@@ -355,18 +355,6 @@ function UploadProductPage(props) {
                 </option>
               ))}
             </select>
-            {/* <select
-              onChange={CategoryChangeHandler}
-              value={Category}
-              className="catogories-dropdown"
-            >
-              {Categories.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {" "}
-                  {item.value}
-                </option>
-              ))}
-            </select> */}
             <button className="video-setting" disabled> 확장자 {Format}</button>
             <button className="video-setting" disabled> {Width} x {Height}</button>
             <TextArea

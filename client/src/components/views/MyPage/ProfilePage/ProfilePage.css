@@ -20,7 +20,6 @@
   width: 126px;
   background: rgba(128, 128, 128, 0.075);
   cursor: pointer;
-  /* border-bottom: 1px solid rgba(0, 0, 0, 0.274); */
   box-sizing: border-box;
   position: relative;
   outline: none;
@@ -76,7 +75,7 @@ button {
   padding-top: 48px;
   padding-left: 80px;
   padding-right: 80px;
-  max-width: 1092px;
+  width: 1092px;
   height: 100%;
   display: none;
   border-radius: 6px;

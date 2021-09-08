@@ -37,9 +37,11 @@
     height:42px;
 }
 
-.total-comment{
+.total-comments{
     color: #ffcb39 !important;
     float: right !important;
+    padding-top: 100px;
+    padding-right: 40px;
 }
 
 .comment{
@@ -104,4 +106,14 @@
 
 .commentlist {
     padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top:100px;
+}
+
+.comment-form{
+    position:fixed;
+    z-index:999;
+    background-color: #1C1C1C;
+    padding: 20px;
 }

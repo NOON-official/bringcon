@@ -23,11 +23,6 @@ const Genres = [
   { key: 12, value: "Etc.." }
 ];
 
-// const Categories = [
-//   { key: 1, value: "Clips" },
-//   { key: 2, value: "Memes" },
-// ];
-
 function UpdateContentPage(props) {
     const user = useSelector((state) => state.user);
     const [hasAccount, setAccount] = useState(false);
@@ -39,7 +34,6 @@ function UpdateContentPage(props) {
     const [Description, setDescription] = useState("");
     const [Price, setPrice] = useState(0);
     const [Genre, setGenre] = useState(1);
-    // const [Category, setCategory] = useState(1);
     const [S3thumbnailPath, setS3thumbnailPath] = useState("");
     const [Tags, setTags] = useState([]);
     const [Width, setWidth] = useState(0);
@@ -66,7 +60,6 @@ function UpdateContentPage(props) {
             setDescription(Content.description)
             setPrice(Content.price)
             setGenre(Content.genres)
-            // setCategory(Content.caterories)
             setS3thumbnailPath(Content.s3thumbnail)
             setTags(Content.tags)
             setWidth(Content.width)
@@ -109,10 +102,6 @@ function UpdateContentPage(props) {
         setGenre(event.currentTarget.value);
     };
 
-  // const CategoryChangeHandler = (event) => {
-  //   setCategory(event.currentTarget.value);
-  // };
-
     const resetHandler = (event) => {
         event.preventDefault();
         window.location.replace("/user/mycontents/update");
@@ -130,7 +119,6 @@ function UpdateContentPage(props) {
             title: Title,
             description: Description,
             genres: Genre,
-            // categories: Category,
             tags: Tags
         };
 
@@ -281,18 +269,6 @@ function UpdateContentPage(props) {
                                 </option>
                             ))}
                         </select>
-                        {/* <select
-                        onChange={CategoryChangeHandler}
-                        value={Category}
-                        className="catogories-dropdown"
-                        >
-                        {Categories.map((item) => (
-                            <option key={item.key} value={item.key}>
-                            {" "}
-                            {item.value}
-                            </option>
-                        ))}
-                        </select> */}
                         <button className="video-setting" disabled> 확장자 {Format}</button>
                         <button className="video-setting" disabled> {Width} x {Height}</button>
                         <TextArea

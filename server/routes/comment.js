@@ -19,6 +19,7 @@ router.post("/saveComment", (req, res) => {
 router.post("/getComments", (req, res) => {
   Comment.find({ postId: req.body.productId })
     .populate("writer")
+    .sort({ createdAt: -1 }) //-1 : 내림차순, 1 : 오름차순
     .exec((err, comments) => {
       if (err) return res.status(400).send(err);
       res.status(200).json({ success: true, comments });
@@ -35,11 +36,10 @@ router.post("/myReview", (req, res) => {
 });
 
 router.post("/delete", (req, res) => {
-  Comment.deleteOne({ _id: req.body.reviewId })
-    .exec((err, result) => {
-      if (err) return res.status(400).send(err);
-      res.status(200).json({ success: true });
-    });
+  Comment.deleteOne({ _id: req.body.reviewId }).exec((err, result) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).json({ success: true });
+  });
 });
 
 router.post("/comment_by_id", (req, res) => {
@@ -49,11 +49,12 @@ router.post("/comment_by_id", (req, res) => {
     .exec((err, comment) => {
       if (err) return res.status(400).send(err);
 
-      User.find({_id: comment[0].postId.writer})
-      .exec((err, writer) => {
+      User.find({ _id: comment[0].postId.writer }).exec((err, writer) => {
         if (err) return res.status(400).send(err);
-        res.status(200).json({ success: true, comment: comment, writer: writer});
-      })
+        res
+          .status(200)
+          .json({ success: true, comment: comment, writer: writer });
+      });
     });
 });
 
@@ -62,8 +63,8 @@ router.post("/update", (req, res) => {
     { _id: req.body.reviewId },
     {
       $set: {
-        content: req.body.content
-      }
+        content: req.body.content,
+      },
     },
     (err, result) => {
       if (err) return res.status(400).json({ success: false, err });

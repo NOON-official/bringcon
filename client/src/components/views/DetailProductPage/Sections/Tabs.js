@@ -33,7 +33,7 @@ function Tabs(props) {
   };
 
   const refreshFunction = (newComment) => {
-    setComments(Comments.concat(newComment));
+    setComments(newComment.concat(Comments));
   };
 
   return (
@@ -45,6 +45,7 @@ function Tabs(props) {
         >
           여행지 정보
         </button>
+
         <button
           className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(2)}
@@ -64,9 +65,19 @@ function Tabs(props) {
           className={toggleState === 1 ? "content  active-content" : "content"}
         >
           {/* 해시태그 있어야 하는 부분 */}
-          <div style={{marginBottom: '10px'}}>
-            <button className="video-setting" disabled style={{marginLeft: 0}}> {props.detail.format} </button>
-            <button className="video-setting" disabled> {props.detail.width}X{props.detail.height} </button>
+          <div style={{ marginBottom: "10px" }}>
+            <button
+              className="video-setting"
+              disabled
+              style={{ marginLeft: 0 }}
+            >
+              {" "}
+              {props.detail.format}{" "}
+            </button>
+            <button className="video-setting" disabled>
+              {" "}
+              {props.detail.width}X{props.detail.height}{" "}
+            </button>
           </div>
           <div>
             {props.detail.tags &&
@@ -79,7 +90,7 @@ function Tabs(props) {
                 );
               })}
           </div>
-          
+
           <hr />
           <div>
             <Meta
@@ -111,7 +122,7 @@ function Tabs(props) {
             refreshFunction={refreshFunction}
             commentLists={Comments}
             postId={productId}
-            style={{paddingTop: 0}}
+            style={{ paddingTop: 0 }}
           />
         </div>
       </div>

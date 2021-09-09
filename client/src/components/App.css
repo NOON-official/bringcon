@@ -1,6 +1,7 @@
 ::-webkit-scrollbar {
   background-color: #1c1c1c;
   width: 8px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -42,3 +43,6 @@
   transition: transform 1000ms ease-in-out;
 }
 
+body{
+  overflow: hidden;
+}

@@ -19,6 +19,7 @@ function MainPage(){
     return(
         <div id="body" style={{width: '100vw'}}>
             <Helmet>
+                <title>BRINGCON</title>
                 < meta name="google-site-verification" content="7n5xoSLEUqYqdIAzcqRHF0y5c4Q-A-FFJC4_BsDC9TQ" /> 
             </Helmet>
             <div className="main-info">

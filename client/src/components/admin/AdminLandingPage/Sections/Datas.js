@@ -1,34 +1,17 @@
 const genres = [
-    {
-        "_id": 1,
-        "name": "영화 & 애니메이션"
-    },
-    {
-        "_id": 2,
-        "name": "예능 프로그램"
-    },
-    {
-        "_id": 3,
-        "name": "스포츠"
-    },
-    {
-        "_id": 4,
-        "name": "동물"
-    },
-    {
-        "_id": 5,
-        "name": "어린이"
-    },
-    {
-        "_id": 6,
-        "name": "뉴스"
-    },
-    {
-        "_id": 7,
-        "name": "드라마"
-    }
-
-]
+    { key: 1, value: "Animals" },
+    { key: 2, value: "Animations" },
+    { key: 3, value: "Arts" },
+    { key: 4, value: "Broadcasting" },
+    { key: 5, value: "Business" },
+    { key: 6, value: "Cartoon" },
+    { key: 7, value: "Character" },
+    { key: 8, value: "Land-marks" },
+    { key: 9, value: "Music" },
+    { key: 10, value: "Nature" },
+    { key: 11, value: "Sports" },
+    { key: 12, value: "Etc" }
+  ];
 
 const price = [
     {

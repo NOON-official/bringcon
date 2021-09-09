@@ -15,6 +15,10 @@ import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 
+//Google Analytics
+import reactGA from 'react-ga';
+
+reactGA.initialize('UA-206146412-1');
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
 ReactDOM.render(

@@ -338,8 +338,6 @@ router.post("/products", (req, res) => {
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
-      console.log("key", key);
-
       if (key === "price") {
         findArgs[key] = {
           //Greater than equal
@@ -361,7 +359,7 @@ router.post("/products", (req, res) => {
 
       Product.find(findArgs)
         .find({ judged: true })
-        .fine({ deleted: false })
+        .find({ deleted: false })
         .find({ tags: term })
         .populate("writer")
         .sort([[sortBy, order]])

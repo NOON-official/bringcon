@@ -9,6 +9,21 @@ import Swal from "sweetalert2";
 import "../css/Tabs.css";
 import "../css/UserVideo.css";
 
+const Genres = [
+  { key: 1, value: "Animals" },
+  { key: 2, value: "Animations" },
+  { key: 3, value: "Arts" },
+  { key: 4, value: "Broadcasting" },
+  { key: 5, value: "Business" },
+  { key: 6, value: "Cartoon" },
+  { key: 7, value: "Character" },
+  { key: 8, value: "Land-marks" },
+  { key: 9, value: "Music" },
+  { key: 10, value: "Nature" },
+  { key: 11, value: "Sports" },
+  { key: 12, value: "Etc.." }
+];
+
 function Tabs(props) {
   const productId = props.detail._id;
   const variable = { productId: productId };
@@ -66,6 +81,9 @@ function Tabs(props) {
         >
           {/* 해시태그 있어야 하는 부분 */}
           <div style={{ marginBottom: "10px" }}>
+            <button className="video-setting" disabled>
+              {props.detail.genres && Genres[props.detail.genres - 1].value}
+            </button>
             <button
               className="video-setting"
               disabled
@@ -90,7 +108,6 @@ function Tabs(props) {
                 );
               })}
           </div>
-
           <hr />
           <div>
             <Meta

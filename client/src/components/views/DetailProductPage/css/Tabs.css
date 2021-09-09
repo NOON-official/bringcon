@@ -20,16 +20,19 @@
     width: 50%;
     background: rgba(128, 128, 128, 0.075);
     cursor: pointer;
+    color: #ffcb39;
     border-bottom: 1px solid rgba(0, 0, 0, 0.274);
     box-sizing: border-box;
     position: relative;
     outline: none;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 2px solid #ffcb39;
+    line-height: 50%;
 }
 
 .tabs:not(:last-child) {
     border-right: 1px solid rgba(0, 0, 0, 0.274);
-    /* border: 1px solid #ffcb39; //생각보다 예쁘지 않아서 주석 처리...
-    border-bottom: none; */
 }
 
 .active-tabs{
@@ -73,6 +76,8 @@ button{
     height: 100%;
     display: none;
     border-radius: 6px;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
 }
 
 .content h2{
@@ -132,4 +137,10 @@ button{
 #comment-content{
     padding: 0px !important;
 
+}
+
+#detail-setting{
+    margin-left: 0px !important;
+    margin-right: 32px !important;
+    margin-bottom: 24px !important;
 }

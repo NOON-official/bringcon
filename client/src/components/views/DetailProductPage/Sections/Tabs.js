@@ -80,23 +80,6 @@ function Tabs(props) {
           className={toggleState === 1 ? "content  active-content" : "content"}
         >
           {/* 해시태그 있어야 하는 부분 */}
-          <div style={{ marginBottom: "10px" }}>
-            <button className="video-setting" disabled>
-              {props.detail.genres && Genres[props.detail.genres - 1].value}
-            </button>
-            <button
-              className="video-setting"
-              disabled
-              style={{ marginLeft: 0 }}
-            >
-              {" "}
-              {props.detail.format}{" "}
-            </button>
-            <button className="video-setting" disabled>
-              {" "}
-              {props.detail.width}X{props.detail.height}{" "}
-            </button>
-          </div>
           <div>
             {props.detail.tags &&
               props.detail.tags.map((tag) => {
@@ -109,6 +92,24 @@ function Tabs(props) {
               })}
           </div>
           <hr />
+          <div style={{ marginBottom: "10px" }}>
+            <button className="video-setting" id="detail-setting" disabled>
+              {props.detail.genres && Genres[props.detail.genres - 1].value}
+            </button>
+            <button
+              id="detail-setting"
+              className="video-setting"
+              disabled
+              style={{ marginLeft: 0 }}
+            >
+              {" "}
+              {props.detail.format}{" "}
+            </button>
+            <button className="video-setting" id="detail-setting" disabled>
+              {" "}
+              {props.detail.width}X{props.detail.height}{" "}
+            </button>
+          </div>
           <div>
             <Meta
               avatar={

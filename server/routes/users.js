@@ -183,6 +183,7 @@ router.post("/successBuy", auth, (req, res) => {
       quantity: item.quantity,
       writer: item.writer.name,
       s3thumbnail: item.s3thumbnail,
+      download: 0,
     })
   );
 

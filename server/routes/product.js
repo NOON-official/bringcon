@@ -424,8 +424,6 @@ router.post("/products_admin", (req, res) => {
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
-      console.log("key", key);
-
       if (key === "price") {
         findArgs[key] = {
           //Greater than equal
@@ -540,8 +538,6 @@ router.post("/products_by_hashtag", (req, res) => {
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
-      console.log("key", key);
-
       if (key === "price") {
         findArgs[key] = {
           //Greater than equal
@@ -633,8 +629,6 @@ router.post("/products_by_userId", (req, res) => {
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
-      console.log("key", key);
-
       if (key === "price") {
         findArgs[key] = {
           //Greater than equal

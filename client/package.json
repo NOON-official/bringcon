@@ -20,6 +20,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.2.2",
     "react-google-login": "^5.2.2",
+    "react-helmet": "^6.1.0",
     "react-icons": "^3.7.0",
     "react-image-gallery": "^1.0.7",
     "react-paypal-express-checkout": "^1.0.5",

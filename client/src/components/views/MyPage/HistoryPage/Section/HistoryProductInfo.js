@@ -1,41 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Col, Checkbox } from "antd";
-
-const handleDownloadClick = (item) => {
-  const data = { product_id: item };
-  //다운로드 할 product id를 백엔드로 보내줌
-  axios.post("/api/product/download", data).then((response) => {
-    if (response.data.success) {
-      window.location.href = response.data.url;
-      alert("파일이 다운로드되었습니다.");
-    } else {
-      alert("다운로드에 실패하였습니다.");
-    }
-  });
-};
-
-const handleDownloadClickSeleted = (CheckedList) => {
-  CheckedList.map((product, index) => {
-    const data = { product_id: product.id };
-    //다운로드 할 product id를 백엔드로 보내줌
-    axios.post("/api/product/download", data).then((response) => {
-      if (response.data.success) {
-        window.location.href = response.data.url;
-      } else {
-        alert("다운로드에 실패하였습니다.");
-      }
-    });
-  });
-};
+import { Checkbox } from "antd";
 
 function HistoryProductInfo(props) {
   const [CheckedList, setCheckedList] = useState(props.order.ProductInfo);
   const [checkAll, setCheckAll] = useState(true);
   const crypto = require("crypto");
 
-  console.log("date", props.userId);
-
+  console.log("props.order.ProducrInfo", props.order.ProductInfo);
   useEffect(() => {
     setCheckAll(CheckedList.length === props.order.ProductInfo.length);
   }, [CheckedList]);
@@ -43,6 +15,36 @@ function HistoryProductInfo(props) {
   useEffect(() => {
     setCheckedList(props.order.ProductInfo);
   }, [props.order.ProductInfo]);
+
+  const handleDownloadClick = (product) => {
+    if (product.download >= 1) {
+      alert("다운로드는 1회만 가능합니다.");
+    }
+    const body = { product_id: product.id, userId: props.userId };
+    //다운로드 할 product id를 백엔드로 보내줌
+    axios.post("/api/product/download", body).then((response) => {
+      if (response.data.success) {
+        window.location.href = response.data.url;
+        alert("파일이 다운로드되었습니다.");
+      } else {
+        alert("다운로드에 실패하였습니다.");
+      }
+    });
+  };
+
+  const handleDownloadClickSeleted = (CheckedList) => {
+    CheckedList.map((product, index) => {
+      const data = { product_id: product.id };
+      //다운로드 할 product id를 백엔드로 보내줌
+      axios.post("/api/product/download", data).then((response) => {
+        if (response.data.success) {
+          window.location.href = response.data.url;
+        } else {
+          alert("다운로드에 실패하였습니다.");
+        }
+      });
+    });
+  };
 
   const onChange = (e, id) => {
     e.stopPropagation();
@@ -145,7 +147,7 @@ function HistoryProductInfo(props) {
                   className="single-download-button"
                   onClick={(e) => {
                     e.preventDefault();
-                    handleDownloadClick(product.id);
+                    handleDownloadClick(product);
                   }}
                 >
                   다운로드

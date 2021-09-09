@@ -142,10 +142,6 @@ function UploadProductPage(props) {
       return alert(" 모든 값을 넣어주셔야 합니다.");
     }
 
-    if (Title.length > 100) {
-      return alert("제목은 100자까지 가능합니다.");
-    }
-
     //서버에 채운 값들을 request로 보낸다.
 
     const body = {
@@ -279,7 +275,7 @@ function UploadProductPage(props) {
               placeholder="제목을 입력하세요."
               className="upload-title"
               style={{ backgroundColor: "#1C1C1C", color: "#fff" }}
-              maxLength={30}
+              maxLength={100}
               showCount
             />
             <Input

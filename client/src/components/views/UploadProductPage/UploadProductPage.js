@@ -20,7 +20,7 @@ const Genres = [
   { key: 9, value: "Music" },
   { key: 10, value: "Nature" },
   { key: 11, value: "Sports" },
-  { key: 12, value: "Etc.." }
+  { key: 12, value: "Etc.." },
 ];
 
 function UploadProductPage(props) {
@@ -91,9 +91,9 @@ function UploadProductPage(props) {
         );
       },
     };
-    
-    if(files[0].size > 314572800) // 300M
-    {
+
+    if (files[0].size > 314572800) {
+      // 300M
       alert("300MB 초과하는 파일은 업로드할 수 없습니다.");
       return;
     }
@@ -138,14 +138,12 @@ function UploadProductPage(props) {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (
-      !Title ||
-      !Description ||
-      !Price ||
-      !Genre ||
-      Images.length === 0
-    ) {
+    if (!Title || !Description || !Price || !Genre || Images.length === 0) {
       return alert(" 모든 값을 넣어주셔야 합니다.");
+    }
+
+    if (Title.length > 100) {
+      return alert("제목은 100자까지 가능합니다.");
     }
 
     //서버에 채운 값들을 request로 보낸다.
@@ -166,7 +164,7 @@ function UploadProductPage(props) {
       tags: Tags,
       width: Width,
       height: Height,
-      format: Format
+      format: Format,
     };
 
     Axios.post("/api/product", body).then((response) => {
@@ -203,10 +201,7 @@ function UploadProductPage(props) {
   }
 
   return (
-    <div
-      style={{ width: "auto", minHeight: "90vh", margin: "auto" }}
-      id="body"
-    >
+    <div style={{ width: "auto", minHeight: "90vh", margin: "auto" }} id="body">
       <div
         style={{ width: "90%", margin: "auto", paddingTop: "50px" }}
         className="upload-box"
@@ -245,30 +240,33 @@ function UploadProductPage(props) {
                 </Dropzone>
               ) : ThumbnailPath ? (
                 <div>
-                  <img style={{
-                        width: 629,
-                        height: 354,
-                        border: "3px solid #ffcb39",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "12px",
-                      }}
+                  <img
+                    style={{
+                      width: 629,
+                      height: 354,
+                      border: "3px solid #ffcb39",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "12px",
+                    }}
                     src={`http://${window.location.hostname}:5000/${ThumbnailPath}`}
                     alt="thumbnail"
                   />
                 </div>
               ) : (
-                <div style={{
-                  width: 629,
-                  height: 354,
-                  border: "3px solid #ffcb39",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "12px",
-                }}>
-                <Progress percentage={progress} />
+                <div
+                  style={{
+                    width: 629,
+                    height: 354,
+                    border: "3px solid #ffcb39",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "12px",
+                  }}
+                >
+                  <Progress percentage={progress} />
                 </div>
               )}
             </div>
@@ -281,6 +279,8 @@ function UploadProductPage(props) {
               placeholder="제목을 입력하세요."
               className="upload-title"
               style={{ backgroundColor: "#1C1C1C", color: "#fff" }}
+              maxLength={30}
+              showCount
             />
             <Input
               type="number"
@@ -309,7 +309,7 @@ function UploadProductPage(props) {
                 />
               </div>
               <div>
-              <ul>
+                <ul>
                   {Tags.map((tag, index) => (
                     <li key={index} className="tag">
                       <span>{tag}</span>
@@ -322,42 +322,48 @@ function UploadProductPage(props) {
                     </li>
                   ))}
                 </ul>
-            </div>
-            <hr
-              className="upload-line"
-              style={{
-                height: "3px",
-                backgroundColor: "#ffcb39",
-                border: "none",
-              }}
-            />
-            <select
-              onChange={genreChangeHandler}
-              value={Genre}
-              className="genres-dropdown"
-            >
-              {Genres.map((item) => (
-                <option key={item.key} value={item.key}>
-                  {" "}
-                  {item.value}
-                </option>
-              ))}
-            </select>
-            <button className="video-setting" disabled> 확장자 {Format}</button>
-            <button className="video-setting" disabled> {Width} x {Height}</button>
-            <TextArea
-              onChange={descriptionChangeHandler}
-              value={Description}
-              style={{
-                width: "491px",
-                height: "287px",
-                marginLeft: "42px",
-                background: "transparent",
-                color: "#fff",
-              }}
-              className="upload-description"
-              placeholder="영상에 대한 상세 설명을 작성하세요."
-            />
+              </div>
+              <hr
+                className="upload-line"
+                style={{
+                  height: "3px",
+                  backgroundColor: "#ffcb39",
+                  border: "none",
+                }}
+              />
+              <select
+                onChange={genreChangeHandler}
+                value={Genre}
+                className="genres-dropdown"
+              >
+                {Genres.map((item) => (
+                  <option key={item.key} value={item.key}>
+                    {" "}
+                    {item.value}
+                  </option>
+                ))}
+              </select>
+              <button className="video-setting" disabled>
+                {" "}
+                확장자 {Format}
+              </button>
+              <button className="video-setting" disabled>
+                {" "}
+                {Width} x {Height}
+              </button>
+              <TextArea
+                onChange={descriptionChangeHandler}
+                value={Description}
+                style={{
+                  width: "491px",
+                  height: "287px",
+                  marginLeft: "42px",
+                  background: "transparent",
+                  color: "#fff",
+                }}
+                className="upload-description"
+                placeholder="영상에 대한 상세 설명을 작성하세요."
+              />
             </div>
           </Col>
         </Form>

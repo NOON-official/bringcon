@@ -12,6 +12,11 @@ export const VerticalMenu = () => {
             }
         }
     );
+    
+    const path = window.location.pathname
+    if (path === '/user/info' || path === '/user/account') {
+        $('.profile').addClass('current')
+    }
 
     return (
         <div className="component" style={{width: 168}}>

@@ -311,20 +311,29 @@ router.post("/download", async (req, res) => {
     res.send({ success: true, url: url });
   };
 
+  const increaseDownload = async () => {
+    const userId = req.body.userId;
+    User.find({ _id: { $in: userId } })
+      .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
+      .exec((err) => {
+        if (err) return res.status(400).send(err);
+        return res.status(200);
+      });
+  };
+
   await downloadFile(key);
-
-  //download시 download 속성을 1 늘려줌.
-
-  //  user id 를 가지고 온다.
-  const userId = req.body.userId;
-  // user id 를 이용해서 user.history.cartDetail의 download를 1 늘려준다.
-  User.find({ _id: { $in: userId } })
-    .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
-    .exec((err) => {
-      if (err) return res.status(400).send(err);
-      return res.status(200);
-    });
+  await increaseDownload();
 });
+
+//  user id 를 가지고 온다.
+const userId = req.body.userId;
+// user id 를 이용해서 user.history.cartDetail의 download를 1 늘려준다.
+User.find({ _id: { $in: userId } })
+  .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
+  .exec((err) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).send({ success: true });
+  });
 
 //데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
 router.post("/products", (req, res) => {
@@ -338,6 +347,8 @@ router.post("/products", (req, res) => {
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
+      console.log("key", key);
+
       if (key === "price") {
         findArgs[key] = {
           //Greater than equal
@@ -359,7 +370,7 @@ router.post("/products", (req, res) => {
 
       Product.find(findArgs)
         .find({ judged: true })
-        .find({ deleted: false })
+        .fine({ deleted: false })
         .find({ tags: term })
         .populate("writer")
         .sort([[sortBy, order]])

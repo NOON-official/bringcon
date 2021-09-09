@@ -1,125 +1,127 @@
-.history-container{
-    max-width: 1092px;
-    max-width: 506px;
+.history-container {
+  max-width: 1092px;
+  max-width: 506px;
 }
 
-.purchased-list{
-    border: 3px solid #ffcb39;
-    width: 1050px;
-    height: 506px;
-    overflow: auto;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
+.purchased-list {
+  border: 3px solid #ffcb39;
+  width: 1050px;
+  height: 506px;
+  overflow: auto;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
-.close{
-    display: none;
-    padding-right: 31px;
-    margin-bottom: 30px;
+.close {
+  display: none;
+  padding-right: 31px;
+  margin-bottom: 30px;
 }
 
-.block{
-    color: #1C1C1C;
+.block {
+  color: #1c1c1c;
 }
 
-.history-checkall{
-    font-size: 14px !important;
-    color: #B3E220 !important;
-    font-weight: 900 !important;
+.history-checkall {
+  font-size: 14px !important;
+  color: #b3e220 !important;
+  font-weight: 900 !important;
 }
 
-.download-button, .single-download-button{
-    width: 112px;
-    height: 32px;
-    color: #fff;
-    background-color: #B3E220;
-    font-size: 14px;
-    font-weight: 900;
-    float:right;
+.download-button,
+.single-download-button {
+  width: 112px;
+  height: 32px;
+  color: #fff;
+  background-color: #b3e220;
+  font-size: 14px;
+  font-weight: 900;
+  float: right;
 }
 
-.download-button:hover{
-    color: #fff;
-    cursor: pointer;
+.download-button:hover {
+  color: #fff;
+  cursor: pointer;
 }
 
-.purchased-title{
-    font-weight:700;
-    font-size: 16px;
-    margin-bottom: 16px;
+.purchased-title {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 16px;
 }
 
-.purchased-uploader{
-    font-size: 12px;
-    font-weight: 400;
+.purchased-uploader {
+  font-size: 12px;
+  font-weight: 400;
 }
 
-.purchased-price{
-    padding-top: 14px;
-    font-size: 16px;
-    font-weight:700;
+.purchased-price {
+  padding-top: 14px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
-.rebuy-button{
-    background-color: transparent;
-    width: 112px;
-    height: 32px;
-    color: #B3E220;
-    border: 2px solid #B3E220;
-    border-radius: 6px;
-    margin-top: 10px;
-    float: right;
+.rebuy-button {
+  background-color: transparent;
+  width: 112px;
+  height: 32px;
+  color: #b3e220;
+  border: 2px solid #b3e220;
+  border-radius: 6px;
+  margin-top: 10px;
+  float: right;
 }
 
-.single-download-button:hover{
-    color: #fff;
-    cursor: pointer;
+.single-download-button:hover {
+  color: #fff;
+  cursor: pointer;
 }
 
-.rebuy-button:hover{
-    color: #B3E220;
-    cursor: pointer;
+.rebuy-button:hover {
+  color: #b3e220;
+  cursor: pointer;
 }
-.toggle-box td, .purchased-row td{
-    border-bottom: none !important;
+.toggle-box td,
+.purchased-row td {
+  border-bottom: none !important;
 }
-.purchase-info{
-    background-color: #ffcb39;
-    min-height: 32px;
-    border-radius: 8px;
-    color: #1C1C1C;
-    font-size: 16px;
-    font-weight: 700;
-    max-height: 200px;
-    padding-top: 4px;
-    padding-left: 10px;
-    padding-right: 8px;
-}
-
-.purchase-info:hover{
-    cursor: pointer;
+.purchase-info {
+  background-color: #ffcb39;
+  min-height: 32px;
+  border-radius: 8px;
+  color: #1c1c1c;
+  font-size: 16px;
+  font-weight: 700;
+  max-height: 200px;
+  padding-top: 4px;
+  padding-left: 10px;
+  padding-right: 8px;
 }
 
-.block{
-    display: block;
-    width: 100%;
-    color: #1C1C1C;
-    border-radius: 12px;
-    border: 2px solid #ffcb39;
-    margin-top: 12px;
-    background-color: transparent !important;
+.purchase-info:hover {
+  cursor: pointer;
 }
 
-.history-checkall{
-    width: 800px;
-    border-top-left-radius: 12px;
+.block {
+  display: block;
+  width: 100%;
+  color: #1c1c1c;
+  border-radius: 12px;
+  border: 2px solid #ffcb39;
+  margin-top: 12px;
+  background-color: transparent !important;
 }
 
-.checkall-info{
-    height: 68px;
+.history-checkall {
+  width: 800px;
+  border-top-left-radius: 12px;
 }
 
-.download{
-    border-top-right-radius: 12px;
+.checkall-info {
+  height: 68px;
+}
+
+.download {
+  border-top-right-radius: 12px;
 }

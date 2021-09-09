@@ -8,6 +8,11 @@
   height: 80% !important;
 }
 
+#scroll-horizontal .scroll-horizontal{
+  overflow-x:auto !important;
+  overflow-y:hidden;
+}
+
 #scroll-horizontal .scroll-horizontal > div {
   display: grid !important;
   grid-template-rows: auto auto;

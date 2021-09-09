@@ -7,6 +7,7 @@ const { Product } = require("../models/Product");
 const path = require("path");
 const fs = require("fs");
 const config = require("../config/s3.json");
+const { User } = require("../models/User");
 
 //=================================
 //             Product
@@ -59,22 +60,21 @@ router.post("/video", (req, res) => {
       return res.json({ success: false, err });
     } else {
       //Watermark
-      const wm_filename = `wm_${res.req.file.filename}`
-      const wm_filepath = `uploads/watermark/${wm_filename}`
+      const wm_filename = `wm_${res.req.file.filename}`;
+      const wm_filepath = `uploads/watermark/${wm_filename}`;
 
       ffmpeg()
         .input(res.req.file.path)
         .input("resource/watermark(trans70)-01.png")
-        .addOption("-filter_complex", "[1:v][0:v]scale2ref=iw:iw*sar/5[wm][base];[base][wm]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2")
+        .addOption(
+          "-filter_complex",
+          "[1:v][0:v]scale2ref=iw:iw*sar/5[wm][base];[base][wm]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2"
+        )
         .save(wm_filepath)
         .on("end", function () {
-          uploadWatermarkToS3(
-            wm_filepath,
-            wm_filename,
-            req.file.mimetype
-          );
-        })
-      
+          uploadWatermarkToS3(wm_filepath, wm_filename, req.file.mimetype);
+        });
+
       uploadVideoToS3(
         res.req.file.path,
         res.req.file.filename,
@@ -159,11 +159,17 @@ router.post("/thumbnail", (req, res) => {
   //비디오 duration 가져오기
   ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
     fileDuration = metadata.format.duration;
-    fileWidth = metadata.streams[0].width === undefined ? metadata.streams[1].width : metadata.streams[0].width;
-    fileHeight = metadata.streams[0].height === undefined ? metadata.streams[1].height : metadata.streams[0].height;
-    fileFormat = metadata.format.filename.split('.')[1].toUpperCase();
+    fileWidth =
+      metadata.streams[0].width === undefined
+        ? metadata.streams[1].width
+        : metadata.streams[0].width;
+    fileHeight =
+      metadata.streams[0].height === undefined
+        ? metadata.streams[1].height
+        : metadata.streams[0].height;
+    fileFormat = metadata.format.filename.split(".")[1].toUpperCase();
   });
-  
+
   // 썸네일 생성
   ffmpeg(req.body.filePath) //썸네일 파일 이름 생성
     .on("filenames", function (filenames) {
@@ -185,7 +191,7 @@ router.post("/thumbnail", (req, res) => {
         fileDuration: fileDuration,
         fileWidth: fileWidth,
         fileHeight: fileHeight,
-        fileFormat: fileFormat
+        fileFormat: fileFormat,
       });
     })
     .screenshots({
@@ -228,14 +234,20 @@ function uploadThumbnail(source, target) {
 router.post("/", (req, res) => {
   //받아온 정보들을 DB에 넣어 준다.
   const product = new Product(req.body);
-  
+
   //Get Video Resolution and Extension
   ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
-    product.width = metadata.streams[0].width === undefined ? metadata.streams[1].width : metadata.streams[0].width;
-    product.height = metadata.streams[0].height === undefined ? metadata.streams[1].height : metadata.streams[0].height;
-    product.format = metadata.format.filename.split('.')[1].toUpperCase();
+    product.width =
+      metadata.streams[0].width === undefined
+        ? metadata.streams[1].width
+        : metadata.streams[0].width;
+    product.height =
+      metadata.streams[0].height === undefined
+        ? metadata.streams[1].height
+        : metadata.streams[0].height;
+    product.format = metadata.format.filename.split(".")[1].toUpperCase();
   });
-  
+
   product.save((err) => {
     if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });
@@ -243,7 +255,9 @@ router.post("/", (req, res) => {
 
   //로컬 파일 삭제
   const filename = decodeURIComponent(req.body.filePath.split("/uploads/")[1]);
-  const wm_filename = decodeURIComponent(req.body.wmFilePath.split("/uploads/watermark/")[1]);
+  const wm_filename = decodeURIComponent(
+    req.body.wmFilePath.split("/uploads/watermark/")[1]
+  );
   const videoSource = `uploads/${filename}`;
   const wm_videoSource = `uploads/watermark/${wm_filename}`;
   const thumbnailSource = req.body.thumbnail;
@@ -298,6 +312,18 @@ router.post("/download", async (req, res) => {
   };
 
   await downloadFile(key);
+
+  //download시 download 속성을 1 늘려줌.
+
+  //  user id 를 가지고 온다.
+  const userId = req.body.userId;
+  // user id 를 이용해서 user.history.cartDetail의 download를 1 늘려준다.
+  User.find({ _id: { $in: userId } })
+    .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
+    .exec((err) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200);
+    });
 });
 
 //데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
@@ -351,7 +377,7 @@ router.post("/products", (req, res) => {
       Product.find(findArgs)
         .find({ judged: true })
         .find({ deleted: false })
-      
+
         //find 조건 추가, 몽고디비에서 제공하는 $text, $search 이용
         //Product 컬렉션 안에 있는 데이터 중 term과 일치하는 자료 가져옴
         .find({ $text: { $search: term } })
@@ -705,36 +731,35 @@ router.get("/product_by_id", (req, res) => {
       if (err) return res.status(400).send(err);
       return res.status(200).json({ success: true, product });
     });
-})
+});
 
 router.post("/delete", (req, res) => {
   const productId = req.body.product_id;
-  
+
   Product.findOneAndUpdate(
     { _id: productId },
     {
       $set: {
         deleted: true,
-        judged: false
+        judged: false,
       },
     },
     { new: true },
     (err, doc) => {
       if (err) return res.json({ success: false, err });
-      res.status(200).json({ success: true});
+      res.status(200).json({ success: true });
     }
   );
-})
+});
 
 router.post("/content_by_id", (req, res) => {
   let productId = req.body.productId;
 
-  Product.find({ _id: productId })
-    .exec((err, content) => {
-      if (err) return res.status(400).send(err);
-      return res.status(200).json({ success: true, content });
-    });
-})
+  Product.find({ _id: productId }).exec((err, content) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, content });
+  });
+});
 
 router.post("/update", (req, res) => {
   Product.findOneAndUpdate(
@@ -744,8 +769,8 @@ router.post("/update", (req, res) => {
         title: req.body.title,
         description: req.body.description,
         genres: req.body.genres,
-        tags: req.body.tags
-      }
+        tags: req.body.tags,
+      },
     },
     (err, result) => {
       if (err) return res.status(400).json({ success: false, err });

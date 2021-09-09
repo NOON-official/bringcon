@@ -10,7 +10,7 @@ const genres = [
   { _id: 9, name: "Music" },
   { _id: 10, name: "Nature" },
   { _id: 11, name: "Sports" },
-  { _id: 12, name: "Etc.." }
+  { _id: 12, name: "Etc" }
 ];
 
 const price = [

@@ -19,7 +19,10 @@ function SearchFeature(props) {
 
   const searchHandler = (event) => {
     setSearchTerm(event.currentTarget.value);
-    if( window.location.pathname === "/contents" || event.key === 'Enter') {
+    if( window.location.pathname === "/contents" || 
+        window.location.pathname.includes("/hashtag") || 
+        window.location.pathname.includes("/videos") || 
+        event.key === 'Enter') {
       props.refreshFunction(event.currentTarget.value);
     }
   };
@@ -43,7 +46,7 @@ function SearchFeature(props) {
         ))}
       </select>
       <Search
-        placeholder="브링콘과 함께 콘텐츠 여행을 떠나보세요!"
+        placeholder={props.placeholder ? props.placeholder : "브링콘과 함께 콘텐츠 여행을 떠나보세요!"}
         // onFocus="this.placeholder = ''"
         onChange={searchHandler}
         onKeyPress={searchHandler}

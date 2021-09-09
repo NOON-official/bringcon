@@ -4,10 +4,6 @@
   font-family: "Pretendard";
 }
 
-#filters {
-  background-color: #1c1c1c;
-}
-
 #scroll-horizontal .scroll-horizontal {
   height: 80% !important;
 }
@@ -141,4 +137,8 @@
 .landing-sort-dropdown option,
 .landing-category-dropdown option {
   background-color: transparent;
+}
+
+.landing-sort-dropdown {
+  margin-right: 33px;
 }

@@ -22,7 +22,7 @@ const Genres = [
   { key: 9, value: "Music" },
   { key: 10, value: "Nature" },
   { key: 11, value: "Sports" },
-  { key: 12, value: "Etc.." }
+  { key: 12, value: "Etc" }
 ];
 
 const Standards = [

@@ -119,7 +119,7 @@ function AdminLandingPage(props) {
           id="card-video"
           style={{ backgroundImage: `url(${product.s3thumbnail})` }}
         >
-          <a href={`/product/${product._id}`} target="_blank">
+          <a href={`/product_admin/${product._id}`} target="_blank">
             <video
               src={`${product.filePath}`}
               onMouseOver={handleMouseover}

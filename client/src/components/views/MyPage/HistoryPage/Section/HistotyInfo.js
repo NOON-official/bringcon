@@ -48,7 +48,7 @@ function HistoryInfo(props) {
             {/* 주문 건당 토글바 */}
             {props.user.userData &&
               props.user.userData.history &&
-              props.user.userData.history.map((order, index) => (
+              props.user.userData.history.reverse().map((order, index) => (
                 <tbody key={index} style={{ width: "900px", margin: "auto" }}>
                   <tr
                     className="toggle-box"

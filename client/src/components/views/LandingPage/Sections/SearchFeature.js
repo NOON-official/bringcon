@@ -3,19 +3,9 @@ import { Input } from "antd";
 import "../css/SearchBar.css";
 
 const { Search } = Input;
-const Genres = [
-  { key: 1, value: "전체" },
-  { key: 2, value: "Emotions" },
-  { key: 3, value: "Foods and Drinks" },
-  { key: 4, value: "Animals" },
-  { key: 5, value: "Gaming" },
-  { key: 6, value: "Animations" },
-  { key: 7, value: "Sports" },
-];
 
 function SearchFeature(props) {
   const [SearchTerm, setSearchTerm] = useState("");
-  const [Genre, setGenre] = useState(1);
 
   const searchHandler = (event) => {
     setSearchTerm(event.currentTarget.value);
@@ -27,24 +17,8 @@ function SearchFeature(props) {
     }
   };
 
-  const genreChangeHandler = (event) => {
-    setGenre(event.currentTarget.value);
-  };
-
   return (
-    <div className="search-wrapper">
-      <select
-        onChange={genreChangeHandler}
-        value={Genre}
-        className="dropdown-filter"
-      >
-        {Genres.map((item) => (
-          <option key={item.key} value={item.key}>
-            {" "}
-            {item.value}
-          </option>
-        ))}
-      </select>
+    <div>
       <Search
         placeholder={props.placeholder ? props.placeholder : "브링콘과 함께 콘텐츠 여행을 떠나보세요!"}
         // onFocus="this.placeholder = ''"

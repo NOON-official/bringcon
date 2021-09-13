@@ -84,15 +84,9 @@ router.post("/addToCart", auth, (req, res) => {
 
     //상품이 이미 있을때
     if (duplicate) {
-      User.findOneAndUpdate(
-        { _id: req.user._id, "cart.id": req.body.productId },
-        { $inc: { "cart.$.quantity": 1 } },
-        { new: true },
-        (err, userInfo) => {
-          if (err) return res.status(200).json({ success: false, err });
-          res.status(200).send(userInfo.cart);
-        }
-      );
+      return res
+        .status(200)
+        .json({ success: false, message: "하나씩만 구입할 수 있습니다." });
     }
     //상품이 이미 있지 않을때
     else {
@@ -204,8 +198,6 @@ router.post("/successBuy", auth, (req, res) => {
   });
 
   transactionData.product = history;
-
-  console.log(deleteCartItems);
 
   //history 정보 저장
   User.findOneAndUpdate(

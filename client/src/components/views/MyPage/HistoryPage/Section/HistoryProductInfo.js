@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Checkbox } from "antd";
+import Swal from "sweetalert2";
 
 function HistoryProductInfo(props) {
   const [CheckedList, setCheckedList] = useState(props.order.ProductInfo);
@@ -17,32 +18,47 @@ function HistoryProductInfo(props) {
   }, [props.order.ProductInfo]);
 
   const handleDownloadClick = (product) => {
+    const body = {
+      product_id: product.id,
+      userId: props.userId,
+      orderInfo: props.order.OrderInfo,
+    };
+
     if (product.download >= 1) {
-      alert("다운로드는 1회만 가능합니다.");
+      return Swal.fire(
+        "다운로드는 1회만 가능합니다. 다시 다운로드하고 싶다면 관리자에게 문의하세요."
+      );
     }
-    const body = { product_id: product.id, userId: props.userId };
     //다운로드 할 product id를 백엔드로 보내줌
     axios.post("/api/product/download", body).then((response) => {
       if (response.data.success) {
         window.location.href = response.data.url;
-        alert("파일이 다운로드되었습니다.");
+        Swal.fire("파일이 다운로드되었습니다.");
       } else {
-        alert("다운로드에 실패하였습니다.");
+        Swal.fire("다운로드에 실패하였습니다. :( ");
       }
     });
   };
 
   const handleDownloadClickSeleted = (CheckedList) => {
     CheckedList.map((product, index) => {
-      const data = { product_id: product.id };
-      //다운로드 할 product id를 백엔드로 보내줌
-      axios.post("/api/product/download", data).then((response) => {
-        if (response.data.success) {
-          window.location.href = response.data.url;
-        } else {
-          alert("다운로드에 실패하였습니다.");
-        }
-      });
+      if (product.download >= 1) {
+        Swal.fire("다운로드는 1회만 가능합니다.");
+      } else {
+        const body = {
+          product_id: product.id,
+          userId: props.userId,
+          orderInfo: props.order.OrderInfo,
+        };
+        //다운로드 할 product id를 백엔드로 보내줌
+        axios.post("/api/product/download", body).then((response) => {
+          if (response.data.success) {
+            window.location.href = response.data.url;
+          } else {
+            Swal.fire("다운로드에 실패하였습니다. :( ");
+          }
+        });
+      }
     });
   };
 

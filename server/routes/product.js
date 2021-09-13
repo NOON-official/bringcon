@@ -312,28 +312,43 @@ router.post("/download", async (req, res) => {
   };
 
   const increaseDownload = async () => {
-    const userId = req.body.userId;
-    User.find({ _id: { $in: userId } })
-      .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
-      .exec((err) => {
-        if (err) return res.status(400).send(err);
-        return res.status(200);
-      });
+    User.findOne({
+      _id: req.body.userId,
+    }).then((doc) => {
+      doc.history
+        .forEach((history) => {
+          if (
+            history.OrderInfo.dateOfPurchase ===
+            req.body.orderInfo.dateOfPurchase
+          ) {
+            history.ProductInfo.forEach((ProductInfo) => {
+              if (ProductInfo.id == req.body.product_id) {
+                ProductInfo.download += 1;
+                const newUser = new User(doc);
+                newUser.save();
+              }
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    });
   };
 
-  await downloadFile(key);
+  console.log("ProductInfoId", req.body.product_id);
+
   await increaseDownload();
+  await downloadFile(key);
 });
 
-//  user id 를 가지고 온다.
-const userId = req.body.userId;
-// user id 를 이용해서 user.history.cartDetail의 download를 1 늘려준다.
-User.find({ _id: { $in: userId } })
-  .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
-  .exec((err) => {
-    if (err) return res.status(400).send(err);
-    return res.status(200).send({ success: true });
-  });
+// router.post("/increase_download",(req,res) => {
+//   const increaseDownload = async () => {
+//     const userId = req.body.userId;
+//     User.find({ _id: { $in: userId } })
+//       .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
+//   };
+
+//   await increaseDownload();
+// })
 
 //데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
 router.post("/products", (req, res) => {

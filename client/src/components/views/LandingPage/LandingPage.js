@@ -8,6 +8,9 @@ import { price } from "./Sections/Datas";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
+import mobile from '../Main/mobile.png';
+import Swal from 'sweetalert2';
+import Error from '../../utils/Error.svg';
 
 const Genres = [
   { key: 0, value: "All" },
@@ -74,7 +77,15 @@ function LandingPage(props) {
       if (response.data.success) {
         setProducts(response.data.productInfo);
       } else {
-        alert(" 상품을 가져오는데 실패했습니다.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: '상품을 가져오는데 실패했습니다.',
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176,
+          imageAlt: 'Custom Image',
+          background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
+        })
       }
     });
   };
@@ -218,6 +229,10 @@ function LandingPage(props) {
   };
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+      </div>
     <div
       id="body"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
@@ -295,6 +310,7 @@ function LandingPage(props) {
           <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
         </div>
       )}
+    </div>
     </div>
   );
 }

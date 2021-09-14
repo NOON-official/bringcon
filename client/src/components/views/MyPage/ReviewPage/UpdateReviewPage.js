@@ -4,6 +4,10 @@ import { Col, Input } from'antd';
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import './ReviewPage.css';
 import Swal from "sweetalert2";
+import mobile from '../../Main/mobile.png';
+import Error from '../../../utils/Error.svg';
+import Success from '../../../utils/Success.svg';
+
 const { TextArea } = Input;
 
 function UpdateReviewPage(props) {
@@ -40,7 +44,13 @@ function UpdateReviewPage(props) {
                 setReview(response.data.comment[0])
                 setWriter(response.data.writer[0])
             } else {
-                alert("후기 정보를 가져오는데 실패했습니다.")
+                Swal.fire({
+                    title: 'Oops...!',
+                    text: '후기 정보를 가져오는 데 실패했습니다.',
+                    imageUrl: Error,
+                    imageWidth: 200,
+                    imageHeight: 176
+                });
             }
         })
     }
@@ -62,15 +72,23 @@ function UpdateReviewPage(props) {
                 Swal.fire({
                     title: 'Success!',
                     text: '후기가 수정되었습니다.',
-                    imageUrl: './success.svg',
-                    imageWidth: 400,
-                    imageHeight: 200,
+                    imageUrl: Success,
+                    imageWidth: 200,
+                    imageHeight: 176,
                     imageAlt: 'Custom Image',
                     background: '#fff url(../Footer/background.svg)',
                   })
                 props.history.push("/user/review");
             } else {
-                alert("후기를 수정할 수 없습니다.")
+                Swal.fire({
+                    title: 'Oops...!',
+                    text: '후기를 수정할 수 없습니다.',
+                    imageUrl: Error,
+                    imageWidth: 200,
+                    imageHeight: 176,
+                    imageAlt: 'Custom Image',
+                    background: '#fff url(../Footer/background.svg)',
+                  })
             }
         })
     }
@@ -80,6 +98,10 @@ function UpdateReviewPage(props) {
     };
 
     return (
+        <div>
+            <div id="small-body">
+                <img src={mobile} className="mobile"/>
+            </div>
     <div id="body" style={{paddingTop: '50px', maxWidth: '100vw', margin: 'auto'}}>
         <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
             <VerticalMenu/>
@@ -131,6 +153,7 @@ function UpdateReviewPage(props) {
                 }
             </div>
         </Col>
+    </div>
     </div>
     )
 }

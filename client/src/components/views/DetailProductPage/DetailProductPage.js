@@ -8,6 +8,9 @@ import Ratio from "react-ratio";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import "./css/DetailPage.css";
+import mobile from '../Main/mobile.png';
+import Success from '../../utils/Success.svg';
+import Error from '../../utils/Error.svg';
 
 function DetailProductPage(props) {
   const dispatch = useDispatch();
@@ -37,10 +40,10 @@ function DetailProductPage(props) {
 
       if (response.payload.success == false) {
         Swal.fire({
-          title: "Fails",
+          title: "Oops...!",
           text: response.payload.message,
           imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T023013Z&X-Amz-Expires=86400&X-Amz-Signature=4c72f76745dc6f27ed587421dfa5a6d2eb023d8d6869f9455ccad93d3824f035&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+          Error,
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",
@@ -48,7 +51,7 @@ function DetailProductPage(props) {
           confirmButtonText: "목록 보기",
           cancelButtonText: "계속 탐색하기",
           background:
-            "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T044712Z&X-Amz-Expires=86400&X-Amz-Signature=6664bf9459c6e1d4115105918d83a1312ecb9ac22d9e751bc8c2b4b63321ee20&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+            "#fff url(../Main/background.svg)",
         }).then((result) => {
           if (result.isConfirmed) {
             props.history.push("/user/cart");
@@ -57,16 +60,15 @@ function DetailProductPage(props) {
         });
       } else if (response.payload.isAuth == false) {
         Swal.fire({
-          title: "Fails",
+          title: "Login?",
           text: "로그인해야 카트에 담을 수 있습니다.",
-          imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T023013Z&X-Amz-Expires=86400&X-Amz-Signature=4c72f76745dc6f27ed587421dfa5a6d2eb023d8d6869f9455ccad93d3824f035&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+          imageUrl: Error,
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",
           confirmButtonText: "로그인하기",
           background:
-            "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T044712Z&X-Amz-Expires=86400&X-Amz-Signature=6664bf9459c6e1d4115105918d83a1312ecb9ac22d9e751bc8c2b4b63321ee20&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+            "#fff url(../Main/background.svg)",
         }).then((result) => {
           if (result.isConfirmed) {
             props.history.push("/login");
@@ -76,8 +78,7 @@ function DetailProductPage(props) {
         Swal.fire({
           title: "Success!",
           text: "우주 여행지 목록을 추가하였습니다. 여행 목록을 점검하러 가시겠어요?",
-          imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T023013Z&X-Amz-Expires=86400&X-Amz-Signature=4c72f76745dc6f27ed587421dfa5a6d2eb023d8d6869f9455ccad93d3824f035&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+          imageUrl: Success,
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",
@@ -85,7 +86,7 @@ function DetailProductPage(props) {
           confirmButtonText: "목록 보기",
           cancelButtonText: "계속 탐색하기",
           background:
-            "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T044712Z&X-Amz-Expires=86400&X-Amz-Signature=6664bf9459c6e1d4115105918d83a1312ecb9ac22d9e751bc8c2b4b63321ee20&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+            "#fff url(../Main/background.svg)",
         }).then((result) => {
           if (result.isConfirmed) {
             props.history.push("/user/cart");
@@ -97,6 +98,10 @@ function DetailProductPage(props) {
   };
 
   return (
+    <div>
+    <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div id="body" style={{ width: "100%", padding: "3rem 4rem" }}>
       <Row gutter={[16, 16]}>
         <Col lg={12} sm={24}>
@@ -152,6 +157,7 @@ function DetailProductPage(props) {
           <Tabs detail={Product} />
         </Col>
       </Row>
+    </div>
     </div>
   );
 }

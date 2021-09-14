@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import Swal from 'sweetalert2';
 import './UserInfo.css';
+import mobile from '../../Main/mobile.png';
 
 const { TextArea } = Input;
 
@@ -58,6 +59,10 @@ function UpdateUserInfo(props) {
   };
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div id="body" style={{paddingTop: '50px', width: 'auto', margin: 'auto'}}>
       <Col style={{float: 'left', marginLeft: '84px', marginRight: '50px'}}>
         <VerticalMenu/>
@@ -92,6 +97,7 @@ function UpdateUserInfo(props) {
       </div>
     </div>
     </Col>
+    </div>
     </div>
   );
 }

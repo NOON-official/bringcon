@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 import { Form } from "antd";
 import "./UserInfo.css";
 import Swal from "sweetalert2";
+import mobile from '../../Main/mobile.png';
+import Error from '../../../utils/Error.svg';
+import Success from '../../../utils/Success.svg';
 
 const Options = [
   "동물",
@@ -33,7 +36,11 @@ function AddInterests(props) {
   const submitHandler = (event) => {
     event.preventDefault();
     if (CheckList.length < 1) {
-      return alert("하나 이상을 선택해주세요. ");
+      Swal.fire(
+        'Data?',
+        "하나 이상을 선택해주세요.",
+        'question'
+      );
     }
 
     //서버에 채운 값들을 request로 보낸다.
@@ -49,8 +56,7 @@ function AddInterests(props) {
         Swal.fire({
           title: "Success!",
           text: "내 콘텐츠 행성에 여행객을 맞을 준비를 마쳤습니다.",
-          imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T061142Z&X-Amz-Expires=86400&X-Amz-Signature=aac7bc2fb470604a84f81b7e34466ece8e385bea773e8785bfa5a585875b5d31&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+          imageUrl: Success,
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",
@@ -59,12 +65,24 @@ function AddInterests(props) {
         });
         props.history.push("/");
       } else {
-        alert("등록에 실패하였습니다. 관리자에게 문의하세요.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: '상품을 가져오는데 실패했습니다.',
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176,
+          imageAlt: 'Custom Image',
+          background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
+        })
       }
     });
   };
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div id="body" style={{ width: "auto" }}>
       <div
         style={{
@@ -107,6 +125,7 @@ function AddInterests(props) {
           </div>
         </Form>
       </div>
+    </div>
     </div>
   );
 }

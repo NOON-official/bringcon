@@ -5,9 +5,12 @@ import { Avatar } from "antd";
 import Meta from "antd/lib/card/Meta";
 import SearchFeature from "./Sections/SearchFeature";
 import { price } from "./Sections/Datas";
-import "./css/AdminLandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
+import mobile from '../../views/Main/mobile.png';
+import Swal from 'sweetalert2';
+import Error from '../../utils/Error.svg';
+import "./css/AdminLandingPage.css";
 
 const Genres = [
   { key: 0, value: "All" },
@@ -74,7 +77,14 @@ function AdminLandingPage(props) {
       if (response.data.success) {
         setProducts(response.data.productInfo);
       } else {
-        alert(" 상품을 가져오는데 실패했습니다.");
+        Swal.fire({
+          title: 'Oops...',
+          text: "상품을 가져오지 못했습니다.",
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176,
+          background: "#fff url(../Main/background.svg)",
+        })
       }
     });
   };
@@ -218,6 +228,10 @@ function AdminLandingPage(props) {
   };
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+      </div>
     <div
       id="body"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
@@ -295,6 +309,7 @@ function AdminLandingPage(props) {
           <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
         </div>
       )}
+    </div>
     </div>
   );
 }

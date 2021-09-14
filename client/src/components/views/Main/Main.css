@@ -6,6 +6,10 @@
     background-image: url('./background.svg');
 }
 
+#small-body{
+    display:none;
+}
+
 .footer-info{
     padding-top: 180px;
     color: #ffcb39;
@@ -68,3 +72,36 @@
 .main-info > .search-wrapper select{
     display: none;
 }
+
+@media screen and (max-width: 768px){
+    nav{
+        background-color:#1C1C1C;
+    }
+
+    #body{
+      display:none;
+    }
+
+    #small-body{
+        display:block;
+        background-image: url('./mobile.png');
+        width:100vw;
+        height: 100vh;
+        background-color: #1C1C1C;
+    }
+    .mobile{
+        max-width: 360px;
+    }
+    .ant-btn.menu__mobile-button.ant-btn-primary{
+        display:none !important;
+    }
+  }
+  
+  .swal2-popup.swal2-modal.swal2-show{
+      background-color: #fff !important;
+      background-image: url('./background.svg') !important;
+  }
+
+  .swal2-confirm.swal2-styled{
+      background-color: #ffcb39 !important;
+  }

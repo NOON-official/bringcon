@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Col} from 'antd';
 import '../css/UserVideo.css';
+import Swal from 'sweetalert2';
+import Error from '../../../utils/Error.svg';
 
 function Collection(props) {
   const [UserId, setUserId] = useState("");
@@ -30,7 +32,15 @@ function Collection(props) {
         if (response.data.success) {
           setProducts(response.data.productInfo);
         } else {
-          alert("상품들을 가져오는데 실패했습니다.");
+          Swal.fire({
+            title: 'Oops...!',
+            text: '상품들을 가져오는 데 실패했습니다.',
+            imageUrl: Error,
+            imageWidth: 200,
+            imageHeight: 176,
+            imageAlt: 'Custom Image',
+            background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
+          })
         }
       });
   };
@@ -88,18 +98,12 @@ function Collection(props) {
 
   return (
     <div>
-    
-
       <div style={{ width: "100%%", margin: "3rem auto" }}>
-     
-
         {/* Cards */}
-
-        <div>{renderCards}</div>
-
-
-        <br />
-
+      <div>
+        {renderCards}
+      </div>
+      <br />
       </div>
     </div>
   );

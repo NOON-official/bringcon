@@ -4,6 +4,9 @@ import {Col, Comment, Avatar} from'antd';
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import './ReviewPage.css';
 import Swal from "sweetalert2";
+import Cry from '../../../utils/Cry.svg';
+import Success from '../../../utils/Success.svg';
+import Error from '../../../utils/Error.svg';
 
 function ReviewPage(props) {
     const [UserId, setUserId] = useState("")
@@ -43,6 +46,7 @@ function ReviewPage(props) {
                         if (response.data.success) {
                             setReviews(Reviews => [...Reviews, { review: review, product: response.data.product[0] }])
                         } else {
+                            
                             alert("후기 상품 정보를 가져오는데 실패했습니다.")
                         }
                     })
@@ -58,7 +62,7 @@ function ReviewPage(props) {
 
         Swal.fire({
             title: '정말 삭제하시겠습니까?',
-            icon: 'warning',
+            imageUrl: Cry,
             showCancelButton: 'true',
             confirmButtonColor: '#ffcb39',
             cancelButtonColor: '#333333',
@@ -70,12 +74,20 @@ function ReviewPage(props) {
                     if (response.data.success) {
                         setDeleted(true)
                         Swal.fire({
-                            title: 'Success',
+                            title: 'Success!',
                             text: '삭제되었습니다!',
-                            icon: 'success'
+                            imageUrl: Success,
+                            imageWidth: 200,
+                            imageHeight: 176
                         })
                     } else {
-                        alert("후기를 삭제할 수 없습니다.")
+                        Swal.fire({
+                            title: 'Oops...!',
+                            text: '후기를 삭제할 수 없습니다.',
+                            imageUrl: Error,
+                            imageWidth: 200,
+                            imageHeight: 176
+                        })
                     }
                 })
             }

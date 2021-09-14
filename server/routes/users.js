@@ -3,6 +3,7 @@ const router = express.Router();
 const { User } = require("../models/User");
 const { Product } = require("../models/Product");
 const { Order } = require("../models/Order");
+const { Revenue } = require("../models/Revenue");
 
 const { auth } = require("../middleware/auth");
 const async = require("async");
@@ -169,6 +170,70 @@ router.post("/order", (req, res) => {
 router.post("/successBuy", auth, (req, res) => {
   //결제 성공후
 
+  // 월별 판매개수 업데이트 해주기
+  const getMonthOfPurchase = (dateOfPurchase) => {
+    let date = new Date(dateOfPurchase);
+    const year = String(date.getFullYear());
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+  
+    date = `${year}_${month}`;
+  
+    return date;
+  };
+
+  const isEmptyObject = (param) => {
+    return Object.keys(param).length === 0 && param.constructor === Object;
+  }
+
+  let dateOfPurchase =  Date.now();
+  let monthOfPurchase = getMonthOfPurchase(dateOfPurchase);
+
+  const updateRevenue = (item) => {
+    Revenue.findOne({ userId: item.writer })
+    .then((doc) => {
+      let index; //product 배열에서 바꾸려는 상품의 index
+      let revenue_before = {}; //해당 상품의 변경 전 revenue 객체
+
+      for(let i=0; i<doc.product.length; i++) { //해당 객체 찾기
+        if(doc.product[i].id == item._id){
+          index = i
+
+          if(doc.product[i].revenue !== undefined) {
+            revenue_before = doc.product[i].revenue //revenue_before가 바뀌면 doc도 자동으로 바뀜
+          }
+        }
+      }
+
+      if(isEmptyObject(revenue_before)) { // 객체가 비어있는 경우
+        let source = {[monthOfPurchase]: item.quantity}
+        revenue_before = Object.assign({}, source)
+        doc.product[index].revenue = revenue_before
+      } else {
+        if(revenue_before.hasOwnProperty(monthOfPurchase)) { //이미 해당 월이 필드에 있는 경우
+          revenue_before[monthOfPurchase] = revenue_before[monthOfPurchase] + item.quantity
+        } else { //새로 월을 추가해야하는 경우
+          revenue_before[monthOfPurchase] = item.quantity
+        }
+      }
+      console.log(doc.product[index])
+
+      let newRevenue = new Revenue(doc);
+      newRevenue.save();
+    })
+    .catch((err) => console.log(err))
+  }
+
+  async.eachSeries(
+    req.body.cartDetail,
+    (item, callback) => {
+      updateRevenue(item)
+      callback(null)
+    },
+    (err) => {
+      if(err) console.log(err)
+    }
+  )
+
   //1. User Collection 안에  History 필드 안에  간단한 결제 정보 넣어주기
   let history = [];
   let transactionData = {};
@@ -191,7 +256,7 @@ router.post("/successBuy", auth, (req, res) => {
 
   history.push({
     OrderInfo: {
-      dateOfPurchase: Date.now(),
+      dateOfPurchase: dateOfPurchase,
       impUid: req.body.paymentData.imp_uid,
       merchantUid: req.body.paymentData.merchant_uid,
       amount: req.body.paymentData.amount,

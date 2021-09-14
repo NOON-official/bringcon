@@ -4,8 +4,10 @@ import {NavLink} from 'react-router-dom';
 import { connect } from 'react-redux'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import './css/BoardDetail.css';
+import Success from '../../utils/Success.svg';
+import Cry from '../../utils/Cry.svg';
 import mobile from '../Main/mobile.png';
+import './css/BoardDetail.css';
 
 
 class BoardDetail extends Component {
@@ -32,7 +34,9 @@ class BoardDetail extends Component {
         Swal.fire({
             title: '정말 삭제하시겠습니까?',
             text: '삭제된 글은 복구할 수 없습니다.',
-            icon: 'warning',
+            imageUrl: Cry,
+            imageWidth: 200,
+            imageHeight: 176,
             showCancelButton: 'true',
             confirmButtonColor: '#ffcb39',
             cancelButtonColor: '#333333',
@@ -43,7 +47,9 @@ class BoardDetail extends Component {
                 Swal.fire({
                     title: 'Success',
                     text: '삭제되었습니다!',
-                    icon: 'success'
+                    imageUrl: Success,
+                    imageWidth: 200,
+                    imageHeight: 176,
                 })
                 window.location.href="/board";
             }

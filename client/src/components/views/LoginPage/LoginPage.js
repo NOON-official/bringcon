@@ -14,7 +14,6 @@ function LoginPage() {
     <div id="small-body">
         <img src={mobile} className="mobile"/>
     </div>
-    //네브바가 내려와서 위에 문구가 안 보임. 수정필요
     <div id="body" style={{paddingTop: '100px', width: 'auto'}}>
       <div className="decorations">
         <img src={ufo} className="ufo"/>

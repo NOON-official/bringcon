@@ -5,6 +5,7 @@ import Axios from "axios";
 import Swal from "sweetalert2";
 import VerticalMenu from "../VerticalMenu/VerticalMenu";
 import mobile from '../../Main/mobile.png';
+import Error from '../../../utils/Error.svg';
 import "./ProfilePage.css";
 
 function ProfilePage(props) {
@@ -55,7 +56,15 @@ function ProfilePage(props) {
     Axios.post("/api/users/interests", body).then((response) => {
       if (response.data.success) {
       } else {
-        alert("등록에 실패하였습니다. 관리자에게 문의하세요.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: '등록에 실패하였습니다. 관리자에게 문의하세요.',
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176,
+          imageAlt: 'Custom Image',
+          background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
+        })
       }
     });
   }

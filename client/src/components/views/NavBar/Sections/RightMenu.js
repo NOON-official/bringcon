@@ -5,6 +5,7 @@ import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import Error from '../../../utils/Error.svg';
 import "./Navbar.css"
 import $ from 'jquery'
 
@@ -17,6 +18,7 @@ function RightMenu(props) {
       if (response.status === 200) {
         props.history.push("/login");
       } else {
+        
         Swal.fire("Oops...", "로그인에 실패했습니다.", "error");
       }
     });
@@ -28,7 +30,10 @@ function RightMenu(props) {
       // 마이페이지 - 프로필 외 다른 탭에 있는 경우
       if((window.location.pathname === "/user/history" ||
           window.location.pathname === "/user/mycontents" ||
-          window.location.pathname === "/user/review") && Selected.length === 0) {
+          window.location.pathname === "/user/review" ||
+          window.location.pathname === "/user/info" ||
+          window.location.pathname === "/user/account" ||
+          window.location.pathname === "/user/review/update") && Selected.length === 0) {
             setSelected(["mypage"])
       } else if(window.location.href === this.href && Selected.length === 0) { // 현재 위치에 해당하는 NavBar key 설정하기   
         setSelected([this.selected])

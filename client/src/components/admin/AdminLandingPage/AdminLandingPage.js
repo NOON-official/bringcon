@@ -8,6 +8,8 @@ import { price } from "./Sections/Datas";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
 import mobile from '../../views/Main/mobile.png';
+import Swal from 'sweetalert2';
+import Error from '../../utils/Error.svg';
 import "./css/AdminLandingPage.css";
 
 const Genres = [
@@ -75,7 +77,14 @@ function AdminLandingPage(props) {
       if (response.data.success) {
         setProducts(response.data.productInfo);
       } else {
-        alert(" 상품을 가져오는데 실패했습니다.");
+        Swal.fire({
+          title: 'Oops...',
+          text: "상품을 가져오지 못했습니다.",
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176,
+          background: "#fff url(../Main/background.svg)",
+        })
       }
     });
   };
@@ -120,7 +129,7 @@ function AdminLandingPage(props) {
           id="card-video"
           style={{ backgroundImage: `url(${product.s3thumbnail})` }}
         >
-          <a href={`/product/${product._id}`} target="_blank">
+          <a href={`/product_admin/${product._id}`} target="_blank">
             <video
               src={`${product.filePath}`}
               onMouseOver={handleMouseover}

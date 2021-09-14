@@ -16,6 +16,8 @@ export const VerticalMenu = () => {
     const path = window.location.pathname
     if (path === '/user/info' || path === '/user/account') {
         $('.profile').addClass('current')
+    } else if(path === '/user/review/update') {
+        $('.review').addClass('current')
     }
 
     return (

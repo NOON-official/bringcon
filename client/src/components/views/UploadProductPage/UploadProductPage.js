@@ -4,6 +4,7 @@ import { Form, Input, Icon, Col } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import Progress from "../../utils/Progress/Progress";
+import mobile from '../Main/mobile.png';
 import "./Upload.css";
 import "../../utils/Hashtag.css";
 const { TextArea } = Input;
@@ -179,6 +180,7 @@ function UploadProductPage(props) {
     }
 
     return (
+
       <div
         style={{ width: "100vw", height: "90vh", margin: "auto" }}
         className="upload-body"
@@ -197,6 +199,10 @@ function UploadProductPage(props) {
   }
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div style={{ width: "auto", minHeight: "90vh", margin: "auto" }} id="body">
       <div
         style={{ width: "90%", margin: "auto", paddingTop: "50px" }}
@@ -364,6 +370,7 @@ function UploadProductPage(props) {
           </Col>
         </Form>
       </div>
+    </div>
     </div>
   );
 }

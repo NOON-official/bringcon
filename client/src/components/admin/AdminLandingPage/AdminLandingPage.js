@@ -5,9 +5,10 @@ import { Avatar } from "antd";
 import Meta from "antd/lib/card/Meta";
 import SearchFeature from "./Sections/SearchFeature";
 import { price } from "./Sections/Datas";
-import "./css/AdminLandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
+import mobile from '../../views/Main/mobile.png';
+import "./css/AdminLandingPage.css";
 
 const Genres = [
   { key: 0, value: "All" },
@@ -218,6 +219,10 @@ function AdminLandingPage(props) {
   };
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+      </div>
     <div
       id="body"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
@@ -295,6 +300,7 @@ function AdminLandingPage(props) {
           <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
         </div>
       )}
+    </div>
     </div>
   );
 }

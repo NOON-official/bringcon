@@ -6,9 +6,9 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../_actions/user_actions";
 import Ratio from "react-ratio";
 import styled from "styled-components";
-import { Button } from "antd";
 import Swal from "sweetalert2";
 import "./css/DetailPage.css";
+import mobile from '../Main/mobile.png';
 
 function DetailProductPage(props) {
   const dispatch = useDispatch();
@@ -57,6 +57,10 @@ function DetailProductPage(props) {
   };
 
   return (
+    <div>
+    <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div id="body" style={{ width: "100%", padding: "3rem 4rem" }}>
       <Row gutter={[16, 16]}>
         <Col lg={12} sm={24}>
@@ -113,6 +117,7 @@ function DetailProductPage(props) {
           <Tabs detail={Product} />
         </Col>
       </Row>
+    </div>
     </div>
   );
 }

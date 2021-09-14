@@ -8,6 +8,7 @@ import { price } from "./Sections/Datas";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
+import mobile from '../Main/mobile.png';
 
 const Genres = [
   { key: 0, value: "All" },
@@ -218,6 +219,10 @@ function LandingPage(props) {
   };
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+      </div>
     <div
       id="body"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
@@ -295,6 +300,7 @@ function LandingPage(props) {
           <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
         </div>
       )}
+    </div>
     </div>
   );
 }

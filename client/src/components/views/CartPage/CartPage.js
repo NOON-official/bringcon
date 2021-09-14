@@ -11,6 +11,7 @@ import "./Sections/CartPage.css";
 import { configConsumerProps } from "antd/lib/config-provider";
 import "./Sections/UserCardBlock.css";
 import { Checkbox } from "antd";
+import mobile from '../Main/mobile.png';
 
 function CartPage(props) {
   const dispatch = useDispatch();
@@ -157,6 +158,10 @@ function CartPage(props) {
     ));
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div
       id="body"
       style={{
@@ -294,6 +299,7 @@ function CartPage(props) {
           </Col>
         </div>
       )}
+    </div>
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import './css/BoardDetail.css';
+import mobile from '../Main/mobile.png';
+
 
 class BoardDetail extends Component {
     constructor(props) {
@@ -161,7 +163,15 @@ class BoardDetail extends Component {
             margin: 50
         };
 
-        return <div id="#body" style={{backgroundColor:"#1C1C1C", minHeight: '90.6vh'}}>{this.state.board}</div>;
+        return (
+        <div>
+            <div id="small-body">
+                <img src={mobile} className="mobile"/>
+            </div>
+            <div id="body" style={{backgroundColor:"#1C1C1C", minHeight: '90.6vh'}}>{this.state.board}</div>;
+        </div>
+        )
+        
     }
 }
 

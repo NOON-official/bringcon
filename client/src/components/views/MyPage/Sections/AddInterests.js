@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Form } from "antd";
 import "./UserInfo.css";
 import Swal from "sweetalert2";
+import mobile from '../../Main/mobile.png';
 
 const Options = [
   "동물",
@@ -65,6 +66,10 @@ function AddInterests(props) {
   };
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div id="body" style={{ width: "auto" }}>
       <div
         style={{
@@ -107,6 +112,7 @@ function AddInterests(props) {
           </div>
         </Form>
       </div>
+    </div>
     </div>
   );
 }

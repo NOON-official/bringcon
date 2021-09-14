@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 import "./UpdateContentPage.css";
 import "../../../utils/Hashtag.css";
 import Swal from "sweetalert2";
-import Watermark from "./watermark(trans70)-01.png"
+import Watermark from "./watermark(trans70)-01.png";
+import mobile from '../../Main/mobile.png';
+
 const { TextArea } = Input;
 
 const Genres = [
@@ -148,7 +150,9 @@ function UpdateContentPage(props) {
         }
 
         return (
-            <div
+            <div>
+               
+                <div
                 style={{ width: "100vw", height: "90vh", margin: "auto" }}
                 className="upload-body"
             >
@@ -162,10 +166,15 @@ function UpdateContentPage(props) {
                     </a>
                 </div>
             </div>
+            </div>
         );
     }
 
     return (
+        <div>
+        <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
         <div
         style={{ width: "auto", minHeight: "90vh", margin: "auto" }}
         id="body"
@@ -289,6 +298,7 @@ function UpdateContentPage(props) {
                     <div className="update-alert">* 이미 업로드된 영상과 가격은 변경이 불가능합니다.</div>
                 </Form>
             </div>
+        </div>
         </div>
     );
 }

@@ -35,7 +35,7 @@ function Footer() {
             <Col>
             <div className="col-4">
                     <div>111-11-1111</div>
-                    <div>제2021-어딘가01111</div>
+                    <div>2021-서울성북-1613</div>
                 </div>
             </Col>
             </div>

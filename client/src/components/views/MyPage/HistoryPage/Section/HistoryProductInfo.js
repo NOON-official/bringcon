@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Checkbox } from "antd";
+import Swal from 'sweetalert2';
+import Success from '../../../../utils/Success.svg';
 
 function HistoryProductInfo(props) {
   const [CheckedList, setCheckedList] = useState(props.order.ProductInfo);
@@ -18,16 +20,33 @@ function HistoryProductInfo(props) {
 
   const handleDownloadClick = (product) => {
     if (product.download >= 1) {
-      alert("다운로드는 1회만 가능합니다.");
+      Swal.fire({
+        title: 'Oops...!',
+        icon: 'error',
+        text: "다운로드는 1회만 가능합니다.",
+        // background: ,
+      });
     }
     const body = { product_id: product.id, userId: props.userId };
     //다운로드 할 product id를 백엔드로 보내줌
     axios.post("/api/product/download", body).then((response) => {
       if (response.data.success) {
         window.location.href = response.data.url;
-        alert("파일이 다운로드되었습니다.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: "파일이 다운로드되었습니다.",
+          imageUrl: '../../../../utils/Success.svg',
+          imageAlt: 'Custom Image',
+          background: '#fff url("../Main/background.svg")'
+        });
       } else {
-        alert("다운로드에 실패하였습니다.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: "다운로드에 실패했습니다.",
+          imageUrl: '../../utils/Error.svg',
+          imageAlt: 'Custom Image',
+          background: '#fff url("../Main/background.svg")'
+        });
       }
     });
   };
@@ -40,7 +59,13 @@ function HistoryProductInfo(props) {
         if (response.data.success) {
           window.location.href = response.data.url;
         } else {
-          alert("다운로드에 실패하였습니다.");
+          Swal.fire({
+            title: 'Oops...!',
+            text: "다운로드에 실패했습니다.",
+            imageUrl: '../../utils/Error.svg',
+            imageAlt: 'Custom Image',
+            background: '#fff url("../Main/background.svg")'
+          });
         }
       });
     });

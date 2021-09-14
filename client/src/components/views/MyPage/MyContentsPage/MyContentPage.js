@@ -4,6 +4,7 @@ import {Col, Checkbox} from'antd';
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import './MyContentsPage.css';
 import Swal from "sweetalert2";
+import mobile from '../../Main/mobile.png';
 
 function MyContentsPage(props) {
     const [UserId, setUserId] = useState("")
@@ -105,72 +106,76 @@ function MyContentsPage(props) {
     }
 
     return (
-    <div id="body" style={{paddingTop: '50px', maxWidth: '100vw', margin: 'auto'}}>
-        <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
-            <VerticalMenu/>
-        </Col>
-        <Col style={{float: 'right', width: '1150px'}}>
-            <div className="mycontents-container">
-                <div className="mypage-bloc-tabs">
-                    <button className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
-                    onClick={() => toggleTab(1)}>
-                        업로드 내역
-                    </button>
+    <div>
+        <div id="small-body">
+            <img src={mobile} className="mobile"/>
+        </div>
+        <div id="body" style={{paddingTop: '50px', maxWidth: '100vw', margin: 'auto'}}>
+            <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
+                <VerticalMenu/>
+            </Col>
+            <Col style={{float: 'right', width: '1150px'}}>
+                <div className="mycontents-container">
+                    <div className="mypage-bloc-tabs">
+                        <button className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
+                        onClick={() => toggleTab(1)}>
+                            업로드 내역
+                        </button>
                     {/* <SearchFeature/> */}
-                </div>
-                <div className="product-list">
-                    <table style={{width: '900px', margin: 'auto'}}>
-                        {props.user.userData && Products.map((product, index) => (
-                        <tbody key={index} style={{width: '900px', margin: 'auto'}}>
-                            <tr className="product-row" style={{height: '120px'}}>
-                            <td>
-                                {/* 썸네일 */}
-                                <img
-                                    style={{ width: "142px", height: "80px", borderRadius: "8px" }}
-                                    alt="product"
-                                    src={product.s3thumbnail}
-                                />
-                            </td>
-                            <td>
-                                {/* 상품 제목 */}
-                                <div className="product-title">{product.title}</div>
-                                {/* 상품 가격 */}
-                                <div className="product-price">{`${product.price.toLocaleString("ko-KR")}원`}</div>
-                            </td>
-                            <td>
-                                {/* 총 판매 금액 */}
-                                <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
-                            </td>
-                            <td>
-                                <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
-                                <br/>
-                                <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>
-                            </td>
-                            </tr>
-                            <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>
-                                <td colSpan="4">
-                                    <div className="product-info">
-                                        <span>▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역</span>
-                                        <div className='close'>
-                                            <div>
-                                                <span style={{paddingRight: '111px'}}>판매 횟수</span>
-                                                <span>{`${product.sold}회`}</span>
-                                            </div>
-                                            <div>
-                                                <span style={{paddingRight: '111px'}}>정산 금액</span>
-                                                <span>{`${product.sold ? deductFee(product.sold * product.price).toLocaleString("ko-KR") : 0}원 (수수료 ${Fee}%)`}</span>
+                    </div>
+                    <div className="product-list">
+                        <table style={{width: '900px', margin: 'auto'}}>
+                            {props.user.userData && Products.map((product, index) => (
+                            <tbody key={index} style={{width: '900px', margin: 'auto'}}>
+                                <tr className="product-row" style={{height: '120px'}}>
+                                <td>
+                                    {/* 썸네일 */}
+                                    <img
+                                        style={{ width: "142px", height: "80px", borderRadius: "8px" }}
+                                        alt="product"
+                                        src={product.s3thumbnail}
+                                    />
+                                </td>
+                                <td>
+                                    {/* 상품 제목 */}
+                                    <div className="product-title">{product.title}</div>
+                                    {/* 상품 가격 */}
+                                    <div className="product-price">{`${product.price.toLocaleString("ko-KR")}원`}</div>
+                                </td>
+                                <td>
+                                    {/* 총 판매 금액 */}
+                                    <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
+                                </td>
+                                <td>
+                                    <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
+                                    <br/>
+                                    <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>
+                                </td>
+                                </tr>
+                                <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>
+                                    <td colSpan="4">
+                                        <div className="product-info">
+                                            <span>▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역</span>
+                                            <div className='close'>
+                                                <div>
+                                                    <span style={{paddingRight: '111px'}}>판매 횟수</span>
+                                                    <span>{`${product.sold}회`}</span>
+                                                </div>
+                                                <div>
+                                                    <span style={{paddingRight: '111px'}}>정산 금액</span>
+                                                    <span>{`${product.sold ? deductFee(product.sold * product.price).toLocaleString("ko-KR") : 0}원 (수수료 ${Fee}%)`}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    ))}
-                </table>
-
-            </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        ))}
+                    </table>
+                </div>
             </div>
             </Col>
+        </div>
         </div>
     )
 }

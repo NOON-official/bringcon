@@ -5,6 +5,7 @@ import { Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Swal from 'sweetalert2';
 import "./css/BoardWrite.css";
+import mobile from '../Main/mobile.png';
 
 function BoardWriteForm(props) {
   const user = useSelector((state) => state.user);
@@ -110,7 +111,11 @@ function BoardWriteForm(props) {
   };
 
   return (
-    <div id="body" style={{width: 'auto'}}>
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+      </div>
+      <div id="body" style={{width: 'auto'}}>
       <div className="form-container">
       <Form onSubmit={writeBoardHandler}>
         <Form.Control
@@ -127,6 +132,7 @@ function BoardWriteForm(props) {
         </button>
       </Form>
       </div>
+    </div>
     </div>
   );
 }

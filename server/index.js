@@ -25,10 +25,10 @@ app.use(cors())
 
 //to not get any deprecation warning or error
 //support parsing of application/x-www-form-urlencoded post data
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true, limit: '50mb'}));
 //to get json data
 // support parsing of application/json type post data
-app.use(express.json())
+app.use(express.json({limit: '50mb'}));
 app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));

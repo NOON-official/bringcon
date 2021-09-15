@@ -188,9 +188,9 @@ router.post("/successBuy", auth, (req, res) => {
   let dateOfPurchase =  Date.now();
   let monthOfPurchase = getMonthOfPurchase(dateOfPurchase);
 
-  const updateRevenue = (item) => {
+  req.body.cartDetail.forEach((item) => {
     Revenue.findOne({ userId: item.writer })
-    .then((doc) => {
+    .then(async (doc) => {
       let index; //product 배열에서 바꾸려는 상품의 index
       let revenue_before = {}; //해당 상품의 변경 전 revenue 객체
 
@@ -215,24 +215,19 @@ router.post("/successBuy", auth, (req, res) => {
           revenue_before[monthOfPurchase] = item.quantity
         }
       }
-      console.log(doc.product[index])
 
-      let newRevenue = new Revenue(doc);
-      newRevenue.save();
+      let key = `product.${index}`
+      await Revenue.updateOne(
+        { userId: item.writer },
+        {
+          $set: {
+            [key]: doc.product[index]
+          }
+        }
+      )
     })
     .catch((err) => console.log(err))
-  }
-
-  async.eachSeries(
-    req.body.cartDetail,
-    (item, callback) => {
-      updateRevenue(item)
-      callback(null)
-    },
-    (err) => {
-      if(err) console.log(err)
-    }
-  )
+  })
 
   //1. User Collection 안에  History 필드 안에  간단한 결제 정보 넣어주기
   let history = [];
@@ -269,8 +264,6 @@ router.post("/successBuy", auth, (req, res) => {
   });
 
   transactionData.product = history;
-
-  console.log(deleteCartItems);
 
   //history 정보 저장
   User.findOneAndUpdate(

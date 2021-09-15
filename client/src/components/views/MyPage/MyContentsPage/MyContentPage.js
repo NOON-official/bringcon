@@ -142,9 +142,15 @@ function MyContentsPage(props) {
                         onClick={() => toggleTab(1)}>
                             업로드 내역
                         </button>
+
+                        <button className={toggleState === 2 ? "mypage-tabs active-tabs" : "mypage-tabs"}
+                        onClick={() => toggleTab(2)}>
+                            월별 정산
+                        </button>
                     {/* <SearchFeature/> */}
                     </div>
-                    <div className="product-list">
+                    {/* className="product-list" */}
+                    <div className={toggleState === 1 ? "content  active-content" : "content"} id="product-list">
                         <table style={{width: '900px', margin: 'auto'}}>
                             {props.user.userData && Products.map((product, index) => (
                             <tbody key={index} style={{width: '900px', margin: 'auto'}}>
@@ -193,6 +199,9 @@ function MyContentsPage(props) {
                             </tbody>
                         ))}
                     </table>
+                </div>
+                <div className={toggleState === 2 ? "content  active-content" : "content"} id="product-list">
+                    
                 </div>
             </div>
             </Col>

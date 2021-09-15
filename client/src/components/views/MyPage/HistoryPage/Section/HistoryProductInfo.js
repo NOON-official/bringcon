@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../../../_actions/user_actions";
 import { withRouter } from "react-router-dom";
+import Error from '../../../../utils/Error.svg';
+import Success from '../../../../utils/Success.svg';
 
 function HistoryProductInfo(props) {
   const dispatch = useDispatch();
@@ -28,10 +30,9 @@ function HistoryProductInfo(props) {
 
       if (response.payload.success == false) {
         Swal.fire({
-          title: "Fails",
+          title: "Oops...!",
           text: response.payload.message,
-          imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T023013Z&X-Amz-Expires=86400&X-Amz-Signature=4c72f76745dc6f27ed587421dfa5a6d2eb023d8d6869f9455ccad93d3824f035&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+          imageUrl: Error,
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",
@@ -48,10 +49,9 @@ function HistoryProductInfo(props) {
         });
       } else if (response.payload.isAuth == false) {
         Swal.fire({
-          title: "Fails",
+          title: "Oops...!",
           text: "로그인해야 카트에 담을 수 있습니다.",
-          imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T023013Z&X-Amz-Expires=86400&X-Amz-Signature=4c72f76745dc6f27ed587421dfa5a6d2eb023d8d6869f9455ccad93d3824f035&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+          imageUrl: Error,
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",
@@ -67,8 +67,7 @@ function HistoryProductInfo(props) {
         Swal.fire({
           title: "Success!",
           text: "우주 여행지 목록을 추가하였습니다. 여행 목록을 점검하러 가시겠어요?",
-          imageUrl:
-            "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d5604f65-07b8-427a-8a3c-8ee5ef0dc5b0/pop-up3.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210831%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210831T023013Z&X-Amz-Expires=86400&X-Amz-Signature=4c72f76745dc6f27ed587421dfa5a6d2eb023d8d6869f9455ccad93d3824f035&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22pop-up3.svg%22",
+          imageUrl: Success,
           imageWidth: 200,
           imageHeight: 176,
           imageAlt: "Custom image",
@@ -95,17 +94,33 @@ function HistoryProductInfo(props) {
     };
 
     if (product.download >= 1) {
-      return Swal.fire(
-        "다운로드는 1회만 가능합니다. 다시 다운로드하고 싶다면 관리자에게 문의하세요."
-      );
+      return Swal.fire({
+        title: 'Oops...!',
+        text: "다운로드는 1회만 가능합니다. 다시 다운로드하고 싶다면 관리자에게 문의하세요.",
+        imageUrl: Error,
+        imageWidth: 200,
+        imageHeight: 176
+      });
     }
     //다운로드 할 product id를 백엔드로 보내줌
     axios.post("/api/product/download", body).then((response) => {
       if (response.data.success) {
         window.location.href = response.data.url;
-        Swal.fire("파일이 다운로드되었습니다.");
+        Swal.fire({
+          title: 'Success!',
+          text: "파일이 다운로드되었습니다.",
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176
+        });
       } else {
-        Swal.fire("다운로드에 실패하였습니다. :( ");
+        Swal.fire({
+          title: 'Oops...!',
+          text: "다운로드에 실패했습니다.",
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176
+        });
       }
     });
   };
@@ -113,7 +128,13 @@ function HistoryProductInfo(props) {
   const handleDownloadClickSeleted = (CheckedList) => {
     CheckedList.map((product, index) => {
       if (product.download >= 1) {
-        Swal.fire("다운로드는 1회만 가능합니다.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: "다운로드는 1회만 가능합니다.",
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176
+        });
       } else {
         const body = {
           product_id: product.id,
@@ -125,7 +146,13 @@ function HistoryProductInfo(props) {
           if (response.data.success) {
             window.location.href = response.data.url;
           } else {
-            Swal.fire("다운로드에 실패하였습니다. :( ");
+            Swal.fire({
+              title: 'Oops...!',
+              text: "다운로드에 실패했습니다.",
+              imageUrl: Error,
+              imageWidth: 200,
+              imageHeight: 176
+            });
           }
         });
       }

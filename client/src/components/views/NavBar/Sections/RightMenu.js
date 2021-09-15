@@ -5,6 +5,7 @@ import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import Error from '../../../utils/Error.svg';
 import "./Navbar.css"
 import $ from 'jquery'
 
@@ -17,6 +18,7 @@ function RightMenu(props) {
       if (response.status === 200) {
         props.history.push("/login");
       } else {
+        
         Swal.fire("Oops...", "로그인에 실패했습니다.", "error");
       }
     });

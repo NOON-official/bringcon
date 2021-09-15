@@ -312,20 +312,44 @@ router.post("/download", async (req, res) => {
     res.send({ success: true, url: url });
   };
 
-  await downloadFile(key);
-
-  //download시 download 속성을 1 늘려줌.
-
-  //  user id 를 가지고 온다.
-  const userId = req.body.userId;
-  // user id 를 이용해서 user.history.cartDetail의 download를 1 늘려준다.
-  User.find({ _id: { $in: userId } })
-    .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
-    .exec((err) => {
-      if (err) return res.status(400).send(err);
-      return res.status(200);
+  const increaseDownload = async () => {
+    User.findOne({
+      _id: req.body.userId,
+    }).then((doc) => {
+      doc.history
+        .forEach((history) => {
+          if (
+            history.OrderInfo.dateOfPurchase ===
+            req.body.orderInfo.dateOfPurchase
+          ) {
+            history.ProductInfo.forEach((ProductInfo) => {
+              if (ProductInfo.id == req.body.product_id) {
+                ProductInfo.download += 1;
+                const newUser = new User(doc);
+                newUser.save();
+              }
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     });
+  };
+
+  console.log("ProductInfoId", req.body.product_id);
+
+  await increaseDownload();
+  await downloadFile(key);
 });
+
+// router.post("/increase_download",(req,res) => {
+//   const increaseDownload = async () => {
+//     const userId = req.body.userId;
+//     User.find({ _id: { $in: userId } })
+//       .updateOne({ $inc: { history: { ProductInfo: { download: 1 } } } })
+//   };
+
+//   await increaseDownload();
+// })
 
 //데이터에 filter 처리를 한 후 알맞은 데이터를 프론트로 보내줌
 router.post("/products", (req, res) => {
@@ -339,6 +363,8 @@ router.post("/products", (req, res) => {
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
+      console.log("key", key);
+
       if (key === "price") {
         findArgs[key] = {
           //Greater than equal
@@ -360,7 +386,7 @@ router.post("/products", (req, res) => {
 
       Product.find(findArgs)
         .find({ judged: true })
-        .find({ deleted: false })
+        .fine({ deleted: false })
         .find({ tags: term })
         .populate("writer")
         .sort([[sortBy, order]])

@@ -4,8 +4,13 @@ import { Form, Input, Icon, Col } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import Progress from "../../utils/Progress/Progress";
+import mobile from '../Main/mobile.png';
 import "./Upload.css";
 import "../../utils/Hashtag.css";
+import Swal from 'sweetalert2';
+import Success from "../../utils/Success.svg";
+import Error from "../../utils/Error.svg";
+
 const { TextArea } = Input;
 
 const Genres = [
@@ -94,7 +99,14 @@ function UploadProductPage(props) {
 
     if (files[0].size > 314572800) {
       // 300M
-      alert("300MB 초과하는 파일은 업로드할 수 없습니다.");
+      Swal.fire({
+        title: 'Oops...',
+        text: "300MB를 초과하는 파일은 업로드할 수 없습니다.",
+        imageUrl: Error,
+        imageWidth: 200,
+        imageHeight: 176,
+        background: "#fff url(../Main/background.svg)",
+      })
       return;
     }
 
@@ -121,14 +133,35 @@ function UploadProductPage(props) {
             setFormat(response.data.fileFormat);
           } else {
             setProgress(0);
-            alert("썸네일 생성에 실패했습니다.");
+            Swal.fire({
+              title: 'Oops...',
+              text: "썸네일 생성에 실패했습니다..",
+              imageUrl: Error,
+              imageWidth: 200,
+              imageHeight: 176,
+              background: "#fff url(../Main/background.svg)",
+            })
           }
         });
       } else {
         if (response.data.err === "not allowed format") {
-          alert("파일 확장자를 확인해주세요.");
+          Swal.fire({
+            title: 'Oops...',
+            text: "파일 확장자를 확인해주세요!",
+            imageUrl: Error,
+            imageWidth: 200,
+            imageHeight: 176,
+            background: "#fff url(../Main/background.svg)",
+          })
         } else {
-          alert("파일을 저장하는데 실패했습니다.");
+          Swal.fire({
+            title: 'Oops...',
+            text: "파일을 저장하지 못했습니다.",
+            imageUrl: Error,
+            imageWidth: 200,
+            imageHeight: 176,
+            background: "#fff url(../Main/background.svg)",
+          })
         }
         setProgress(0);
       }
@@ -139,7 +172,11 @@ function UploadProductPage(props) {
     event.preventDefault();
 
     if (!Title || !Description || !Price || !Genre || Images.length === 0) {
-      return alert(" 모든 값을 넣어주셔야 합니다.");
+      Swal.fire(
+        'Data?',
+        '모든 값을 넣어주셔야 합니다.',
+        'question'
+      )
     }
 
     //서버에 채운 값들을 request로 보낸다.
@@ -165,10 +202,24 @@ function UploadProductPage(props) {
 
     Axios.post("/api/product", body).then((response) => {
       if (response.data.success) {
-        alert("상품 업로드에 성공 했습니다.");
+        Swal.fire({
+          title: 'Success!',
+          text: "상품 업로드에 성공했습니다.",
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176,
+          background: "#fff url(../Main/background.svg)",
+        })
         props.history.push("/contents");
       } else {
-        alert("상품 업로드에 실패 했습니다.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: "상품 업로드에 실패했습니다.",
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176,
+          background: "#fff url(../Main/background.svg)",
+        })
       }
     });
   };
@@ -179,6 +230,7 @@ function UploadProductPage(props) {
     }
 
     return (
+
       <div
         style={{ width: "100vw", height: "90vh", margin: "auto" }}
         className="upload-body"
@@ -197,6 +249,10 @@ function UploadProductPage(props) {
   }
 
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div style={{ width: "auto", minHeight: "90vh", margin: "auto" }} id="body">
       <div
         style={{ width: "90%", margin: "auto", paddingTop: "50px" }}
@@ -364,6 +420,7 @@ function UploadProductPage(props) {
           </Col>
         </Form>
       </div>
+    </div>
     </div>
   );
 }

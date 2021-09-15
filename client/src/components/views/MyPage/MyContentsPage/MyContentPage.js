@@ -4,6 +4,10 @@ import {Col, Checkbox} from'antd';
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import './MyContentsPage.css';
 import Swal from "sweetalert2";
+import Error from '../../../utils/Error.svg';
+import Cry from '../../../utils/Cry.svg';
+import Success from '../../../utils/Success.svg';
+import mobile from '../../Main/mobile.png';
 
 function MyContentsPage(props) {
     const [UserId, setUserId] = useState("")
@@ -37,7 +41,15 @@ function MyContentsPage(props) {
             if (response.data.success) {
                 setProducts(response.data.productInfo);
             } else {
-                alert("상품들을 가져오는데 실패 했습니다.");
+                Swal.fire({
+                    title: 'Oops...!',
+                    text: '상품을 가져오는데 실패했습니다.',
+                    imageUrl: Error,
+                    imageWidth: 200,
+                    imageHeight: 176,
+                    imageAlt: 'Custom Image',
+                    background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
+                  })
             }
         });
     };
@@ -48,7 +60,7 @@ function MyContentsPage(props) {
         Swal.fire({
             title: '정말 삭제하시겠습니까?',
             text: '삭제된 영상은 판매가 중지됩니다.',
-            icon: 'warning',
+            icon: Cry,
             showCancelButton: 'true',
             confirmButtonColor: '#ffcb39',
             cancelButtonColor: '#333333',
@@ -62,10 +74,20 @@ function MyContentsPage(props) {
                          Swal.fire({
                              title: 'Success',
                              text: '삭제되었습니다!',
-                             icon: 'success'
+                             imageUrl: Success,
+                             imageWidth: 200,
+                             imageHeight: 176
                           })
                      } else {
-                         alert("상품을 삭제할 수 없습니다.")
+                        Swal.fire({
+                            title: 'Oops...!',
+                            text: '상품을 삭제할 수 없습니다.',
+                            imageUrl: Error,
+                            imageWidth: 200,
+                            imageHeight: 176,
+                            imageAlt: 'Custom Image',
+                            background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
+                          })
                      }
                  });
             }
@@ -105,72 +127,84 @@ function MyContentsPage(props) {
     }
 
     return (
-    <div id="body" style={{paddingTop: '50px', maxWidth: '100vw', margin: 'auto'}}>
-        <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
-            <VerticalMenu/>
-        </Col>
-        <Col style={{float: 'right', width: '1150px'}}>
-            <div className="mycontents-container">
-                <div className="mypage-bloc-tabs">
-                    <button className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
-                    onClick={() => toggleTab(1)}>
-                        업로드 내역
-                    </button>
+    <div>
+        <div id="small-body">
+            <img src={mobile} className="mobile"/>
+        </div>
+        <div id="body" style={{paddingTop: '50px', maxWidth: '100vw', margin: 'auto'}}>
+            <Col style={{float: 'left', marginLeft: '84px', marginRight: 0}}>
+                <VerticalMenu/>
+            </Col>
+            <Col style={{float: 'right', width: '1150px'}}>
+                <div className="mycontents-container">
+                    <div className="mypage-bloc-tabs">
+                        <button className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
+                        onClick={() => toggleTab(1)}>
+                            월별 정산
+                        </button>
+
+                        <button className={toggleState === 2 ? "mypage-tabs active-tabs" : "mypage-tabs"}
+                        onClick={() => toggleTab(2)}>
+                            업로드 내역
+                        </button>
                     {/* <SearchFeature/> */}
-                </div>
-                <div className="product-list">
-                    <table style={{width: '900px', margin: 'auto'}}>
-                        {props.user.userData && Products.map((product, index) => (
-                        <tbody key={index} style={{width: '900px', margin: 'auto'}}>
-                            <tr className="product-row" style={{height: '120px'}}>
-                            <td>
-                                {/* 썸네일 */}
-                                <img
-                                    style={{ width: "142px", height: "80px", borderRadius: "8px" }}
-                                    alt="product"
-                                    src={product.s3thumbnail}
-                                />
-                            </td>
-                            <td>
-                                {/* 상품 제목 */}
-                                <div className="product-title">{product.title}</div>
-                                {/* 상품 가격 */}
-                                <div className="product-price">{`${product.price.toLocaleString("ko-KR")}원`}</div>
-                            </td>
-                            <td>
-                                {/* 총 판매 금액 */}
-                                <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
-                            </td>
-                            <td>
-                                <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
-                                <br/>
-                                <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>
-                            </td>
-                            </tr>
-                            <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>
-                                <td colSpan="4">
-                                    <div className="product-info">
-                                        <span>▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역</span>
-                                        <div className='close'>
-                                            <div>
-                                                <span style={{paddingRight: '111px'}}>판매 횟수</span>
-                                                <span>{`${product.sold}회`}</span>
-                                            </div>
-                                            <div>
-                                                <span style={{paddingRight: '111px'}}>정산 금액</span>
-                                                <span>{`${product.sold ? deductFee(product.sold * product.price).toLocaleString("ko-KR") : 0}원 (수수료 ${Fee}%)`}</span>
+                    </div>
+                    <div className={toggleState === 1 ? "content  active-content" : "content"} id="product-list">
+                        {/* 월별 정산 */}
+                    </div>
+                    <div className={toggleState === 2 ? "content  active-content" : "content"} id="product-list">
+                        <table style={{width: '900px', margin: 'auto'}}>
+                            {props.user.userData && Products.map((product, index) => (
+                            <tbody key={index} style={{width: '900px', margin: 'auto'}}>
+                                <tr className="product-row" style={{height: '120px'}}>
+                                <td>
+                                    {/* 썸네일 */}
+                                    <img
+                                        style={{ width: "142px", height: "80px", borderRadius: "8px" }}
+                                        alt="product"
+                                        src={product.s3thumbnail}
+                                    />
+                                </td>
+                                <td>
+                                    {/* 상품 제목 */}
+                                    <div className="product-title">{product.title}</div>
+                                    {/* 상품 가격 */}
+                                    <div className="product-price">{`${product.price.toLocaleString("ko-KR")}원`}</div>
+                                </td>
+                                <td>
+                                    {/* 총 판매 금액 */}
+                                    <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
+                                </td>
+                                <td>
+                                    <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
+                                    <br/>
+                                    <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>
+                                </td>
+                                </tr>
+                                <tr className="toggle-box" onClick={e => { e.preventDefault(); handleToggle(e)}}>
+                                    <td colSpan="4">
+                                        <div className="product-info">
+                                            <span>▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역</span>
+                                            <div className='close'>
+                                                <div>
+                                                    <span style={{paddingRight: '111px'}}>판매 횟수</span>
+                                                    <span>{`${product.sold}회`}</span>
+                                                </div>
+                                                <div>
+                                                    <span style={{paddingRight: '111px'}}>정산 금액</span>
+                                                    <span>{`${product.sold ? deductFee(product.sold * product.price).toLocaleString("ko-KR") : 0}원 (수수료 ${Fee}%)`}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    ))}
-                </table>
-
-            </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        ))}
+                    </table>
+                </div>
             </div>
             </Col>
+        </div>
         </div>
     )
 }

@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import SearchFeature from '../LandingPage/Sections/SearchFeature';
 import './Main.css';
 import ufo from '../LoginPage/sections/ufo.svg';
+import mobile from './mobile.png';
 
 function MainPage(){
     
@@ -17,9 +18,12 @@ function MainPage(){
     }
     
     return(
+        <div>
+        <div id="small-body">
+        <img src={mobile} className="mobile"/>
+        </div>
         <div id="body" style={{width: '100vw'}}>
             <Helmet>
-                <title>BRINGCON</title>
                 < meta name="google-site-verification" content="7n5xoSLEUqYqdIAzcqRHF0y5c4Q-A-FFJC4_BsDC9TQ" /> 
             </Helmet>
             <div className="main-info">
@@ -31,6 +35,7 @@ function MainPage(){
                 <img src={ufo} className="ufo"/>
             </div>
             { Entered === 1 && <Redirect to={{ pathname: '/contents', search: `?q=${newSearchTerm}`}}/> }
+        </div>
         </div>
     )
 }

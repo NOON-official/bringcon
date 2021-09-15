@@ -6,10 +6,14 @@ import zzerby from '../LoginPage/sections/zzerby.svg';
 import planet from '../LoginPage/sections/planet.svg';
 import ufo from '../LoginPage/sections/ufo.svg';
 import './sections/Login.css';
+import mobile from '../Main/mobile.png';
 
 function LoginPage() {
   return (
-    //네브바가 내려와서 위에 문구가 안 보임. 수정필요
+    <div>
+    <div id="small-body">
+        <img src={mobile} className="mobile"/>
+    </div>
     <div id="body" style={{paddingTop: '100px', width: 'auto'}}>
       <div className="decorations">
         <img src={ufo} className="ufo"/>
@@ -28,6 +32,7 @@ function LoginPage() {
       <div className="decorations">
         <img src={planet} className="planet"/>
       </div>
+    </div>
     </div>
   );
 }

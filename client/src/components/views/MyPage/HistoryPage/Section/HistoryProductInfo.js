@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Checkbox } from "antd";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../../../_actions/user_actions";
+import { withRouter } from "react-router-dom";
+import Error from '../../../../utils/Error.svg';
+import Success from '../../../../utils/Success.svg';
 
 function HistoryProductInfo(props) {
+  const dispatch = useDispatch();
   const [CheckedList, setCheckedList] = useState(props.order.ProductInfo);
   const [checkAll, setCheckAll] = useState(true);
+  const [toggleState, setToggleState] = useState(1);
   const crypto = require("crypto");
 
   console.log("props.order.ProducrInfo", props.order.ProductInfo);
@@ -16,33 +24,139 @@ function HistoryProductInfo(props) {
     setCheckedList(props.order.ProductInfo);
   }, [props.order.ProductInfo]);
 
+  const clickHandler = (productId) => {
+    //필요한 정보를 Cart 필드에다가 넣어 준다.
+    dispatch(addToCart(productId)).then((response) => {
+      //로그인하지 않는 사용자 로그인하게 하기.
+
+      if (response.payload.success == false) {
+        Swal.fire({
+          title: "Oops...!",
+          text: response.payload.message,
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176,
+          imageAlt: "Custom image",
+          showCancelButton: true,
+          confirmButtonText: "목록 보기",
+          cancelButtonText: "계속 탐색하기",
+          background:
+            "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T044712Z&X-Amz-Expires=86400&X-Amz-Signature=6664bf9459c6e1d4115105918d83a1312ecb9ac22d9e751bc8c2b4b63321ee20&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            props.history.push("/user/cart");
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+          }
+        });
+      } else if (response.payload.isAuth == false) {
+        Swal.fire({
+          title: "Oops...!",
+          text: "로그인해야 카트에 담을 수 있습니다.",
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176,
+          imageAlt: "Custom image",
+          confirmButtonText: "로그인하기",
+          background:
+            "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T044712Z&X-Amz-Expires=86400&X-Amz-Signature=6664bf9459c6e1d4115105918d83a1312ecb9ac22d9e751bc8c2b4b63321ee20&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            props.history.push("/login");
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Success!",
+          text: "우주 여행지 목록을 추가하였습니다. 여행 목록을 점검하러 가시겠어요?",
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176,
+          imageAlt: "Custom image",
+          showCancelButton: true,
+          confirmButtonText: "목록 보기",
+          cancelButtonText: "계속 탐색하기",
+          background:
+            "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210830%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210830T044712Z&X-Amz-Expires=86400&X-Amz-Signature=6664bf9459c6e1d4115105918d83a1312ecb9ac22d9e751bc8c2b4b63321ee20&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            props.history.push("/user/cart");
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+          }
+        });
+      }
+    });
+  };
+
   const handleDownloadClick = (product) => {
+    const body = {
+      product_id: product.id,
+      userId: props.userId,
+      orderInfo: props.order.OrderInfo,
+    };
+
     if (product.download >= 1) {
-      alert("다운로드는 1회만 가능합니다.");
+      return Swal.fire({
+        title: 'Oops...!',
+        text: "다운로드는 1회만 가능합니다. 다시 다운로드하고 싶다면 관리자에게 문의하세요.",
+        imageUrl: Error,
+        imageWidth: 200,
+        imageHeight: 176
+      });
     }
-    const body = { product_id: product.id, userId: props.userId };
     //다운로드 할 product id를 백엔드로 보내줌
     axios.post("/api/product/download", body).then((response) => {
       if (response.data.success) {
         window.location.href = response.data.url;
-        alert("파일이 다운로드되었습니다.");
+        Swal.fire({
+          title: 'Success!',
+          text: "파일이 다운로드되었습니다.",
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176
+        });
       } else {
-        alert("다운로드에 실패하였습니다.");
+        Swal.fire({
+          title: 'Oops...!',
+          text: "다운로드에 실패했습니다.",
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176
+        });
       }
     });
   };
 
   const handleDownloadClickSeleted = (CheckedList) => {
     CheckedList.map((product, index) => {
-      const data = { product_id: product.id };
-      //다운로드 할 product id를 백엔드로 보내줌
-      axios.post("/api/product/download", data).then((response) => {
-        if (response.data.success) {
-          window.location.href = response.data.url;
-        } else {
-          alert("다운로드에 실패하였습니다.");
-        }
-      });
+      if (product.download >= 1) {
+        Swal.fire({
+          title: 'Oops...!',
+          text: "다운로드는 1회만 가능합니다.",
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176
+        });
+      } else {
+        const body = {
+          product_id: product.id,
+          userId: props.userId,
+          orderInfo: props.order.OrderInfo,
+        };
+        //다운로드 할 product id를 백엔드로 보내줌
+        axios.post("/api/product/download", body).then((response) => {
+          if (response.data.success) {
+            window.location.href = response.data.url;
+          } else {
+            Swal.fire({
+              title: 'Oops...!',
+              text: "다운로드에 실패했습니다.",
+              imageUrl: Error,
+              imageWidth: 200,
+              imageHeight: 176
+            });
+          }
+        });
+      }
     });
   };
 
@@ -153,7 +267,15 @@ function HistoryProductInfo(props) {
                   다운로드
                 </button>
                 <br />
-                <button className="rebuy-button">재구매</button>
+                <button
+                  className="rebuy-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    clickHandler(product.id);
+                  }}
+                >
+                  재구매
+                </button>
               </td>
             </tr>
           </tbody>
@@ -163,4 +285,4 @@ function HistoryProductInfo(props) {
   );
 }
 
-export default HistoryProductInfo;
+export default withRouter(HistoryProductInfo);

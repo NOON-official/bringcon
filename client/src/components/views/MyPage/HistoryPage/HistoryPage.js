@@ -6,9 +6,14 @@ import HistoryInfo from "./Section/HistotyInfo";
 // import {CaretRightOutlined} from '@ant-design/icons';
 // import HistorySearchFeature from './HistorySearchFeature';
 import "./HistoryPage.css";
+import mobile from '../../Main/mobile.png';
 
 function HistoryPage(props) {
   return (
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+      </div>
     <div
       id="body"
       style={{ paddingTop: "50px", maxWidth: "100vw", margin: "auto" }}
@@ -17,6 +22,7 @@ function HistoryPage(props) {
         <VerticalMenu />
       </Col>
       <HistoryInfo user={props.user} />
+    </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, Input, Comment, Avatar } from 'antd';
 import {useSelector} from 'react-redux';
 import Swal from 'sweetalert2';
+import Error from '../../../utils/Error.svg';
 import '../css/CommentTab.css';
 
 const TextArea = Input;
@@ -33,11 +34,13 @@ function CommentTab(props) {
                     setcommentValue("")
                     props.refreshFunction(response.data.result)
                 } else {
-                    Swal.fire (
-                        'Oops...',
-                        '후기를 저장하지 못했습니다.',
-                        'error'
-                    )
+                    Swal.fire ({
+                        title: 'Oops...',
+                        text: '후기를 저장하지 못했습니다.',
+                        imageUrl: Error,
+                        imageWidth: 200,
+                        imageHeight: 176
+                    });
                 }
             })
     }

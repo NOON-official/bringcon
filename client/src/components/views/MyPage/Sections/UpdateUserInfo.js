@@ -4,6 +4,8 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import Swal from 'sweetalert2';
+import Success from '../../../utils/Success.svg';
+import Error from '../../../utils/Success.svg';
 import './UserInfo.css';
 import mobile from '../../Main/mobile.png';
 
@@ -38,18 +40,22 @@ function UpdateUserInfo(props) {
 
     Axios.post("/api/users/info", body).then((response) => {
       if (response.data.success) {
-        Swal.fire(
-          'Success!',
-          '업데이트에 성공했습니다.',
-          'success'
-        );
+        Swal.fire({
+          title: 'Success!',
+          text: '결제가 완료되었습니다',
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176
+        })
         props.history.goBack();
       } else {
-        Swal.fire(
-          'Oops...',
-          '업데이트에 실패했습니다.',
-          'error'
-        );
+        Swal.fire({
+          title: 'Oops...!',
+          text: '업데이트에 실패했습니다.',
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176
+        });
       }
     });
   };

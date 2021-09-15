@@ -60,7 +60,7 @@ function MyContentsPage(props) {
         Swal.fire({
             title: '정말 삭제하시겠습니까?',
             text: '삭제된 영상은 판매가 중지됩니다.',
-            icon: Cry,
+            imageUrl: Cry,
             showCancelButton: 'true',
             confirmButtonColor: '#ffcb39',
             cancelButtonColor: '#333333',
@@ -72,7 +72,7 @@ function MyContentsPage(props) {
                      if (response.data.success) {
                         setDeleted(true)
                          Swal.fire({
-                             title: 'Success',
+                             title: 'Success!',
                              text: '삭제되었습니다!',
                              imageUrl: Success,
                              imageWidth: 200,

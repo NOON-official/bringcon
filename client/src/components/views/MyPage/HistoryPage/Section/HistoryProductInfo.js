@@ -12,6 +12,7 @@ function HistoryProductInfo(props) {
   const dispatch = useDispatch();
   const [CheckedList, setCheckedList] = useState(props.order.ProductInfo);
   const [checkAll, setCheckAll] = useState(true);
+  const [toggleState, setToggleState] = useState(1);
   const crypto = require("crypto");
 
   console.log("props.order.ProducrInfo", props.order.ProductInfo);

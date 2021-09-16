@@ -4,6 +4,8 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import VerticalMenu from '../VerticalMenu/VerticalMenu';
 import Swal from 'sweetalert2';
+import Success from '../../../utils/Success.svg';
+import Error from '../../../utils/Error.svg';
 import mobile from '../../Main/mobile.png';
 
 const { TextArea } = Input;
@@ -85,18 +87,22 @@ function AddAccount(props) {
 
     Axios.post("/api/users/account", body).then((response) => {
       if (response.data.success) {
-        Swal.fire(
-          'Success!',
-          '계좌 업로드에 성공했습니다!',
-          'success'
-        );
+        Swal.fire({
+          title: 'Success!',
+          text: '계좌 업로드에 성공했습니다!',
+          imageUrl: Success,
+          imageWidth: 200,
+          imageHeight: 176
+        });
         props.history.push("/product/upload");
       } else {
-        Swal.fire(
-          'Oops...',
-          '계좌 업로드에 실패했습니다.',
-          'error'
-        );
+        Swal.fire({
+          title: 'Oops...!',
+          text: '계좌 업로드에 실패했습니다.',
+          imageUrl: Error,
+          imageWidth: 200,
+          imageHeight: 176
+        });
       }
     });
   };

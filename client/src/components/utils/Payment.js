@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import jQuery from 'jquery';
 import axios from "axios";
 import Swal from 'sweetalert2';
-import './Payment.css';
+import Error from '../utils/Error.svg';
+import Success from '../utils/Success.svg';
 import queryString from 'query-string';
-  
+import './Payment.css';
+
 function Payment(props) {
   //모바일 결제 성공시 처리 부분
   const { location } = props.history;
@@ -89,11 +91,13 @@ function Payment(props) {
                 setBuyerEmail(response.data.buyerEmail)
                 setSaved(true)
             } else {
-                Swal.fire(
-                  'Oops...',
-                  '주문 정보를 저장하는 데 실패했습니다.',
-                  'error'
-                )
+                Swal.fire({
+                  title: 'Oops...',
+                  text: '주문 정보를 저장하는 데 실패했습니다.',
+                  imageUrl: Error,
+                  imageWidth: 200,
+                  imageHeight: 176
+                });
             }
         })
   }
@@ -107,11 +111,13 @@ function Payment(props) {
   }
 
   function onSuccess (data) {
-    Swal.fire(
-      'Success!',
-      '결제가 완료되었습니다',
-      'success'
-    )
+    Swal.fire({
+      title: 'Success!',
+      text: '결제가 완료되었습니다',
+      imageUrl: Success,
+      imageWidth: 200,
+      imageHeight: 176
+    })
     props.onSuccess(data)
   }
 
@@ -148,12 +154,13 @@ function Payment(props) {
       })
 
     } else {
-      Swal.fire(
-        'Oops...',
-        '결제에 실패했습니다',
-        'error'
-      )
-      // alert(`결제 실패: ${rsp.error_msg}`);
+      Swal.fire({
+        title: 'Oops...',
+        text: '결제에 실패했습니다',
+        imageUrl: Error,
+        imageWidth: 200,
+        imageHeight: 176
+      })
     }
   }
 

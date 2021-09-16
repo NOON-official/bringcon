@@ -10,6 +10,7 @@ import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
 import Swal from 'sweetalert2';
 import Error from '../../utils/Error.svg';
+import mobile from '../Main/mobile.png';
 
 const Genres = [
   { key: 0, value: "All" },
@@ -229,26 +230,30 @@ function HashTagPage(props) {
   };
 
   return (
-    <div
+    <div>
+      <div id="small-body">
+        <img src={mobile} className="mobile"/>
+      </div>
+      <div
       id="body"
       style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
-    >
-      {/* Search */}
-      <div
-        style={{
+      >
+        {/* Search */}
+        <div
+          style={{
           display: "flex",
           justifyContent: "center",
           paddingBottom: "1em",
           margin: "1em auto",
           backgroundColor: "#1C1C1C",
-        }}
-      >
-        <SearchFeature
-          placeholder={`#${Tag}`}
-          refreshFunction={updateSearchTerm}
-        />
-        <br />
-      </div>
+          }}
+        >
+          <SearchFeature
+            placeholder={`#${Tag}`}
+            refreshFunction={updateSearchTerm}
+          />
+          <br />
+        </div>
       <div>
         <div
           style={{
@@ -309,6 +314,7 @@ function HashTagPage(props) {
           <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
         </div>
       )}
+    </div>
     </div>
   );
 }

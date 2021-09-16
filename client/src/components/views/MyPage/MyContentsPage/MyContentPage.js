@@ -31,7 +31,9 @@ function MyContentsPage(props) {
         }
     }, [UserId, Deleted]);
 
-    console.log(props.user.userData && Revenue['product'])
+    const isEmptyObject = (param) => {
+        return Object.keys(param).length === 0 && param.constructor === Object;
+    }
 
     const getRevenue = () => {
         axios.get(`/api/users/revenue_by_userId?userId=${UserId}`)
@@ -130,11 +132,6 @@ function MyContentsPage(props) {
         }
     }
 
-    const isEmptyObject = (param) => {
-        return Object.keys(param).length === 0 && param.constructor === Object;
-      }
-    console.log(isEmptyObject(Revenue))
-
     return (
     <div>
         <div id="small-body">
@@ -163,10 +160,14 @@ function MyContentsPage(props) {
                     </div>
                     <div className={toggleState === 2 ? "content  active-content" : "content"} id="product-list">
                         <table style={{width: '900px', margin: 'auto'}}>
-                            {props.user.userData && !isEmptyObject(Revenue) && Revenue['product'].map((product, index) => (
+                            {props.user.userData &&
+                            Revenue === null ?
+                            <div style={{color: "#ffcb39", fontSize: "20px"}}>판매중인 영상이 없습니다.</div>
+                            :
+                            !isEmptyObject(Revenue) && Revenue['product'].map((product, index) => (
                             <tbody key={index} style={{width: '900px', margin: 'auto'}}>
                                 <tr className="product-row" style={{height: '120px'}}>
-                                <td>
+                                <td style={{ width: "215px"}}>
                                     {/* 썸네일 */}
                                     <img
                                         style={{ width: "142px", height: "80px", borderRadius: "8px" }}
@@ -174,17 +175,17 @@ function MyContentsPage(props) {
                                         src={product.id.s3thumbnail}
                                     />
                                 </td>
-                                <td>
+                                <td style={{ width: "275px"}}>
                                     {/* 상품 제목 */}
                                     <div className="product-title">{product.id.title}</div>
                                     {/* 상품 가격 */}
                                     <div className="product-price">{`${product.id.price.toLocaleString("ko-KR")}원`}</div>
                                 </td>
-                                <td>
+                                <td style={{ width: "230px", paddingLeft: "50px"}}>
                                     {/* 총 판매 금액 */}
                                     <div className="product-total-price">{`총 판매 금액 : ${product.id.sold ? (product.id.sold * product.id.price).toLocaleString("ko-KR") : 0}원`}</div>
                                 </td>
-                                <td>
+                                <td style={{ width: "180px"}}>
                                     <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
                                     <br/>
                                     <button className="edit-button" onClick={e => { e.preventDefault(); handleEdit(product._id)} }>수정</button>

@@ -196,7 +196,10 @@ function MyContentsPage(props) {
                                             <span>▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역</span>
                                             <div className='close'>
                                                 <div>
-                                                    {product.revenue != undefined && 
+                                                    {product.revenue === undefined 
+                                                    ?
+                                                        <div>{`판매 내역이 없습니다.`}</div>
+                                                    : 
                                                         Object.entries(product.revenue)
                                                         .sort((a, b) => a[0].localeCompare(b[0])) //오름차순 정렬
                                                         .map(([month, value]) => (

@@ -3,6 +3,7 @@ import { Button, Descriptions } from "antd";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../../_actions/user_actions";
 import Swal from 'sweetalert2';
+import Success from '../../../utils/Success.svg';
 import '../css/DetailPage.css';
 
 function ProductInfo(props) {
@@ -11,11 +12,13 @@ function ProductInfo(props) {
   const clickHandler = () => {
     //필요한 정보를 Cart 필드에다가 넣어 준다.
     dispatch(addToCart(props.detail._id));
-    Swal.fire(
-      'Success!',
-      '카트에 상품이 추가되었습니다.',
-      'success'
-    )
+    Swal.fire({
+      title: 'Success!',
+      text: '카트에 상품이 추가되었습니다',
+      imageUrl: Success,
+      imageWidth: 200,
+      imageHeight: 176
+    })
   };
 
   return (

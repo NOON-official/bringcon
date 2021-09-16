@@ -11,8 +11,7 @@ import mobile from '../../Main/mobile.png';
 
 function MyContentsPage(props) {
     const [UserId, setUserId] = useState("")
-    const [Products, setProducts] = useState([]);
-    const [Skip, setSkip] = useState(0);
+    const [Revenue, setRevenue] = useState({})
     const [toggleState, setToggleState] = useState(1);
     const [Fee, setFee] = useState(15)
     const [Deleted, setDeleted] = useState(false)
@@ -24,10 +23,7 @@ function MyContentsPage(props) {
     // UserId 가져온 후 getProducts 작동!
     useEffect(() => {
         if(UserId !== ""){
-            let body = {
-            skip: Skip,
-            };
-            getProducts(body);
+            getRevenue()
         }
 
         if(Deleted === true) {
@@ -35,15 +31,17 @@ function MyContentsPage(props) {
         }
     }, [UserId, Deleted]);
 
-    const getProducts = (body) => {
-        axios.post(`/api/product/products_by_userId?userId=${UserId}`, body)
+    console.log(props.user.userData && Revenue['product'])
+
+    const getRevenue = () => {
+        axios.get(`/api/users/revenue_by_userId?userId=${UserId}`)
         .then((response) => {
             if (response.data.success) {
-                setProducts(response.data.productInfo);
+                setRevenue(response.data.revenue);
             } else {
                 Swal.fire({
                     title: 'Oops...!',
-                    text: '상품을 가져오는데 실패했습니다.',
+                    text: '정산 금액을 조회하는데 실패했습니다.',
                     imageUrl: Error,
                     imageWidth: 200,
                     imageHeight: 176,
@@ -60,7 +58,7 @@ function MyContentsPage(props) {
         Swal.fire({
             title: '정말 삭제하시겠습니까?',
             text: '삭제된 영상은 판매가 중지됩니다.',
-            icon: Cry,
+            imageUrl: Cry,
             showCancelButton: 'true',
             confirmButtonColor: '#ffcb39',
             cancelButtonColor: '#333333',
@@ -72,7 +70,7 @@ function MyContentsPage(props) {
                      if (response.data.success) {
                         setDeleted(true)
                          Swal.fire({
-                             title: 'Success',
+                             title: 'Success!',
                              text: '삭제되었습니다!',
                              imageUrl: Success,
                              imageWidth: 200,
@@ -104,8 +102,14 @@ function MyContentsPage(props) {
     }
     
     // 수수료 공제
-    const deductFee = (price) => {
+    const getDeductedFee = (price) => {
         let result = Math.ceil(price - ( price * (Fee / 100) )); // 반올림
+        result = result.toLocaleString("ko-KR")
+        return result
+    }
+
+    const getMonthOfPurchase = (date) => {
+        let result =  date.replace('_', '.')
         return result
     }
 
@@ -126,6 +130,11 @@ function MyContentsPage(props) {
         }
     }
 
+    const isEmptyObject = (param) => {
+        return Object.keys(param).length === 0 && param.constructor === Object;
+      }
+    console.log(isEmptyObject(Revenue))
+
     return (
     <div>
         <div id="small-body">
@@ -140,19 +149,21 @@ function MyContentsPage(props) {
                     <div className="mypage-bloc-tabs">
                         <button className={toggleState === 1 ? "mypage-tabs active-tabs" : "mypage-tabs"}
                         onClick={() => toggleTab(1)}>
-                            업로드 내역
+                            월별 정산
                         </button>
 
                         <button className={toggleState === 2 ? "mypage-tabs active-tabs" : "mypage-tabs"}
                         onClick={() => toggleTab(2)}>
-                            월별 정산
+                            업로드 내역
                         </button>
                     {/* <SearchFeature/> */}
                     </div>
-                    {/* className="product-list" */}
                     <div className={toggleState === 1 ? "content  active-content" : "content"} id="product-list">
+                        {/* 월별 정산 */}
+                    </div>
+                    <div className={toggleState === 2 ? "content  active-content" : "content"} id="product-list">
                         <table style={{width: '900px', margin: 'auto'}}>
-                            {props.user.userData && Products.map((product, index) => (
+                            {props.user.userData && !isEmptyObject(Revenue) && Revenue['product'].map((product, index) => (
                             <tbody key={index} style={{width: '900px', margin: 'auto'}}>
                                 <tr className="product-row" style={{height: '120px'}}>
                                 <td>
@@ -160,18 +171,18 @@ function MyContentsPage(props) {
                                     <img
                                         style={{ width: "142px", height: "80px", borderRadius: "8px" }}
                                         alt="product"
-                                        src={product.s3thumbnail}
+                                        src={product.id.s3thumbnail}
                                     />
                                 </td>
                                 <td>
                                     {/* 상품 제목 */}
-                                    <div className="product-title">{product.title}</div>
+                                    <div className="product-title">{product.id.title}</div>
                                     {/* 상품 가격 */}
-                                    <div className="product-price">{`${product.price.toLocaleString("ko-KR")}원`}</div>
+                                    <div className="product-price">{`${product.id.price.toLocaleString("ko-KR")}원`}</div>
                                 </td>
                                 <td>
                                     {/* 총 판매 금액 */}
-                                    <div className="product-total-price">{`총 판매 금액 : ${product.sold ? (product.sold * product.price).toLocaleString("ko-KR") : 0}원`}</div>
+                                    <div className="product-total-price">{`총 판매 금액 : ${product.id.sold ? (product.id.sold * product.id.price).toLocaleString("ko-KR") : 0}원`}</div>
                                 </td>
                                 <td>
                                     <button className="delete-button" onClick={e => { e.preventDefault(); handleDelete(product._id)} }>삭제</button>
@@ -185,12 +196,32 @@ function MyContentsPage(props) {
                                             <span>▶&nbsp;&nbsp;&nbsp;&nbsp;판매 내역</span>
                                             <div className='close'>
                                                 <div>
-                                                    <span style={{paddingRight: '111px'}}>판매 횟수</span>
-                                                    <span>{`${product.sold}회`}</span>
-                                                </div>
-                                                <div>
-                                                    <span style={{paddingRight: '111px'}}>정산 금액</span>
-                                                    <span>{`${product.sold ? deductFee(product.sold * product.price).toLocaleString("ko-KR") : 0}원 (수수료 ${Fee}%)`}</span>
+                                                    {product.revenue != undefined && 
+                                                        Object.entries(product.revenue)
+                                                        .sort((a, b) => a[0].localeCompare(b[0])) //오름차순 정렬
+                                                        .map(([month, value]) => (
+                                                            <tr className="revenue-info">
+                                                                {/* 판매 연월 */}
+                                                                <td style={{width: '150px'}}>
+                                                                    <div>{getMonthOfPurchase(month)}</div>
+                                                                </td>
+                                                                <td style={{width: '215px'}}>
+                                                                    <div>
+                                                                        <div>{`판매 횟수`}</div>
+                                                                        <div>{`정산 금액`}</div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        {/* 판매 횟수 */}
+                                                                        <div>{`${value}회`}</div>
+                                                                        {/* 정산 금액 */}
+                                                                        <div>{`${getDeductedFee(value * product.price)}원 (수수료 ${Fee}%)`}</div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -200,13 +231,10 @@ function MyContentsPage(props) {
                         ))}
                     </table>
                 </div>
-                <div className={toggleState === 2 ? "content  active-content" : "content"} id="product-list">
-                    
-                </div>
             </div>
             </Col>
         </div>
-        </div>
+    </div>
     )
 }
 

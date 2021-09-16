@@ -4,6 +4,7 @@ const multer = require("multer");
 const aws = require("aws-sdk");
 const ffmpeg = require("fluent-ffmpeg");
 const { Product } = require("../models/Product");
+const { Revenue } = require("../models/Revenue");
 const path = require("path");
 const fs = require("fs");
 const config = require("../config/s3.json");
@@ -740,10 +741,30 @@ router.post("/permission", (req, res) => {
       },
     },
     { new: true },
-    (err, doc) => {
-      if (err) return res.json({ success: false, err });
-
-      res.status(200).json({ success: true });
+    (err, product) => {
+      if(err) {
+        return res.json({ success: false, err })
+      } else {
+        Revenue.findOneAndUpdate(
+          { userId: product.writer },
+          {
+            $push: { product: {
+              id: product._id,
+              title: product.title,
+              price: product.price,
+              revenue: {}
+            }},
+          },
+          { upsert: true },
+          (err, revenue) => {
+            if(err) {
+              return res.json({ success: false, err })
+            } else {
+              res.status(200).json({ success: true });
+            }
+          }
+        );
+      }
     }
   );
 });

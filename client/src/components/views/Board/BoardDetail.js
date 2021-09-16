@@ -45,7 +45,7 @@ class BoardDetail extends Component {
             if (result.value) {
                 axios.post("/api/board/delete", send_param)
                 Swal.fire({
-                    title: 'Success',
+                    title: 'Success!',
                     text: '삭제되었습니다!',
                     imageUrl: Success,
                     imageWidth: 200,

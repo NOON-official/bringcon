@@ -6,10 +6,21 @@ const revenueSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    product: {
-        type: Array,
-        default: []
-    }
+    product: [{
+        id: {
+            type: Schema.Types.ObjectId,
+            ref: "Product",
+        },
+        title: {
+            type: String
+        },
+        price: {
+            type: Number
+        },
+        revenue: {
+            type: Object
+        },
+    }]
 }, { timestamps: true, versionKey: false })
 
 const Revenue = mongoose.model('Revenue', revenueSchema);

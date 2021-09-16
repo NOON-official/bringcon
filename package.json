@@ -30,6 +30,7 @@
     "express": "^4.17.1",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
+    "greenlock-express": "^4.0.3",
     "jquery": "^3.6.0",
     "jquery.cookie": "^1.4.1",
     "jsonwebtoken": "^8.5.1",

@@ -73,35 +73,39 @@
     display: none;
 }
 
-@media screen and (max-width: 768px){
+.swal2-popup.swal2-modal.swal2-show{
+    background-color: #fff !important;
+    background-image: url('./background.svg') !important;
+}
+
+.swal2-confirm.swal2-styled{
+    background-color: #ffcb39 !important;
+}
+
+@media screen and (max-width: 1024px){
     nav{
         background-color:#1C1C1C;
     }
 
+    .ant-menu.ant-menu-light.ant-menu-root.ant-menu-horizontal{
+        display:none;
+    }
+
     #body{
-      display:none;
+      display: none;
     }
 
     #small-body{
         display:block;
-        background-image: url('./mobile.png');
         width:100vw;
         height: 100vh;
         background-color: #1C1C1C;
     }
     .mobile{
-        max-width: 360px;
+        max-width: 80%;
     }
     .ant-btn.menu__mobile-button.ant-btn-primary{
         display:none !important;
     }
   }
   
-  .swal2-popup.swal2-modal.swal2-show{
-      background-color: #fff !important;
-      background-image: url('./background.svg') !important;
-  }
-
-  .swal2-confirm.swal2-styled{
-      background-color: #ffcb39 !important;
-  }

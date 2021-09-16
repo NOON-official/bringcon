@@ -378,4 +378,16 @@ router.post("/info", (req, res) => {
   );
 });
 
+router.get("/revenue_by_userId", (req, res) => {
+  let userId = req.query.userId;
+  Revenue.findOne({ userId: userId })
+  .populate('product.id')
+  .then((revenue) => {
+    res.status(200).json({ success: true, revenue: revenue })
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+});
+
 module.exports = router;

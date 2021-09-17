@@ -132,6 +132,129 @@ function MyContentsPage(props) {
         }
     }
 
+    const getThisMonth = (date) => {
+        let newDate = new Date(date);
+        const year = String(newDate.getFullYear());
+        const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      
+        newDate = `${year}_${month}`;
+      
+        return newDate;
+    };
+
+    const getBeforeMonth = (month) => {
+        let year_now = month.split('_')[0]
+        let month_now = month.split('_')[1]
+
+        if(month_now[0] === "0") { // 0_월 인 경우
+            month_now = parseInt(month_now[1])
+        } else {
+            month_now = parseInt(month_now)
+        }
+
+        year_now = parseInt(year_now)
+
+        if(month_now == 1) { // 현재 월이 1월인 경우
+            year_now--
+            month_now = 12
+        } else {
+            month_now--
+        }
+
+        month_now = String(month_now).padStart(2, "0")
+
+        let before_month = `${year_now}_${month_now}`
+      
+        return before_month;
+    };
+
+    const getRevenueOfMonth = (month) => {
+        console.log("month: ", month)
+        console.log("Revenue: ", Revenue)
+        let revenueOfMonth = 0
+
+        Revenue['product'].map((product) => {
+            if(product.revenue && product.revenue.hasOwnProperty(month)) {
+                revenueOfMonth += product.revenue[month] * product.price
+            }
+        })
+
+        revenueOfMonth = revenueOfMonth
+
+        return revenueOfMonth
+    }
+    
+    const getRevenueOfRecentMonth = (month) => {
+        let monthList = [] // 최근 6개월
+        monthList.push(month)
+        
+        let year_now = month.split('_')[0]
+        let month_now = month.split('_')[1]
+
+        if(month_now[0] === "0") { // 0_월 인 경우
+            month_now = parseInt(month_now[1])
+        } else {
+            month_now = parseInt(month_now)
+        }
+
+        year_now = parseInt(year_now)
+
+        for(let i = 0; i < 5; i++) {
+            if(month_now == 1) { // 현재 월이 1월인 경우
+                year_now--
+                month_now = 12
+            } else {
+                month_now--
+            }
+
+            month_now = String(month_now).padStart(2, "0")
+
+            let date_now = `${year_now}_${month_now}`
+            monthList.unshift(date_now) // 배열 맨 앞에 추가
+        }
+        console.log(monthList)
+
+        let revenueList = {}
+
+        monthList.map((month) => {
+            let revenueOfMonth = 0
+            Revenue['product'].map((product) => {
+                if(product.revenue && product.revenue.hasOwnProperty(month)) {
+                    revenueOfMonth += product.revenue[month] * product.price
+                }
+            })
+
+            revenueList[month] = getDeductedFee(revenueOfMonth)
+        })
+
+        return revenueList
+    }
+
+    const getYearMonth = (date) => {
+        let year = date.split('_')[0]
+        let month = date.split('_')[1]
+
+        if(month[0] == "0") {
+            month = month[1]
+        }
+
+        return `${year}년 ${month}월`
+    }
+
+    const getIncresedRevenue = (month) => {
+        let this_month = month
+        let before_month = getBeforeMonth(month)
+
+        let this_revenue = getRevenueOfMonth(this_month)
+        let before_revenue = getRevenueOfMonth(before_month)
+
+        console.log(this_revenue)
+        console.log(before_revenue)
+
+        let result = getDeductedFee(this_revenue - before_revenue)
+        return result
+    }
+
     return (
     <div>
         <div id="small-body">
@@ -157,6 +280,53 @@ function MyContentsPage(props) {
                     </div>
                     <div className={toggleState === 1 ? "content  active-content" : "content"} id="product-list">
                         {/* 월별 정산 */}
+                        {props.user.userData &&
+                            Revenue === null ?
+                            <div style={{color: "#ffcb39", fontSize: "20px"}}>판매중인 영상이 없습니다.</div>
+                            :
+                            !isEmptyObject(Revenue) &&
+                            <div style={{color: "#ffcb39", fontSize: "20px"}}>
+                                <div>이번 달 현재 수익</div>
+                                <div>
+                                    <span>KR &#8361;</span>
+                                    <span>{` ${getDeductedFee(getRevenueOfMonth(getThisMonth(Date.now())))}`}</span>
+                                </div>
+                                <div>
+                                    <div>지난 달</div>
+                                    <div>
+                                        <span>&#8361;</span>
+                                        <span>{` ${getIncresedRevenue(getThisMonth(Date.now()))}`}</span>
+                                    </div>
+                                </div>
+                                <div>최근 6개월 수익 분석</div>
+                                <div>{
+                                Object.entries(getRevenueOfRecentMonth(getThisMonth(Date.now())))
+                                .map(([month, value]) => (
+                                    <tr className="recent-revenue">
+                                        <td>
+                                        <div>{`${getYearMonth(month)}`}</div>
+                                        <div>
+                                            <span>&#8361;</span>
+                                            <span>{` ${value}`}</span>
+                                        </div>
+                                        </td>
+                                        {/* 판매 연월 */}
+                                        {/* <td style={{width: '150px'}}>
+                                            <div>{getMonthOfPurchase(month)}</div>
+                                        </td> */}
+                                        {/* <td>
+                                            <div>
+                                                
+                                                <div>{`${value}회`}</div>
+                                             
+                                                <div>{`${getDeductedFee(value * product.price)}원 (수수료 ${Fee}%)`}</div>
+                                            </div>
+                                        </td> */}
+                                    </tr>
+                                ))
+                                }</div>
+                            </div>
+                        }
                     </div>
                     <div className={toggleState === 2 ? "content  active-content" : "content"} id="product-list">
                         <table style={{width: '900px', margin: 'auto'}}>

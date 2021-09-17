@@ -8,6 +8,7 @@ import Error from '../../../utils/Error.svg';
 import Cry from '../../../utils/Cry.svg';
 import Success from '../../../utils/Success.svg';
 import mobile from '../../Main/mobile.png';
+import { ResponsiveLine } from '@nivo/line'
 
 function MyContentsPage(props) {
     const [UserId, setUserId] = useState("")
@@ -15,7 +16,7 @@ function MyContentsPage(props) {
     const [toggleState, setToggleState] = useState(1);
     const [Fee, setFee] = useState(15)
     const [Deleted, setDeleted] = useState(false)
-
+    
     if(props.user.userData && UserId === "") {
         setUserId(props.user.userData._id)
     }
@@ -169,8 +170,6 @@ function MyContentsPage(props) {
     };
 
     const getRevenueOfMonth = (month) => {
-        console.log("month: ", month)
-        console.log("Revenue: ", Revenue)
         let revenueOfMonth = 0
 
         Revenue['product'].map((product) => {
@@ -212,7 +211,6 @@ function MyContentsPage(props) {
             let date_now = `${year_now}_${month_now}`
             monthList.unshift(date_now) // 배열 맨 앞에 추가
         }
-        console.log(monthList)
 
         let revenueList = {}
 
@@ -248,12 +246,54 @@ function MyContentsPage(props) {
         let this_revenue = getRevenueOfMonth(this_month)
         let before_revenue = getRevenueOfMonth(before_month)
 
-        console.log(this_revenue)
-        console.log(before_revenue)
-
         let result = getDeductedFee(this_revenue - before_revenue)
         return result
     }
+
+    let data = []
+    let subData = []
+
+    if(!isEmptyObject(Revenue)) {
+        Object.entries(getRevenueOfRecentMonth(getThisMonth(Date.now())))
+        .map(([month, value]) => {
+            let xy = {}
+
+            xy["x"] = month.replace('_', '.')
+            xy["y"] = value
+            
+            subData.push(xy)
+        })
+
+        data.push({
+            "id": "revenue",
+            "color": "hsl(74, 70%, 50%)",
+            "data": subData
+        })
+    }
+
+    const MyResponsiveLine = (data) => (
+        <ResponsiveLine
+            data={data}
+            margin={{ top: 100, right: 20, bottom: 100, left: 20 }}
+            xScale={{ type: 'point' }}
+            yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+            enableArea={true}
+            areaOpacity={0.2}
+            axisTop={null}
+            axisRight={null}
+            axisBottom={null}
+            axisLeft={null}
+            enableGridX={false}
+            gridYValues = {5}
+            colors={"#B3E220"}
+            lineWidth={4}
+            pointSize={11}
+            pointColor={"#1C1C1C"}
+            pointBorderWidth={3}
+            pointBorderColor={"#B3E220"}
+            useMesh={true}
+        />
+    )
 
     return (
     <div>
@@ -325,6 +365,10 @@ function MyContentsPage(props) {
                                     </tr>
                                 ))
                                 }</div>
+                                
+                                <div id="graph" style={{height: '350px'}}>
+                                {MyResponsiveLine(data)}
+                                </div>
                             </div>
                         }
                     </div>

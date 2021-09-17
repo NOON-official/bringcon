@@ -252,7 +252,7 @@ function MyContentsPage(props) {
     let data = []
     let subData = []
 
-    if(!isEmptyObject(Revenue)) {
+    if(Revenue !== null && !isEmptyObject(Revenue)) {
         Object.entries(getRevenueOfRecentMonth(getThisMonth(Date.now())))
         .map(([month, value]) => {
             let xy = {}

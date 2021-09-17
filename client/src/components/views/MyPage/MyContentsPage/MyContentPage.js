@@ -86,7 +86,6 @@ function MyContentsPage(props) {
                             imageWidth: 200,
                             imageHeight: 176,
                             imageAlt: 'Custom Image',
-                            background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
                           })
                      }
                  });
@@ -255,6 +254,22 @@ function MyContentsPage(props) {
         return result
     }
 
+    const getGrowth = (month) => {
+        let this_month = month
+        let before_month = getBeforeMonth(month)
+
+        let this_revenue = getRevenueOfMonth(this_month)
+        let before_revenue = getRevenueOfMonth(before_month)
+        
+        if (this_revenue > before_revenue) {
+            return '↑'
+        } else if (this_revenue == before_revenue) {
+            return '-'
+        } else {
+            return '↓'
+    }
+    }
+
     return (
     <div>
         <div id="small-body">
@@ -286,45 +301,34 @@ function MyContentsPage(props) {
                             :
                             !isEmptyObject(Revenue) &&
                             <div style={{color: "#ffcb39", fontSize: "20px"}}>
-                                <div>이번 달 현재 수익</div>
-                                <div>
-                                    <span>KR &#8361;</span>
-                                    <span>{` ${getDeductedFee(getRevenueOfMonth(getThisMonth(Date.now())))}`}</span>
-                                </div>
-                                <div>
-                                    <div>지난 달</div>
-                                    <div>
-                                        <span>&#8361;</span>
-                                        <span>{` ${getIncresedRevenue(getThisMonth(Date.now()))}`}</span>
+                                <div className="this-month"><div style={{marginLeft: '20px'}}>이번 달 현재 수익</div></div>
+                                <div className="this-month-earn">
+                                    <span className="earned">KR &#8361; {` ${getDeductedFee(getRevenueOfMonth(getThisMonth(Date.now())))}`}</span>
+                                    <div className="compare-revenue">
+                                        <div>
+                                            <span className="arrow">{`${getGrowth(getThisMonth(Date.now()))}`}</span>
+                                            <span className="increased-revenue"> &#8361; {` ${getIncresedRevenue(getThisMonth(Date.now()))}`}</span>
+                                        </div>
+                                        {/* <div><span>지난 달</span></div> */}
                                     </div>
                                 </div>
-                                <div>최근 6개월 수익 분석</div>
-                                <div>{
+                               
+                                <div className="months-6-earn">최근 6개월 수익 분석</div>
+                                <div className="earns-info">
+                                    <div style={{paddingLeft: '70px'}}>{
                                 Object.entries(getRevenueOfRecentMonth(getThisMonth(Date.now())))
                                 .map(([month, value]) => (
-                                    <tr className="recent-revenue">
-                                        <td>
-                                        <div>{`${getYearMonth(month)}`}</div>
+                                        <div className="my-earns">
+                                        {/* <div>{`${getYearMonth(month)}`}</div> */}
                                         <div>
                                             <span>&#8361;</span>
                                             <span>{` ${value}`}</span>
                                         </div>
-                                        </td>
-                                        {/* 판매 연월 */}
-                                        {/* <td style={{width: '150px'}}>
-                                            <div>{getMonthOfPurchase(month)}</div>
-                                        </td> */}
-                                        {/* <td>
-                                            <div>
-                                                
-                                                <div>{`${value}회`}</div>
-                                             
-                                                <div>{`${getDeductedFee(value * product.price)}원 (수수료 ${Fee}%)`}</div>
-                                            </div>
-                                        </td> */}
-                                    </tr>
+                                        </div>
                                 ))
-                                }</div>
+                                }
+                                </div>
+                                </div>
                             </div>
                         }
                     </div>

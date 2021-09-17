@@ -116,3 +116,83 @@
     background-color: #ffcb39 !important;
     color: #1C1C1C;
 }
+
+.this-month{
+    color: #1C1C1C;
+    background-color: #ffcb39;
+    height: 38px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 38px;
+    margin-top: 41px;
+}
+
+.this-month-earn{
+    height: 127px;
+    line-height: 127px;
+    border: 2px solid #ffcb39;
+    top: -10px;
+    position: relative;
+    border-radius: 8px;
+}
+
+.earned, .earned-money{
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.earned{
+    margin-left: 28px;
+}
+
+.compare-revenue{
+    float: right;
+    width: 200px;
+    height: 120px;
+}
+
+.months-6-earn{
+    color: #1C1C1C;
+    background-color: #ffcb39;
+    height: 38px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 38px;
+    margin-top: 38px;
+}
+
+.my-earns{
+    border-bottom: 0px !important;
+    background-color: #B3E220 !important;
+    width: 84px;
+    height: 28px;
+    line-height: 28px;
+    color: #1C1C1C;
+    margin-right: 63px;
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 900;
+    border-radius: 4px;
+}
+
+.earns-info{
+    top: -10px;
+    position: relative;
+    border: 2px solid #ffcb39;
+    border-radius: 8px;
+    height: 229px;
+    padding: 7px;
+    padding-top: 27px;
+}
+
+.arrow{
+    font-size: 28px;
+}
+
+.increased-revenue{
+    font-size: 24px;
+    font-weight: 700;
+}

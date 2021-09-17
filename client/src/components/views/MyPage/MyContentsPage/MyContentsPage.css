@@ -166,13 +166,14 @@
 .my-earns{
     border-bottom: 0px !important;
     background-color: #B3E220 !important;
-    width: 84px;
-    height: 28px;
-    line-height: 28px;
+    width: 95px;
+    height: 33px;
+    line-height: 33px;
     color: #1C1C1C;
-    margin-right: 63px;
+    margin-left: 30px;
+    margin-right: 30px;
     display: inline-block;
-    font-size: 12px;
+    font-size: 15px;
     text-align: center;
     font-weight: 900;
     border-radius: 4px;
@@ -183,7 +184,7 @@
     position: relative;
     border: 2px solid #ffcb39;
     border-radius: 8px;
-    height: 229px;
+    height: auto;
     padding: 7px;
     padding-top: 27px;
 }
@@ -195,4 +196,26 @@
 .increased-revenue{
     font-size: 24px;
     font-weight: 700;
+}
+
+#graph {
+    margin-left: 55px;
+    margin-right: 60px;
+}
+
+#graph svg {
+    width: 100%;
+    height: 100%;
+}
+
+.my-earns-year {
+    width: 84px;
+    height: 28px;
+    color: #B3E220;
+    margin-left: 36px;
+    margin-right: 36px;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 300;
+    text-align: center;
 }

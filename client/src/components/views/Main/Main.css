@@ -107,5 +107,9 @@
     .ant-btn.menu__mobile-button.ant-btn-primary{
         display:none !important;
     }
+
+    .kommunicate-custom-iframe{
+        display:none !important;
+    }
   }
   

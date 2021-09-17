@@ -23,7 +23,7 @@ function Footer() {
                     <div>남한솔</div>
                     <div>이성연</div>
                     <div>contact@no-on.info</div>
-                    <div>02-111-1111</div>
+                    <div>010-8774-0290</div>
                 </div>
             </Col>
             <Col style={{marginRight: '175px', float: 'left'}}>
@@ -34,7 +34,7 @@ function Footer() {
             </Col>
             <Col>
             <div className="col-4">
-                    <div>111-11-1111</div>
+                    <div>811-29-00871</div>
                     <div>2021-서울성북-1613</div>
                 </div>
             </Col>

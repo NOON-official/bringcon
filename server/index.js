@@ -75,7 +75,7 @@ const option =
 // development 모드에서는 http 서버를 사용합니다
 option
   ? https.createServer(option, app).listen(port, () => {
-      console.log(`Server is running at port ${port}`);
+      console.log(`Server is running at port ${port}, production mode`);
     })
   : http.createServer(app).listen(port, () => {
       console.log(`Server is running at port ${port}`);

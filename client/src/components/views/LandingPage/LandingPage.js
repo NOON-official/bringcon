@@ -8,9 +8,9 @@ import { price } from "./Sections/Datas";
 import "./css/LandingPage.css";
 import HorizontalScroll from "react-scroll-horizontal";
 import uniqueRandomArray from "unique-random-array";
-import mobile from '../Main/mobile.png';
-import Swal from 'sweetalert2';
-import Error from '../../utils/Error.svg';
+import mobile from "../Main/mobile.png";
+import Swal from "sweetalert2";
+import Error from "../../utils/Error.svg";
 
 const Genres = [
   { key: 0, value: "All" },
@@ -25,7 +25,7 @@ const Genres = [
   { key: 9, value: "Music" },
   { key: 10, value: "Nature" },
   { key: 11, value: "Sports" },
-  { key: 12, value: "Etc" }
+  { key: 12, value: "Etc" },
 ];
 
 const Standards = [
@@ -44,30 +44,32 @@ function LandingPage(props) {
   });
   const [SearchTerm, setSearchTerm] = useState("");
   const user = useSelector((state) => state.user);
-  
+
   //처음 실행시 getProducts 작동!
   useEffect(() => {
-    if(Genre == 0) { // All
+    if (Genre == 0) {
+      // All
       // 필터 초기화
-      setFilters({ genres: [], price: [] })
-      
+      setFilters({ genres: [], price: [] });
+
       let body = {
         skip: Skip,
         sortBy: Standard,
         filters: {
           genres: [],
           price: [],
-        }
+        },
       };
 
-      if( props && props.location && props.location.search ){
+      if (props && props.location && props.location.search) {
         //console.log(props.location.search);
-        body.searchTerm = props.location.search.split('=')[1];
+        body.searchTerm = props.location.search.split("=")[1];
       }
 
       getProducts(body);
-    } else { // 장르 선택한 경우
-      handleFilters(Genre, "genres")
+    } else {
+      // 장르 선택한 경우
+      handleFilters(Genre, "genres");
     }
   }, [Standard, Genre]);
 
@@ -78,14 +80,15 @@ function LandingPage(props) {
         setProducts(response.data.productInfo);
       } else {
         Swal.fire({
-          title: 'Oops...!',
-          text: '상품을 가져오는데 실패했습니다.',
+          title: "Oops...!",
+          text: "상품을 가져오는데 실패했습니다.",
           imageUrl: Error,
           imageWidth: 200,
           imageHeight: 176,
-          imageAlt: 'Custom Image',
-          background: '#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)',
-        })
+          imageAlt: "Custom Image",
+          background:
+            "#fff url(https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2513ed5-eab8-4626-8a07-e788d7d9952e/BACK_star%28trans%29.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T051556Z&X-Amz-Expires=86400&X-Amz-Signature=e0cd25d9c0ca96f3cfa764e2a894db9f8f1b216d68f762ea97bedc9149d5abf6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22BACK_star%28trans%29.svg%22)",
+        });
       }
     });
   };
@@ -188,20 +191,20 @@ function LandingPage(props) {
   };
 
   const handleFilters = (filters, category) => {
-      //기존에 들어와있던 장르 초기화
-      const newFilters = {
-        genres: [],
-        price: [],
-      }
+    //기존에 들어와있던 장르 초기화
+    const newFilters = {
+      genres: [],
+      price: [],
+    };
 
-      newFilters[category] = filters;
+    newFilters[category] = filters;
 
-      if (category === "price") {
-        let priceValues = handlePrice(filters);
-        newFilters[category] = priceValues;
-      }
-      showFilteredResults(newFilters);
-      setFilters(newFilters);
+    if (category === "price") {
+      let priceValues = handlePrice(filters);
+      newFilters[category] = priceValues;
+    }
+    showFilteredResults(newFilters);
+    setFilters(newFilters);
   };
 
   //search할 때 getProducts 작동!
@@ -231,86 +234,94 @@ function LandingPage(props) {
   return (
     <div>
       <div id="small-body">
-        <img src={mobile} className="mobile"/>
+        <img src={mobile} className="mobile" />
       </div>
-    <div
-      id="body"
-      style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
-    >
-      {/* Search */}
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBottom: "1em",
-          margin: "1em auto",
-          backgroundColor: "#1C1C1C",
-        }}
+        id="body"
+        style={{ width: "100%", paddingTop: "1em", borderTop: "#1C1C1C" }}
       >
-        <SearchFeature refreshFunction={updateSearchTerm} />
-        <br />
-      </div>
-      <div>
+        {/* Search */}
         <div
           style={{
             display: "flex",
             justifyContent: "center",
-            padding: "1em auto",
+            paddingBottom: "1em",
+            margin: "1em auto",
             backgroundColor: "#1C1C1C",
           }}
         >
-          {/* 선호 태그 */}
-          {Interests.length > 5 ? renderRandomInterests() : renderInterests()}
+          <SearchFeature refreshFunction={updateSearchTerm} />
+          <br />
         </div>
-        <div
-          id="drops"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            padding: "1em auto",
-            backgroundColor: "#1C1C1C",
-          }}
-        >
-          {/* 장르 선택 */}
-          <select
-            onChange={GenreChangeHandler}
-            value={Genre}
-            className="landing-category-dropdown"
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "1em auto",
+              backgroundColor: "#1C1C1C",
+            }}
           >
-            {Genres.map((item) => (
-              <option key={item.key} value={item.key}>
-                {" "}
-                {item.value}
-              </option>
-            ))}
-          </select>
-          
-          {/* 기준 선택 */}
-          <select
-            onChange={standardChangeHandler}
-            value={Standard}
-            className="landing-sort-dropdown"
+            {/* 선호 태그 */}
+            {Interests.length > 5 ? renderRandomInterests() : renderInterests()}
+          </div>
+          <div
+            id="drops"
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              padding: "1em auto",
+              backgroundColor: "#1C1C1C",
+            }}
           >
-            {Standards.map((item) => (
-              <option key={item.key} value={item.key}>
-                {item.value}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+            {/* 장르 선택 */}
+            <select
+              onChange={GenreChangeHandler}
+              value={Genre}
+              className="landing-category-dropdown"
+            >
+              {Genres.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {" "}
+                  {item.value}
+                </option>
+              ))}
+            </select>
 
-      {/* Cards */}
-      {renderCards.length <= 10 ? (
-        <div id="scroll-horizontal-fixed" style={{ height: `43em` }}>
-          <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
+            {/* 기준 선택 */}
+            <select
+              onChange={standardChangeHandler}
+              value={Standard}
+              className="landing-sort-dropdown"
+            >
+              {Standards.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {item.value}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      ) : (
-        <div id="scroll-horizontal" style={{ height: `43em` }}>
-          <HorizontalScroll reverseScroll={true}>{renderCards}</HorizontalScroll>
-        </div>
-      )}
-    </div>
+
+        {/* Cards */}
+        {renderCards.length <= 10 ? (
+          renderCards.length <= 0 ? (
+            <div className="not-found"> 검색된 여행지가 없습니다</div>
+          ) : (
+            <div id="scroll-horizontal-fixed" style={{ height: `43em` }}>
+              <HorizontalScroll reverseScroll={true}>
+                {renderCards}
+              </HorizontalScroll>
+            </div>
+          )
+        ) : (
+          <div id="scroll-horizontal" style={{ height: `43em` }}>
+            <HorizontalScroll reverseScroll={true}>
+              {renderCards}
+            </HorizontalScroll>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

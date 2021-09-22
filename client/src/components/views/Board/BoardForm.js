@@ -2,29 +2,29 @@ import React, { Component } from "react";
 import { Table } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import './css/BoardForm.css';
+import "./css/BoardForm.css";
 import {} from "jquery.cookie";
 
 class BoardRow extends Component {
   render() {
     return (
       <tr>
-        <td className="notice-number" style={{width:'10%'}}>
+        <td className="notice-number" style={{ width: "10%" }}>
           {this.props.index}
         </td>
 
-        <td className="notice-title" style={{width:'60%'}}>
+        <td className="notice-title" style={{ width: "60%" }}>
           <NavLink
             to={{ pathname: "/board/detail", query: { _id: this.props._id } }}
           >
             {this.props.title}
           </NavLink>
         </td>
-        <td className="notice-wrtier" style={{width:'15%'}}>
+        <td className="notice-wrtier" style={{ width: "15%" }}>
           {this.props.name}
         </td>
-        <td className="notice-createdat" style={{width:'15%'}}>
-            {this.props.createdAt.substring(0, 10)}
+        <td className="notice-createdat" style={{ width: "15%" }}>
+          {this.props.createdAt.substring(0, 10)}
         </td>
       </tr>
     );
@@ -34,7 +34,7 @@ class BoardRow extends Component {
 class BoardForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {boardLists: []};
+    this.state = { boardLists: [] };
   }
 
   componentDidMount() {
@@ -53,14 +53,14 @@ class BoardForm extends React.Component {
         let boardList;
         if (returnData.data.list.length > 0) {
           const boards = returnData.data.list;
-          boardList = boards.map((item) => (
+          boardList = boards.map((item, index) => (
             <BoardRow
               key={Date.now() + Math.random() * 500}
               _id={item._id}
               name={item.name}
               createdAt={item.createdAt}
               title={item.title}
-              index = {item.index}
+              index={index + 1}
             ></BoardRow>
           ));
           this.setState({
@@ -85,28 +85,34 @@ class BoardForm extends React.Component {
   render() {
     const divStyle = {
       margin: 50,
-
     };
 
     return (
       <div>
-      <div className="notice" style={{width:'80%', margin:'auto', marginBottom: '16px'}}>공지사항</div>
-      <div style={{width:'80%', margin:'auto'}} className="notice-table">
-        
-        <div style={divStyle} style={{height: '515px', width: '1092px', overflow: 'auto'}}>
-          <Table style={{width:'1000px', marginLeft:'40px'}}>
-            <thead>
-              <tr>
-                <th>번호</th>
-                <th className="notice-title">글 제목</th>
-                <th>작성자</th>
-                <th>날짜</th>
-              </tr>
-            </thead>
-            <tbody>{this.state.boardLists}</tbody>
-          </Table>
+        <div
+          className="notice"
+          style={{ width: "80%", margin: "auto", marginBottom: "16px" }}
+        >
+          공지사항
         </div>
-      </div>
+        <div style={{ width: "80%", margin: "auto" }} className="notice-table">
+          <div
+            style={divStyle}
+            style={{ height: "515px", width: "1092px", overflow: "auto" }}
+          >
+            <Table style={{ width: "1000px", marginLeft: "40px" }}>
+              <thead>
+                <tr>
+                  <th>번호</th>
+                  <th className="notice-title">글 제목</th>
+                  <th>작성자</th>
+                  <th>날짜</th>
+                </tr>
+              </thead>
+              <tbody>{this.state.boardLists}</tbody>
+            </Table>
+          </div>
+        </div>
       </div>
     );
   }

@@ -8,9 +8,9 @@
   height: 80% !important;
 }
 
-#scroll-horizontal .scroll-horizontal{
-  overflow-x:auto !important;
-  overflow-y:hidden;
+#scroll-horizontal .scroll-horizontal {
+  overflow-x: auto !important;
+  overflow-y: hidden;
 }
 
 #scroll-horizontal .scroll-horizontal > div {
@@ -145,4 +145,13 @@
 
 .landing-sort-dropdown {
   margin-right: 33px;
+}
+
+.not-found {
+  margin: auto;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 900;
+  width: 60%;
+  text-align: center;
 }

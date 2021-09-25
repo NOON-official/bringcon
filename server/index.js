@@ -58,17 +58,16 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 443;
 
+app.listen(PORT, () => {
+  console.log(`Server Listening on ${port}`);
+});
+
 //aws load balabcer health checker
 app.get("/healthCheck", function (req, res) {
   res.writeHead(200, { "Content-Type": "text/html" });
   res.write("Health Check Page");
   res.end();
 });
-
-app.listen(PORT, () => {
-  console.log(`Server Listening on ${port}`);
-});
-
 
 
 // server.keepAliveTimeout = 65000;

@@ -59,9 +59,8 @@ if (process.env.NODE_ENV === "production") {
 const PORT = process.env.PORT || 443;
 
 app.listen(PORT, () => {
-  console.log(`Server Listening on ${port}`);
+  console.log(`Server Listening on ${PORT}`);
 });
-
 
 //aws load balabcer health checker
 app.get("/healthCheck", function (req, res) {

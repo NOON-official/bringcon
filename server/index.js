@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
-const http = require("http");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -55,13 +54,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
 }
-
-const PORT = process.env.PORT || 443;
-
-app.listen(PORT, () => {
-  console.log(`Server Listening on ${PORT}`);
-});
-
 //aws load balabcer health checker
 app.get("/healthCheck", function (req, res) {
   res.writeHead(200, { "Content-Type": "text/html" });
@@ -69,6 +61,11 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
-var server = http.createServer(app);
-server.keepAliveTimeout = 65000;
-server.headersTimeout = 66000;
+const PORT = process.env.PORT || 443;
+
+const server = app.listen(PORT, () => {
+  console.log(`Server Listening on ${PORT}`);
+});
+
+server.keepAliveTimeout = 65000; // Ensure all inactive connections are terminated by the ALB, by setting this a few seconds higher than the ALB idle timeout
+server.headersTimeout = 66000; // Ensure the headersTimeout is set higher than the keepAliveTimeout due to this nodejs regression bug: https://github.com/nodejs/node/issues/27363

@@ -63,7 +63,7 @@ var server = app.listen(PORT, () => {
 });
 
 //aws load balabcer health checker
-app.get("/healthCheck", function (req, res) {
+server.get("/healthCheck", function (req, res) {
   res.writeHead(200, { "Content-Type": "text/html" });
   res.write("Health Check Page");
   res.end();

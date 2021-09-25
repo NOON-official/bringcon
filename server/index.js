@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
-
+const http = require("http");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -62,6 +62,7 @@ app.listen(PORT, () => {
   console.log(`Server Listening on ${port}`);
 });
 
+
 //aws load balabcer health checker
 app.get("/healthCheck", function (req, res) {
   res.writeHead(200, { "Content-Type": "text/html" });
@@ -69,9 +70,6 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
-var server = https.createServer(app);
+var server = http.createServer(app);
 server.keepAliveTimeout = 65000;
 server.headersTimeout = 66000;
-
-// server.keepAliveTimeout = 65000;
-// server.headersTimeout = 66000;

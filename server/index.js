@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
-
+const http = require("http");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -56,11 +56,12 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const port = process.env.PORT || 443;
+const PORT = process.env.PORT || 443;
 
-app.listen(port, () => {
+app.listen(PORT, () => {
   console.log(`Server Listening on ${port}`);
 });
+
 
 //aws load balabcer health checker
 app.get("/healthCheck", function (req, res) {
@@ -69,5 +70,6 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
-app.keepAliveTimeout = 65000;
-app.headersTimeout = 66000;
+var server = http.createServer(app);
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;

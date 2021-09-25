@@ -56,9 +56,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const port = process.env.PORT || 443;
+const PORT = process.env.PORT || 443;
 
-app.listen(port, () => {
+var server = app.listen(PORT, () => {
   console.log(`Server Listening on ${port}`);
 });
 
@@ -69,5 +69,5 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
-app.keepAliveTimeout = 65000;
-app.headersTimeout = 66000;
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;

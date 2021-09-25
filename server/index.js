@@ -69,6 +69,9 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
+var server = https.createServer(app);
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
 
 // server.keepAliveTimeout = 65000;
 // server.headersTimeout = 66000;

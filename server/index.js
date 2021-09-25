@@ -65,7 +65,7 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
-var server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server Listening on ${port}`);
 });
 

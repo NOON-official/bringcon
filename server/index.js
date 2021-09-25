@@ -68,3 +68,6 @@ app.get("/healthCheck", function (req, res) {
   res.write("Health Check Page");
   res.end();
 });
+
+app.keepAliveTimeout = 65000;
+app.headersTimeout = 66000;

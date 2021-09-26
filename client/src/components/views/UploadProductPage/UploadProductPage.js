@@ -300,7 +300,7 @@ function UploadProductPage(props) {
                         justifyContent: "center",
                         borderRadius: "12px",
                       }}
-                      src={`http://${window.location.hostname}:5000/${ThumbnailPath}`}
+                      src={`http://${window.location.hostname}:443/${ThumbnailPath}`}
                       alt="thumbnail"
                     />
                   </div>

@@ -19,12 +19,12 @@ module.exports = {
       script: "npm run backend",
 
       env: {
-        PORT: 5000,
+        PORT: 443,
         NODE_ENV: "development",
       },
 
       env_production: {
-        PORT: 5000,
+        PORT: 443,
         NODE_ENV: "production",
       },
     },

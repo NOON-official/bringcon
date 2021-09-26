@@ -61,7 +61,7 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
   console.log(`Server Listening on ${PORT}`);

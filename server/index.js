@@ -55,6 +55,10 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+app.get("/", (req, res) => {
+  res.send("hello");
+});
+
 //aws load balabcer health checker
 app.get("/healthCheck", function (req, res) {
   res.writeHead(200, { "Content-Type": "text/html" });

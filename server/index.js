@@ -54,6 +54,10 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
 }
+app.get("/", (req, res) => {
+  res.send("hello");
+});
+
 //aws load balabcer health checker
 app.get("/healthCheck", function (req, res) {
   res.writeHead(200, { "Content-Type": "text/html" });
@@ -61,7 +65,7 @@ app.get("/healthCheck", function (req, res) {
   res.end();
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 443;
 
 const server = app.listen(PORT, () => {
   console.log(`Server Listening on ${PORT}`);

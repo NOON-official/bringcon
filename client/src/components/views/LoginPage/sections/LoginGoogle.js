@@ -54,6 +54,7 @@ function LoginGoogle(props) {
 
   const onFailure = (res) => {
     alert("구글 로그인에 실패하였습니다");
+    console.log("err", res);
   };
 
   return (

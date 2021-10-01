@@ -12,16 +12,9 @@ function LoginGoogle(props) {
   const dispatch = useDispatch();
 
   const clientId =
-<<<<<<< HEAD
-    "868725939307-s3dblc74bco886t7kmimukn9rodb1vrj.apps.googleusercontent.com";
-
-  async function onSuccess(res) {
-=======
     "332971642208-6216d9hker7uhinuqp2atie05ktf0a1t.apps.googleusercontent.com";
 
   async function onSuccess(res) {
-
->>>>>>> f3c399f2366c17ad011bb9d95ef8f3e5d9aea1e8
     const profile = res.getBasicProfile();
 
     const dataToSubmit = {

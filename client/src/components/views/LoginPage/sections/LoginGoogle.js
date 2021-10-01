@@ -12,21 +12,9 @@ function LoginGoogle(props) {
   const dispatch = useDispatch();
 
   const clientId =
-    "868725939307-s3dblc74bco886t7kmimukn9rodb1vrj.apps.googleusercontent.com";
-
-  const SCOPE = "https://www.googleapis.com/auth/youtube.readonly";
+    "332971642208-6216d9hker7uhinuqp2atie05ktf0a1t.apps.googleusercontent.com";
 
   async function onSuccess(res) {
-    const getChannelId = await axios
-      .get(
-        `https://www.googleapis.com/youtube/v3/channels?part=id&mine=true&access_token=${res.accessToken}`
-      )
-      .then((response) => {
-        return response.data.items;
-      })
-      .catch((err) => console.log(err));
-
-    const channelId = getChannelId;
 
     const profile = res.getBasicProfile();
 
@@ -34,7 +22,6 @@ function LoginGoogle(props) {
       email: profile.getEmail(),
       image: profile.getImageUrl(),
       name: profile.getName(),
-      channelId: channelId,
     };
 
     dispatch(registerUser(dataToSubmit)).then((response) => {
@@ -66,7 +53,6 @@ function LoginGoogle(props) {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={"single_host_origin"}
-        scope={SCOPE}
       />
     </div>
   );

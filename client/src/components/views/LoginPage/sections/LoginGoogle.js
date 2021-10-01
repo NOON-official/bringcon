@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import { error } from "jquery";
-import './Login.css';
+import "./Login.css";
 
 function LoginGoogle(props) {
   const dispatch = useDispatch();
@@ -15,7 +15,6 @@ function LoginGoogle(props) {
     "332971642208-6216d9hker7uhinuqp2atie05ktf0a1t.apps.googleusercontent.com";
 
   async function onSuccess(res) {
-
     const profile = res.getBasicProfile();
 
     const dataToSubmit = {

@@ -42,7 +42,7 @@ function Footer() {
             <div className="info-links">
                 <span style={{marginLeft: '20px'}}><a href="/board">공지사항</a></span>
                 <span><a href="/law/use" target="_blank">이용약관</a></span>
-                <span><a href="law/personal" target="_blank">개인정보처리방침</a></span>
+                <span><a href="/law/personal" target="_blank">개인정보처리방침</a></span>
             </div>
         </div>
     )

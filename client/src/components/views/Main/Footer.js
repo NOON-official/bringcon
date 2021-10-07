@@ -41,8 +41,8 @@ function Footer() {
             </div>
             <div className="info-links">
                 <span style={{marginLeft: '20px'}}><a href="/board">공지사항</a></span>
-                <span><a href="https://www.notion.so/youcon/dca080adfb954bb2a48b310c4cca77fe" target="_blank">이용약관</a></span>
-                <span><a href="https://www.notion.so/youcon/2bf798ce7736449cba8b29a017cc0ed8" target="_blank">개인정보처리방침</a></span>
+                <span><a href="/law/use" target="_blank">이용약관</a></span>
+                <span><a href="/law/personal" target="_blank">개인정보처리방침</a></span>
             </div>
         </div>
     )

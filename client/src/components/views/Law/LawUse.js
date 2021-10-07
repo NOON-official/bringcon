@@ -1,6 +1,6 @@
 import React from "react";
 
-function LawPersonal() {
+function LawUse() {
   return (
     <div>
       <h3>제1조(목적), 본 약관은 2021년 07월 05일부터 적용됩니다</h3>
@@ -178,4 +178,4 @@ function LawPersonal() {
   );
 }
 
-export default LawPersonal;
+export default LawUse;

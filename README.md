@@ -31,9 +31,9 @@
 <br>
 
 ## ✅ Service Flow
-<img src="https://user-images.githubusercontent.com/78714820/217289275-ac318dba-129d-4d35-9efb-235f8753b1a8.png" width="500"><img src="https://user-images.githubusercontent.com/78714820/217289296-75100b7b-34c0-473b-8ae8-667f3452a40f.png" width="500">
-<img src="https://user-images.githubusercontent.com/78714820/217289328-bd646e7e-e11b-4ecd-b784-6f30b8defe38.png" width="500">
-<img src="https://user-images.githubusercontent.com/78714820/217289333-c31b9221-5e23-4e65-90d9-2c571062f009.png" width="500">
+<img src="https://user-images.githubusercontent.com/78714820/217289275-ac318dba-129d-4d35-9efb-235f8753b1a8.png" width="350"><img src="https://user-images.githubusercontent.com/78714820/217289296-75100b7b-34c0-473b-8ae8-667f3452a40f.png" width="350">
+<img src="https://user-images.githubusercontent.com/78714820/217289328-bd646e7e-e11b-4ecd-b784-6f30b8defe38.png" width="350">
+<img src="https://user-images.githubusercontent.com/78714820/217289333-c31b9221-5e23-4e65-90d9-2c571062f009.png" width="350">
 
 ## ✅ Running the app
 ```
